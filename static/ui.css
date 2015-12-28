@@ -1,0 +1,13 @@
+body, html {
+	height: 100%;
+}
+
+#map {
+	height: 100%;
+}
+
+#toggle-button ,#breadcrumbTaxon {
+	z-index: 1002;
+	float: left;
+	margin: 10px;
+}

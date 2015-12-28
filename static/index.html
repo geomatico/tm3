@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>TM3</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="sidebar.css" rel="stylesheet">
+    <link href="ui.css" rel="stylesheet">
+    
+    <!-- CartoDB -->
+    <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+	
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          
+          <a href="#toggle-button" class="btn btn-default" id="toggle-button">&lt;&lt;</a>
+          <!--<a class="navbar-brand" href="#">Taxo & Map</a>-->
+          <ol class="breadcrumb" id="breadcrumbTaxon">
+		  	<li><a href="#">Eukaryota</a></li>
+		  	<li class="active">Animalia</li>
+		  </ol>
+          
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">¿Què és?</a></li>
+            <li><a href="#">Ajuda</a></li>
+            <li><a href="#">Nota legal</a></li>
+            <li class="dropdown">
+	          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Idiomes <span class="caret"></span></a>
+	          <ul class="dropdown-menu">
+	            <li><a href="#">Català</a></li>
+	            <li><a href="#">Castellano</a></li>
+	            <li><a href="#">English</a></li>
+	          </ul>
+	        </li>
+          </ul>
+          <!--form class="navbar-form navbar-right">
+            <input type="text" class="form-control" placeholder="Search...">
+          </form-->
+        </div>
+      </div>
+    </nav>	
+
+    <div id="wrapper">
+    	
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="#">
+                        Animalia
+                    </a>
+                </li>
+                <li>
+                    <a href="#">Annelida</a>
+                </li>
+                <li>
+                    <a href="#">Arthropoda</a>
+                </li>
+                <li>
+                    <a href="#">Brachiopoda</a>
+                </li>
+                <li>
+                    <a href="#">Chordata</a>
+                </li>
+                <li>
+                    <a href="#">Cnidaria</a>
+                </li>
+                <li>
+                    <a href="#">Molusca</a>
+                </li>
+                <li>
+                    <a href="#">Nematoda</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div id="map"></div>
+        </div>
+        <!-- /#page-content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+    
+    <!-- Leaflet 1.0 CDN -->
+    <script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
+    
+    <!-- Javascript -->
+    <script src="map.js"></script>
+    <script src="ui.js"></script>
+
+</body>
+
+</html>
