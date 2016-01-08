@@ -5,21 +5,21 @@ var require = (function() {
 	return {
 		baseUrl: HERE + "modules/",
 		paths: {
-			"jquery": LIB_PATH + "jquery/dist/jquery.min",
-			"bootstrap": "//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min",
+			"bootstrap": "//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min",
             "leaflet-draw": "//cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.2.3/leaflet.draw",
             "css": LIB_PATH + "require-css/css",
-            "cartodb": "//libs.cartocdn.com/cartodb.js/v3/3.15/cartodb"
+            "cartodb": "//libs.cartocdn.com/cartodb.js/v3/3.15/cartodb",
+            "jquery": "//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min"
 		},
 		shim: {
 			"bootstrap": {
-				deps: ["cartodb", "css!//maxcdn.bootstrapcdn.com/bootswatch/3.3.5/united/bootstrap.min.css"]
+				deps: ["jquery", "css!https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"]
 			},
 			"leaflet-draw" : {
-				deps: ["cartodb"]
+				deps: ["cartodb", "css!//cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.2.3/leaflet.draw.css"]
 			},
-			"leaflet": {
-				deps: ["css!" + LIB_PATH + "leaflet/dist/leaflet.css"]
+			"cartodb" : {
+				deps: ["css!//libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css"]
 			}
             
 		}

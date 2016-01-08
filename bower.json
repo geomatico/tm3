@@ -15,14 +15,11 @@
   "ignore": [
     "**/.*",
     "node_modules",
-    "js/bower_components",
     "test",
     "tests"
   ],
   "dependencies": {
-    "leaflet": "~0.7.7",
     "require-css": "~0.1.8",
-    "requirejs": "~2.1.22",
-    "jquery": "~2.1.4"
+    "requirejs": "~2.1.22"
   }
 }
