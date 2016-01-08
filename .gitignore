@@ -48,3 +48,6 @@ Temporary Items
 
 #aptana
 .project
+
+#bower
+static/js/lib

@@ -1,0 +1,28 @@
+{
+  "name": "taxomap3",
+  "version": "0.0.0",
+  "homepage": "https://github.com/mpericay/tm3",
+  "authors": [
+    "Marti Pericay <marti@pericay.com>"
+  ],
+  "description": "Taxo&Map 3.0",
+  "main": "index.html",
+  "moduleType": [
+    "amd"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "js/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "leaflet": "~0.7.7",
+    "require-css": "~0.1.8",
+    "requirejs": "~2.1.22",
+    "jquery": "~2.1.4"
+  }
+}
