@@ -1,9 +1,9 @@
 /**
  * @author Martí Pericay <marti@pericay.com>
  */
-define(['cartodb', 'leaflet-draw'], function() {
+define(['cartodb', 'leaflet-draw', 'leaflet-maskcanvas'], function() {
 	
-	var map = L.map('map').setView([29.085599, 0.966797], 3);
+	var map = L.map('map').setView([29.085599, 0.966797], 4);
 	var mapLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
 	L.tileLayer(
 	    'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -41,7 +41,16 @@ define(['cartodb', 'leaflet-draw'], function() {
 	});
 	map.addControl(drawControl);
 	
-	var circle = new L.circle([40.5, 1.5], 200000).addTo(drawnItems);
+	var radius = 50000;
+	var center = [39.977646, 4.067001];
+	
+	//default editable polygon
+	var circle = new L.circle(center, radius).addTo(drawnItems);
+	
+	//mask
+	var maskLayer = L.TileLayer.maskCanvas({ radius: radius });
+	maskLayer.setData([center]);
+	map.addLayer(maskLayer);
 	
 	//var circleDrawer = new L.Draw.Circle(map, drawControl.options.circle).enable();
 	
