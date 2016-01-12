@@ -4,15 +4,33 @@
 define(['cartodb', 'leaflet-draw', 'leaflet-maskcanvas'], function() {
 	
 	var map = L.map('map').setView([29.085599, 0.966797], 4);
-	var mapLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
-	L.tileLayer(
-	    'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-	    attribution: '&copy; ' + mapLink + ' Contributors',
-	    maxZoom: 18,
-	    }).addTo(map);
+	
+	var terrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Physical_Map/MapServer/tile/{z}/{y}/{x}', {
+		attribution: 'Tiles &copy; Esri &mdash; Source: US National Park Service',
+		maxZoom: 8
+	});
+	var orto = L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/{type}/{z}/{x}/{y}.{ext}', {
+		type: 'sat',
+		ext: 'jpg',
+		attribution: 'Tiles Courtesy of <a href="http://www.mapquest.com/">MapQuest</a> &mdash; Portions Courtesy NASA/JPL-Caltech and U.S. Depart. of Agriculture, Farm Service Agency',
+		subdomains: '1234'
+	}).addTo(map);
+	var topo = L.tileLayer('http://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.{ext}', {
+		attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+		subdomains: 'abcd',
+		minZoom: 0,
+		maxZoom: 20,
+		ext: 'png'
+	});
+	    
+	var baseLayers = {
+	    "Esquemàtic": topo,
+	    "Ortofotografia": orto,
+	    "Terreny" : terrain
+	};
 	    
 	// create a layer with 1 sublayer
-	cartodb.createLayer(map, {
+	var cartoLayer = cartodb.createLayer(map, {
 	  user_name: 'mcnb',
 	  type: 'cartodb',
 	  sublayers: [{
@@ -22,13 +40,37 @@ define(['cartodb', 'leaflet-draw', 'leaflet-maskcanvas'], function() {
 	}).addTo(map)
 	
 	.on('done', function(layer) {
-	     layer.on('error', function(err) {
+	     layer.setZIndex(5).on('error', function(err) {
             console.log('cartoDBerror: ' + err);
          });
      });
+     
+     //create additional overlays
+     var hillshade2 =  L.tileLayer.wms("http://www.opengis.uab.cat/cgi-bin/world/MiraMon.cgi?", {
+		layers: 'glcc-world',
+		format: 'image/png',
+		opacity: 0.40,
+		transparent: true,
+	});
+		
+	var temperature =  L.tileLayer.wms("http://spatial-dev.ala.org.au/geoserver/wms?", {
+		layers: 'worldclim_bio_5',
+		format: 'image/png',
+		opacity: 0.40,
+		transparent: true,
+		/*http://spatial-dev.ala.org.au/geoserver/wms?request=GetLegendGraphic&format=image%2Fpng&width=20&height=20&layer=worldclim_bio_5*/
+	});
+		
+	var rain =  L.tileLayer.wms("http://spatial-dev.ala.org.au/geoserver/wms?", {
+		layers: 'worldclim_bio_12',
+		format: 'image/png',
+		opacity: 0.40,
+		transparent: true,
+		/*http://spatial-dev.ala.org.au/geoserver/wms?request=GetLegendGraphic&format=image%2Fpng&width=20&height=20&layer=worldclim_bio_12*/
+	});
+	
 	
 	// Initialise the FeatureGroup to store editable layers
-	
 	var drawnItems = new L.FeatureGroup();
 	map.addLayer(drawnItems);
 	
@@ -43,14 +85,25 @@ define(['cartodb', 'leaflet-draw', 'leaflet-maskcanvas'], function() {
 	
 	var radius = 50000;
 	var center = [39.977646, 4.067001];
-	
-	//default editable polygon
-	var circle = new L.circle(center, radius).addTo(drawnItems);
+	var circle = null;
 	
 	//mask
 	var maskLayer = L.TileLayer.maskCanvas({ radius: radius });
-	maskLayer.setData([center]);
-	map.addLayer(maskLayer);
+	maskLayer.setZIndex(100).setData([center]);
+	maskLayer.on('load', function() {
+		//default editable polygon
+		if(circle == null) circle = new L.circle(center, radius).addTo(drawnItems);
+	});
+	//map.addLayer(maskLayer); // we don't want it as default
+	
+	var overlayLayers = {
+		'Annual temperature': temperature,
+		'Annual rain': rain,
+		'Land Cover': hillshade2,
+		'-mask-': maskLayer
+		};
+	
+	L.control.layers(baseLayers, overlayLayers).addTo(map);	
 	
 	//var circleDrawer = new L.Draw.Circle(map, drawControl.options.circle).enable();
 	
