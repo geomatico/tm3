@@ -35,14 +35,20 @@ define(['cartodb', 'leaflet-draw', 'leaflet-maskcanvas'], function() {
 	  type: 'cartodb',
 	  sublayers: [{
 	    sql: "SELECT * FROM mcnb_prod",
-	    cartocss: '#herbari_cartodb{marker-fill: #FFCC00;marker-width: 10;marker-line-color: #FFF;marker-line-width: 1.5;marker-line-opacity: 1;marker-opacity: 0.9;marker-comp-op: multiply;marker-type: ellipse;marker-placement: point;marker-allow-overlap: true;marker-clip: false;marker-multi-policy: largest; }'
+	    cartocss: '#herbari_cartodb{marker-fill: #FFCC00;marker-width: 10;marker-line-color: #FFF;marker-line-width: 1.5;marker-line-opacity: 1;marker-opacity: 0.9;marker-comp-op: multiply;marker-type: ellipse;marker-placement: point;marker-allow-overlap: true;marker-clip: false;marker-multi-policy: largest; }',
+        interactivity: 'cartodb_id'
 	  }]
 	}).addTo(map)
 	
-	.on('done', function(layer) {
-	     layer.setZIndex(5).on('error', function(err) {
+	.done(function(layer) {
+	     layer.setZIndex(7);
+	     // info window
+	     // if we need a different template: http://requirejs.org/docs/download.html#text
+	     /*var sublayer = layer.getSubLayer(0);
+	     sublayer.infowindow.set('template', $('#infowindow_template').html());*/
+	     cdb.vis.Vis.addInfowindow(map, layer.getSubLayer(0), ['kingdom', 'phylum', 'class', '_order', 'family', 'genus', 'scientificname', 'stateprovince', 'municipality', 'locality', 'cartodb_id']);
+     }).on('error', function(err) {
             console.log('cartoDBerror: ' + err);
-         });
      });
      
      //create additional overlays
