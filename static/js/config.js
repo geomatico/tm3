@@ -11,7 +11,8 @@ var require = (function() {
             "quadtree": LIB_PATH + "leaflet.maskcanvas/src/QuadTree",
             "css": LIB_PATH + "require-css/css",
             "cartodb": "//libs.cartocdn.com/cartodb.js/v3/3.15/cartodb",
-            "jquery": "//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min"
+            "jquery": "//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min",
+            "text": "//cdnjs.cloudflare.com/ajax/libs/require-text/2.0.12/text.min"
 		},
 		shim: {
 			"bootstrap": {
@@ -25,6 +26,9 @@ var require = (function() {
 			},
 			"cartodb" : {
 				deps: ["css!//libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css"]
+			},
+			"i18n" : {
+				deps: ["text"]
 			}
             
 		}

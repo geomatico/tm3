@@ -1,0 +1,47 @@
+{
+langs: {
+	en: "English",
+	es: "Español",
+	ca: "Català"
+},
+About: {
+	es: "¿Qué es?",
+	ca: "Què és?"	
+},
+Help: {
+	es: "Ayuda",
+	ca: "Ajuda"	
+},
+Disclaimer: {
+	es: "Nota legal",
+	ca: "Nota legal"	
+},
+Loading...: {
+	es: "Cargando...",
+	ca: "Carregant..."
+	},
+Results: {
+	es: "Resultados",
+	ca: "Resultats"
+	},
+Map: {
+	es: "Mapa",
+	ca: "Mapa"
+	},
+From: {
+	es: "De",
+	ca: "De"
+	},
+To: {
+	es: "A",
+	ca: "A"
+	},
+Apply: {
+	es: "Aplicar",
+	ca: "Aplica"
+	},
+Cancel: {
+	es: "Cancelar",
+	ca: "Cancel·la"
+}
+}
