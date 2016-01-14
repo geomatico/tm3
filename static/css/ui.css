@@ -11,3 +11,8 @@ body, html {
 	float: left;
 	margin: 10px;
 }
+
+/* Modal */
+#textModal .modal-content {
+	overflow: auto;
+}
