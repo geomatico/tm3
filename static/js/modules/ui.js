@@ -3,7 +3,7 @@
  */
 
 //define(['i18n', 'map', 'bootstrap'], function(i18n) {
-define(['text!../../sections/about.ca.html', 'text!../../sections/disclaimer.ca.html', 'text!../../sections/help.ca.html','map', 'bootstrap'], function(about_ca, disclaimer_ca, help_ca) {
+define(['text!../../sections/about.ca.html', 'text!../../sections/disclaimer.ca.html', 'text!../../sections/help.ca.html', 'taxon', 'map', 'bootstrap'], function(about_ca, disclaimer_ca, help_ca, taxon) {
 	
 	$("#toggle-button").click(function(e) {
 	    e.preventDefault();
@@ -22,7 +22,6 @@ define(['text!../../sections/about.ca.html', 'text!../../sections/disclaimer.ca.
 			"ca": help_ca 
 		}
 	};
-	
 	$(document).on("click", ".open-textModal", function () {
 	     var pageId = $(this).data("id");
 	     var html = texts[pageId]["ca"];
