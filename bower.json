@@ -21,6 +21,7 @@
   "dependencies": {
     "require-css": "~0.1.8",
     "requirejs": "~2.1.22",
-    "leaflet.maskcanvas": "*"
+    "leaflet.maskcanvas": "*",
+    "i18n.js": "oscarfonts/i18n.js"
   }
 }

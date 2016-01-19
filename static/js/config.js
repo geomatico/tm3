@@ -12,6 +12,7 @@ var require = (function() {
             "css": LIB_PATH + "require-css/css",
             "cartodb": "//libs.cartocdn.com/cartodb.js/v3/3.15/cartodb",
             "jquery": "//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min",
+            "i18n": LIB_PATH + "i18n.js/src/i18n",
             "text": "//cdnjs.cloudflare.com/ajax/libs/require-text/2.0.12/text.min"
 		},
 		shim: {
