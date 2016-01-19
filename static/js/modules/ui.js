@@ -2,7 +2,54 @@
  * @author Martí Pericay <marti@pericay.com>
  */
 
-define(['text!../../sections/about.ca.html', 'text!../../sections/disclaimer.ca.html', 'text!../../sections/help.ca.html', 'i18n', 'taxon', 'map', 'bootstrap'], function(about_ca, disclaimer_ca, help_ca, i18n, taxon) {
+define(['text!../../sections/about.ca.html', 'text!../../sections/disclaimer.ca.html', 'text!../../sections/help.ca.html', 'i18n', 'taxon', 'map', 'bootstrap'], function(about_ca, disclaimer_ca, help_ca, i18n, taxon, map) {
+    "use strict";
+    	
+	var params = {};
+    location.search.substr(1).split("&").forEach(function(item) {
+        var kv = item.split("=");
+        params[kv[0]] = kv[1];
+    });
+
+    // for future API
+    var taxon_id = (params.hasOwnProperty('id') ? params.id : 'Eukaryota');
+    var level = (params.hasOwnProperty('level') ? params.level : '0');
+    
+    var setTaxon = function(newtaxon, newlevel) {
+    	
+		// make sure that taxon is changing
+	    if(taxon_id == newtaxon && level == newlevel) return;
+    	
+    	var activeTaxon = new taxon(newtaxon, newlevel);
+    	
+    	//change the cartoDB taxon layer
+    	map.setSql(activeTaxon.getSqlWhere());
+    	
+    	updateUI(activeTaxon);
+    	
+    	//update taxon_id?
+	};
+	
+	var updateUI = function(taxon) {
+		//menu loading
+    	
+    	//make the JSON query
+    	
+    	//change menu (TODO)
+    	$(".sidebar-nav > li > a").each(function(index, el) {
+    		$(el).on("click", function(){
+				setTaxon('Arthropoda', '2');
+			});    	
+		});
+    	
+    	//change breadcrumb (TODO)
+    	$("#breadcrumbTaxon").on("click", function(){
+			setTaxon('Mammalia', '3');    	
+		});
+    	 
+	};
+	
+	updateUI(new taxon(taxon_id, level));
 	
 	$("#toggle-button").click(function(e) {
 	    e.preventDefault();

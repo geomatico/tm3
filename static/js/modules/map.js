@@ -2,7 +2,8 @@
  * @author Martí Pericay <marti@pericay.com>
  */
 define(['cartodb', 'leaflet-draw', 'leaflet-maskcanvas'], function() {
-	
+    "use strict";
+    	
 	var map = L.map('map').setView([29.085599, 0.966797], 4);
 	
 	var terrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Physical_Map/MapServer/tile/{z}/{y}/{x}', {
@@ -28,19 +29,23 @@ define(['cartodb', 'leaflet-draw', 'leaflet-maskcanvas'], function() {
 	    "Ortophoto": orto,
 	    "Terrain" : terrain
 	};
+	
+	var cartoDBTable = 'mcnb_prod';
+	var cartoDBSubLayer;
 	    
 	// create a layer with 1 sublayer
-	var cartoLayer = cartodb.createLayer(map, {
+	cartodb.createLayer(map, {
 	  user_name: 'mcnb',
 	  type: 'cartodb',
 	  sublayers: [{
-	    sql: "SELECT * FROM mcnb_prod",
+	    sql: "SELECT * FROM " + cartoDBTable,
 	    cartocss: '#herbari_cartodb{marker-fill: #FFCC00;marker-width: 10;marker-line-color: #FFF;marker-line-width: 1.5;marker-line-opacity: 1;marker-opacity: 0.9;marker-comp-op: multiply;marker-type: ellipse;marker-placement: point;marker-allow-overlap: true;marker-clip: false;marker-multi-policy: largest; }',
         interactivity: 'cartodb_id'
 	  }]
 	}).addTo(map)
 	
 	.done(function(layer) {
+		 cartoDBSubLayer = layer.getSubLayer(0);
 	     layer.setZIndex(7);
 	     // info window
 	     // if we need a different template: http://requirejs.org/docs/download.html#text
@@ -112,5 +117,11 @@ define(['cartodb', 'leaflet-draw', 'leaflet-maskcanvas'], function() {
 	L.control.layers(baseLayers, overlayLayers).addTo(map);	
 	
 	//var circleDrawer = new L.Draw.Circle(map, drawControl.options.circle).enable();
+	
+	return {
+		setSql: function(sqlWhere) {
+			return cartoDBSubLayer.setSQL("select * from " + cartoDBTable + sqlWhere);
+       	}
+	};
 	
 });
