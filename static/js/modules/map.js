@@ -24,9 +24,9 @@ define(['cartodb', 'leaflet-draw', 'leaflet-maskcanvas'], function() {
 	});
 	    
 	var baseLayers = {
-	    "Esquemàtic": topo,
-	    "Ortofotografia": orto,
-	    "Terreny" : terrain
+	    "Schematic": topo,
+	    "Ortophoto": orto,
+	    "Terrain" : terrain
 	};
 	    
 	// create a layer with 1 sublayer

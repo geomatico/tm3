@@ -47,5 +47,21 @@
 	"Cancel": {
 		"es": "Cancelar",
 		"ca": "Cancel·la"
+	},
+	" Ortophoto": {
+		"es": " Ortofoto",
+		"ca": " Ortofoto"
+	},
+	" Schematic": {
+		"es": " Esquemático",
+		"ca": " Esquemàtic"
+	},
+	" Topographic": {
+		"es": " Topográfico",
+		"ca": " Topogràfic"
+	},
+	" Terrain": {
+		"es": " Terreno",
+		"ca": " Terreny"
 	}
 }

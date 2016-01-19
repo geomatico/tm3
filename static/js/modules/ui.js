@@ -28,6 +28,13 @@ define(['text!../../sections/about.ca.html', 'text!../../sections/disclaimer.ca.
 	     $("#textModal .modal-body").html(html);
 	     // it is superfluous to have to manually call the modal.
 	});
+	
+	// cannot be used because keys of translations.json are the English ones and we may have changed them ...
+	/*$(document).on("click", ".setLang", function() {
+		var langId = $(this).data("id");
+		i18n.setLang(langId);
+		i18n.translateDocTree();
+	});*/
 
 	i18n.translateDocTree();
 	
