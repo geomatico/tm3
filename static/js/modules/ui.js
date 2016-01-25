@@ -34,7 +34,36 @@ define(['text!../../sections/about.ca.html', 'text!../../sections/disclaimer.ca.
 		//menu loading
     	
     	//make the JSON query
-    	
+    	var query = "SELECT COUNT(*), "+taxon.getSqlFields()+" FROM " + map.getCartoDBTable() + " " + taxon.getSqlWhere() + " group by " + taxon.getSqlFields() + " order by count(*) desc";;
+    	//if there was filtering
+    	// " WHERE (the_geom && ST_SetSRID(ST_MakeBox2D(ST_Point("+bounds.left+","+bounds.bottom+"),ST_Point("+bounds.right+","+bounds.top+")),4326))
+    	$.getJSON(map.getCartoDBApi() + "callback=?", //for JSONP
+        {
+          q: query
+        },
+        function(data){
+            if(data && data.total_rows) {
+                if(data.error) {
+                    //Menu.error(data.error);
+                    alert(error);
+                    return;
+                } 
+                
+                // we must convert from cartodb JSON format (rows) to TaxoMap JSON format (children objects)
+                taxon.convertFromCartodb(data);
+               // update Menu
+                //Menu.update(taxon);
+                //create breadcrumb
+                //$("#divBreadcrumb").html(UI.drawBreadcrumb(taxon.tree,0, taxon.level));
+                //update taxon
+                //UI.taxon = taxon;
+                
+            } else {
+                //Menu.error();
+                alert(error);
+            }
+        }).error(function(jqXHR, textStatus, errorThrown) { Menu.error(); });
+        	
     	//change menu (TODO)
     	$(".sidebar-nav > li > a").each(function(index, el) {
     		$(el).on("click", function(){

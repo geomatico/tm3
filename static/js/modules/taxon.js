@@ -41,7 +41,7 @@ define(function () {
 	    }    
 	}
 	
-	Taxon.prototype.getSqlSelect = function() {
+	Taxon.prototype.getSqlFields = function() {
 	    var sqlSelect = "";
 	    // we select only until parents and immediate children (if they exist)
 	    for(var i = 0; i <= this.level+1; i++) {
@@ -55,13 +55,9 @@ define(function () {
 	    
 	    return sqlSelect;
 	};
-	
+		
 	Taxon.prototype.getSqlWhere = function() {
 	    return " where " + this.levelsId[this.level] + "='" + this.id + "'";
-	};
-	
-	Taxon.prototype.getSqlOrderBy = function() { 
-	    return " order by " + (this.levelsId[this.level+1] ? this.levelsId[this.level+1] : this.levelsId[this.level]); //order children (if not last level)
 	};
 	
 	Taxon.prototype.convertFromCartodb = function(cartoResult) {

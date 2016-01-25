@@ -31,6 +31,7 @@ define(['cartodb', 'leaflet-draw', 'leaflet-maskcanvas'], function() {
 	};
 	
 	var cartoDBTable = 'mcnb_prod';
+	var cartoDBApi = 'http://mcnb.cartodb.com/api/v2/sql?';
 	var cartoDBSubLayer;
 	    
 	// create a layer with 1 sublayer
@@ -121,7 +122,13 @@ define(['cartodb', 'leaflet-draw', 'leaflet-maskcanvas'], function() {
 	return {
 		setSql: function(sqlWhere) {
 			return cartoDBSubLayer.setSQL("select * from " + cartoDBTable + sqlWhere);
-       	}
+       },
+       getCartoDBTable: function() {
+       		return cartoDBTable;
+       },
+       getCartoDBApi: function() {
+       		return cartoDBApi;
+       } 
 	};
 	
 });
