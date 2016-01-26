@@ -12,23 +12,70 @@ define(['text!../../sections/about.ca.html', 'text!../../sections/disclaimer.ca.
     });
 
     // for future API
-    var taxon_id = (params.hasOwnProperty('id') ? params.id : 'Eukaryota');
+    var taxonId = (params.hasOwnProperty('id') ? params.id : 'Eukaryota');
     var level = (params.hasOwnProperty('level') ? params.level : '0');
+    var currentTaxon;
     
-    var setTaxon = function(newtaxon, newlevel) {
+    var setTaxon = function(newTaxon) {
     	
 		// make sure that taxon is changing
-	    if(taxon_id == newtaxon && level == newlevel) return;
-    	
-    	var activeTaxon = new taxon(newtaxon, newlevel);
-    	
+	    if(currentTaxon && currentTaxon.id == newTaxon.id && currentTaxon.level == newTaxon.level) return;
+    	    	
     	//change the cartoDB taxon layer
-    	map.setSql(activeTaxon.getSqlWhere());
+    	map.setSql(newTaxon.getSqlWhere());
     	
-    	updateUI(activeTaxon);
+    	updateUI(newTaxon);
     	
-    	//update taxon_id?
+    	//update taxon_id
+    	currentTaxon = newTaxon;
 	};
+	
+    var updateMenu = function(div, taxon) {
+        var parent = taxon.getParent();
+        var child = taxon.getChild();
+        var level = taxon.level;
+        //direction = (UI.taxon && (level > UI.taxon.level)) ? "right" : "left";
+
+        //delete everything
+        $(div + " > li").remove();
+
+        if(level) $(div).append(drawMenuParent(parent, level));
+        // title (active taxon): last level has no 'child' element, we use 'children of parent'
+        var active_taxon = (child ? child['name'] : parent['children'][0]['name']);
+        $(div).append("<li class='menuTitle'><a href=\"#\">" + active_taxon + "</a></li>");
+
+        if(child && child["children"]) $(div).append(drawMenuChildren(child["children"], level));
+
+        //$(div + " ul").show(effect, { direction: direction}, 500);
+    };
+
+    var drawMenuChildren = function(childArray, parentLevel) {
+        var level = parseInt(parentLevel) + 1;
+        var data = [];
+
+        for(var i=0; i<childArray.length; i++) {
+            //if no id, we don't want to show the possibility to go further: there's no information
+            if(childArray[i]['id']) data.push(drawMenuItem(childArray[i]['name'], childArray[i]['id'], level));
+        }
+        return data;
+    };
+    
+    var drawMenuItem = function(name, id, level) {
+		var item = $( "<li/>");
+        var link =  $( "<a/>", {
+		    html: name,
+    		href: "#"
+		}).appendTo(item);
+		link.data("id", id);
+		link.on("click", function(){
+			setTaxon(new taxon($(this).data("id"), level));
+		});
+		return item;    	
+    };
+    
+    var drawMenuParent = function(parent, level) {
+        return drawMenuItem("Taxon superior", parent.id, level-1);
+    };
 	
 	var updateUI = function(taxon) {
 		//menu loading
@@ -45,31 +92,21 @@ define(['text!../../sections/about.ca.html', 'text!../../sections/disclaimer.ca.
             if(data && data.total_rows) {
                 if(data.error) {
                     //Menu.error(data.error);
-                    alert(error);
+                    alert(data.error);
                     return;
                 } 
                 
                 // we must convert from cartodb JSON format (rows) to TaxoMap JSON format (children objects)
                 taxon.convertFromCartodb(data);
-               // update Menu
-                //Menu.update(taxon);
+               // update Menu 
+                updateMenu(".sidebar-nav", taxon);
                 //create breadcrumb
                 //$("#divBreadcrumb").html(UI.drawBreadcrumb(taxon.tree,0, taxon.level));
-                //update taxon
-                //UI.taxon = taxon;
                 
             } else {
                 //Menu.error();
-                alert(error);
             }
         }).error(function(jqXHR, textStatus, errorThrown) { Menu.error(); });
-        	
-    	//change menu (TODO)
-    	$(".sidebar-nav > li > a").each(function(index, el) {
-    		$(el).on("click", function(){
-				setTaxon('Arthropoda', '2');
-			});    	
-		});
     	
     	//change breadcrumb (TODO)
     	$("#breadcrumbTaxon").on("click", function(){
@@ -78,7 +115,7 @@ define(['text!../../sections/about.ca.html', 'text!../../sections/disclaimer.ca.
     	 
 	};
 	
-	updateUI(new taxon(taxon_id, level));
+	updateUI(new taxon(taxonId, level));
 	
 	$("#toggle-button").click(function(e) {
 	    e.preventDefault();
