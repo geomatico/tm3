@@ -55,15 +55,17 @@ define(['text!../../sections/about.ca.html', 'text!../../sections/disclaimer.ca.
 
         for(var i=0; i<childArray.length; i++) {
             //if no id, we don't want to show the possibility to go further: there's no information
-            if(childArray[i]['id']) data.push(drawMenuItem({ "name": childArray[i]['name'], "id": childArray[i]['id'], "level": level}));
+            if(childArray[i]['id']) data.push(drawMenuItem({ "name": childArray[i]['name'], "id": childArray[i]['id'], "level": level, "count": childArray[i]['count']}));
         }
         return data;
     };
     
     var drawMenuItem = function(item) {
+    	
+    	var title = item.name + (item.count? " <small>(" + item.count + ")<small>" : "");
 		var li = $( "<li/>");
         var link =  $( "<a/>", {
-		    html: item.name,
+		    html: title,
     		href: "#",
     		"class": item.className }).appendTo(li);
 		link.data("id", item.id);
@@ -74,7 +76,7 @@ define(['text!../../sections/about.ca.html', 'text!../../sections/disclaimer.ca.
     };
     
     var drawMenuParent = function(parent, level) {
-        return drawMenuItem({"name": "Taxon superior", "id": parent.id, "level": level-1, "className": "parent"});
+        return drawMenuItem({"name": "< Taxon superior", "id": parent.id, "level": level-1, "className": "parent"});
     };
 	
 	var updateUI = function(taxon) {

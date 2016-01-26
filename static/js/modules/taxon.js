@@ -5,6 +5,7 @@ define(function () {
 	    this.id = id;
 	    this.level = (parseInt(level));
 	    this.name = null;
+	    this.count = null;
 	    this.tree = null;
 	    this.levels = new Array("domain", "kingdom", "phylum", "class", "_order", "family", "genus", "species", "subspecies");
 	    this.levelsId = new Array("domain", "kingdom", "phylum", "class", "_order", "familyid", "genusid", "speciesid", "subspeciesid");
@@ -83,6 +84,7 @@ define(function () {
 	Taxon.prototype.convertElement = function(row, level) {
 	    var el = new Object();
 	    el.id = row[this.levelsId[level]];
+	    el.count = row["count"];
 	    el.name = row[this.levels[level]];
 	    el.parent = row[this.levelsId[level-1]]; 
 	    return el;
