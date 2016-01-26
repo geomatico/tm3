@@ -16,3 +16,9 @@ body, html {
 #textModal .modal-content {
 	overflow: auto;
 }
+
+/* Menu */
+.sidebar-nav li a.active {
+	background-color: #444;
+	border: 1px solid #999;
+}

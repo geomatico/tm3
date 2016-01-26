@@ -42,7 +42,7 @@ define(['text!../../sections/about.ca.html', 'text!../../sections/disclaimer.ca.
         if(level) $(div).append(drawMenuParent(parent, level));
         // title (active taxon): last level has no 'child' element, we use 'children of parent'
         var active_taxon = (child ? child['name'] : parent['children'][0]['name']);
-        $(div).append("<li class='menuTitle'><a href=\"#\">" + active_taxon + "</a></li>");
+        $(div).append("<li><a href='#' class='active'>" + active_taxon + "</a></li>");
 
         if(child && child["children"]) $(div).append(drawMenuChildren(child["children"], level));
 
@@ -55,26 +55,26 @@ define(['text!../../sections/about.ca.html', 'text!../../sections/disclaimer.ca.
 
         for(var i=0; i<childArray.length; i++) {
             //if no id, we don't want to show the possibility to go further: there's no information
-            if(childArray[i]['id']) data.push(drawMenuItem(childArray[i]['name'], childArray[i]['id'], level));
+            if(childArray[i]['id']) data.push(drawMenuItem({ "name": childArray[i]['name'], "id": childArray[i]['id'], "level": level}));
         }
         return data;
     };
     
-    var drawMenuItem = function(name, id, level) {
-		var item = $( "<li/>");
+    var drawMenuItem = function(item) {
+		var li = $( "<li/>");
         var link =  $( "<a/>", {
-		    html: name,
-    		href: "#"
-		}).appendTo(item);
-		link.data("id", id);
+		    html: item.name,
+    		href: "#",
+    		"class": item.className }).appendTo(li);
+		link.data("id", item.id);
 		link.on("click", function(){
-			setTaxon(new taxon($(this).data("id"), level));
+			setTaxon(new taxon($(this).data("id"), item.level));
 		});
-		return item;    	
+		return li;    	
     };
     
     var drawMenuParent = function(parent, level) {
-        return drawMenuItem("Taxon superior", parent.id, level-1);
+        return drawMenuItem({"name": "Taxon superior", "id": parent.id, "level": level-1, "className": "parent"});
     };
 	
 	var updateUI = function(taxon) {
