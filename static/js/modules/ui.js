@@ -138,11 +138,6 @@ define(['i18n', 'taxon', 'map', 'bootstrap'], function(i18n, taxon, map) {
 	
 	updateUI(new taxon(taxonId, level));
 	
-	$("#toggle-button").click(function(e) {
-	    e.preventDefault();
-	    $("#wrapper").toggleClass("toggled");
-	});
-	
 	// cannot be used because keys of translations.json are the English ones and we may have changed them ...
 	$(document).on("click", ".setLang", function() {
 		var langId = $(this).data("id");
