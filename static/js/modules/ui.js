@@ -91,13 +91,13 @@ define(['i18n', 'taxon', 'map', 'bootstrap'], function(i18n, taxon, map) {
 	};
     
     var drawBreadcrumb = function(childArray, level, maxlevel) {
-	    
         level = parseInt(level);// must be a number!
         var html = [];
         var ancestry = flatten(childArray);
 		
 		for(var k=0; k < ancestry.length; k++) {
-			html.push(drawMenuItem(ancestry[k], k));
+			ancestry[k].level = k;
+			html.push(drawMenuItem(ancestry[k]));
 		}
 		
         return html;
