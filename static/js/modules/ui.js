@@ -144,11 +144,11 @@ define(['i18n', 'taxon', 'map', 'bootstrap'], function(i18n, taxon, map) {
 	});
 	
 	// cannot be used because keys of translations.json are the English ones and we may have changed them ...
-	/*$(document).on("click", ".setLang", function() {
+	$(document).on("click", ".setLang", function() {
 		var langId = $(this).data("id");
 		i18n.setLang(langId);
 		i18n.translateDocTree();
-	});*/
+	});
 
 	i18n.translateDocTree();
 	
