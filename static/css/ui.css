@@ -12,11 +12,6 @@ body, html {
 	margin: 10px;
 }
 
-/* Modal */
-#textModal .modal-content {
-	overflow: auto;
-}
-
 /* Menu */
 .sidebar-nav li a.active {
 	background-color: #444;
