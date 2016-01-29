@@ -78,6 +78,30 @@ define(['text!../../sections/about.ca.html', 'text!../../sections/disclaimer.ca.
     var drawMenuParent = function(parent, level) {
         return drawMenuItem({"name": "< Taxon superior", "id": parent.id, "level": level-1, "className": "parent"});
     };
+    
+    var updateBreadcrumb = function(div, taxon) {
+    	$(div).html(drawBreadcrumb(taxon.tree, 0, taxon.level));
+    };
+    
+    var flatten = function(children, newArray) {
+    	if(!newArray) var newArray = [];	      
+        if(!children["children"]) return newArray;
+        newArray.push({"name": children["name"], "id": children["id"]});
+        return flatten(children["children"][0], newArray);
+	};
+    
+    var drawBreadcrumb = function(childArray, level, maxlevel) {
+	    
+        level = parseInt(level);// must be a number!
+        var html = [];
+        var ancestry = flatten(childArray);
+		
+		for(var k=0; k < ancestry.length; k++) {
+			html.push(drawMenuItem(ancestry[k], k));
+		}
+		
+        return html;
+    };
 	
 	var updateUI = function(taxon) {
 		//menu loading
@@ -101,19 +125,14 @@ define(['text!../../sections/about.ca.html', 'text!../../sections/disclaimer.ca.
                 // we must convert from cartodb JSON format (rows) to TaxoMap JSON format (children objects)
                 taxon.convertFromCartodb(data);
                // update Menu 
-                updateMenu(".sidebar-nav", taxon);
-                //create breadcrumb
-                //$("#divBreadcrumb").html(UI.drawBreadcrumb(taxon.tree,0, taxon.level));
+                updateMenu("#menuTaxon", taxon);
+                //update breadcrumb
+                updateBreadcrumb("#breadcrumbTaxon", taxon);
                 
             } else {
                 //Menu.error();
             }
-        }).error(function(jqXHR, textStatus, errorThrown) { Menu.error(); });
-    	
-    	//change breadcrumb (TODO)
-    	$("#breadcrumbTaxon").on("click", function(){
-			setTaxon('Mammalia', '3');    	
-		});
+        }).error(function(jqXHR, textStatus, errorThrown) { alert("Error getting taxon data"); });
     	 
 	};
 	
