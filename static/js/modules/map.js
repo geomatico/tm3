@@ -1,34 +1,10 @@
 /**
  * @author Martí Pericay <marti@pericay.com>
  */
-define(['cartodb', 'leaflet-draw', 'leaflet-maskcanvas'], function() {
+define(['maplayers', 'cartodb', 'leaflet-draw', 'leaflet-maskcanvas'], function(layers) {
     "use strict";
     	
 	var map = L.map('map').setView([29.085599, 0.966797], 4);
-	
-	var terrain = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Physical_Map/MapServer/tile/{z}/{y}/{x}', {
-		attribution: 'Tiles &copy; Esri &mdash; Source: US National Park Service',
-		maxZoom: 8
-	});
-	var orto = L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/{type}/{z}/{x}/{y}.{ext}', {
-		type: 'sat',
-		ext: 'jpg',
-		attribution: 'Tiles Courtesy of <a href="http://www.mapquest.com/">MapQuest</a> &mdash; Portions Courtesy NASA/JPL-Caltech and U.S. Depart. of Agriculture, Farm Service Agency',
-		subdomains: '1234'
-	}).addTo(map);
-	var topo = L.tileLayer('http://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.{ext}', {
-		attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-		subdomains: 'abcd',
-		minZoom: 0,
-		maxZoom: 20,
-		ext: 'png'
-	});
-	    
-	var baseLayers = {
-	    "Schematic": topo,
-	    "Ortophoto": orto,
-	    "Terrain" : terrain
-	};
 	
 	var cartoDBTable = 'mcnb_prod';
 	var cartoDBApi = 'http://mcnb.cartodb.com/api/v2/sql?';
@@ -56,31 +32,6 @@ define(['cartodb', 'leaflet-draw', 'leaflet-maskcanvas'], function() {
      }).on('error', function(err) {
             console.log('cartoDBerror: ' + err);
      });
-     
-     //create additional overlays
-     var hillshade2 =  L.tileLayer.wms("http://www.opengis.uab.cat/cgi-bin/world/MiraMon.cgi?", {
-		layers: 'glcc-world',
-		format: 'image/png',
-		opacity: 0.40,
-		transparent: true,
-	});
-		
-	var temperature =  L.tileLayer.wms("http://spatial-dev.ala.org.au/geoserver/wms?", {
-		layers: 'worldclim_bio_5',
-		format: 'image/png',
-		opacity: 0.40,
-		transparent: true,
-		/*http://spatial-dev.ala.org.au/geoserver/wms?request=GetLegendGraphic&format=image%2Fpng&width=20&height=20&layer=worldclim_bio_5*/
-	});
-		
-	var rain =  L.tileLayer.wms("http://spatial-dev.ala.org.au/geoserver/wms?", {
-		layers: 'worldclim_bio_12',
-		format: 'image/png',
-		opacity: 0.40,
-		transparent: true,
-		/*http://spatial-dev.ala.org.au/geoserver/wms?request=GetLegendGraphic&format=image%2Fpng&width=20&height=20&layer=worldclim_bio_12*/
-	});
-	
 	
 	// Initialise the FeatureGroup to store editable layers
 	var drawnItems = new L.FeatureGroup();
@@ -108,14 +59,11 @@ define(['cartodb', 'leaflet-draw', 'leaflet-maskcanvas'], function() {
 	});
 	//map.addLayer(maskLayer); // we don't want it as default
 	
-	var overlayLayers = {
-		'Annual temperature': temperature,
-		'Annual rain': rain,
-		'Land Cover': hillshade2,
-		'-mask-': maskLayer
-		};
-	
-	L.control.layers(baseLayers, overlayLayers).addTo(map);	
+	var overlays = layers.getOverlayLayers();
+	var base = layers.getBaseLayers();
+	overlays['-mask-'] = maskLayer;
+	base['Terrain'].addTo(map);
+	L.control.layers(base, overlays).addTo(map);	
 	
 	//var circleDrawer = new L.Draw.Circle(map, drawControl.options.circle).enable();
 	
