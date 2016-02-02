@@ -58,5 +58,9 @@
 	" Terrain": {
 		"es": " Terreno",
 		"ca": " Terreny"
+	},
+	"< Parent taxon": {
+		"es": "< Taxón superior",
+		"ca": "< Tàxon superior"	
 	}
 }

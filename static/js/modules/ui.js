@@ -76,7 +76,7 @@ define(['i18n', 'taxon', 'map', 'bootstrap'], function(i18n, taxon, map) {
     };
     
     var drawMenuParent = function(parent, level) {
-        return drawMenuItem({"name": "< Taxon superior", "id": parent.id, "level": level-1, "className": "parent"});
+        return drawMenuItem({"name": "< Parent taxon", "id": parent.id, "level": level-1, "className": "parent"});
     };
     
     var updateBreadcrumb = function(div, taxon) {
@@ -138,7 +138,7 @@ define(['i18n', 'taxon', 'map', 'bootstrap'], function(i18n, taxon, map) {
 	
 	updateUI(new taxon(taxonId, level));
 	
-	// cannot be used because keys of translations.json are the English ones and we may have changed them ...
+	//translate DOM on click
 	$(document).on("click", ".setLang", function() {
 		var langId = $(this).data("id");
 		i18n.setLang(langId);
