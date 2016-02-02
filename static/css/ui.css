@@ -14,6 +14,6 @@ body, html {
 
 /* Menu */
 .sidebar-nav li a.active {
-	background-color: #444;
+	background-color: #CCC;
 	border: 1px solid #999;
 }
