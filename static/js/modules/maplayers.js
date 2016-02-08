@@ -28,7 +28,7 @@ define(['cartodb'], function() {
 	};
 	
      //create additional overlays
-     var hillshade2 =  L.tileLayer.wms("http://www.opengis.uab.cat/cgi-bin/world/MiraMon.cgi?", {
+     /*var hillshade2 =  L.tileLayer.wms("http://www.opengis.uab.cat/cgi-bin/world/MiraMon.cgi?", {
 		layers: 'glcc-world',
 		format: 'image/png',
 		opacity: 0.40,
@@ -39,24 +39,22 @@ define(['cartodb'], function() {
 		layers: 'worldclim_bio_5',
 		format: 'image/png',
 		opacity: 0.40,
-		transparent: true,
-		/*http://spatial-dev.ala.org.au/geoserver/wms?request=GetLegendGraphic&format=image%2Fpng&width=20&height=20&layer=worldclim_bio_5*/
+		transparent: true
 	});
 		
 	var rain =  L.tileLayer.wms("http://spatial-dev.ala.org.au/geoserver/wms?", {
 		layers: 'worldclim_bio_12',
 		format: 'image/png',
 		opacity: 0.40,
-		transparent: true,
-		/*http://spatial-dev.ala.org.au/geoserver/wms?request=GetLegendGraphic&format=image%2Fpng&width=20&height=20&layer=worldclim_bio_12*/
-	});
+		transparent: true
+	});*/
 	
 	
 	// Initialise the FeatureGroup to store editable layers
 	var overlayLayers = {
-		'Annual temperature': temperature,
-		'Annual rain': rain,
-		'Land Cover': hillshade2
+		//'Annual temperature': temperature,
+		//'Annual rain': rain,
+		//'Land Cover': hillshade2
 	};
 	
 	return {
