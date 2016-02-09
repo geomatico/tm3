@@ -15,6 +15,7 @@ define(['i18n', 'taxon', 'map', 'bootstrap'], function(i18n, taxon, map) {
     var taxonId = (params.hasOwnProperty('id') ? params.id : 'Eukaryota');
     var level = (params.hasOwnProperty('level') ? params.level : '0');
     var currentTaxon;
+    var activeFilter;
     
     var setTaxon = function(newTaxon) {
     	
@@ -103,13 +104,22 @@ define(['i18n', 'taxon', 'map', 'bootstrap'], function(i18n, taxon, map) {
         return html;
     };
 	
-	var updateUI = function(taxon) {
+	var updateUI = function(taxon, filter) {
+		
+		if(!taxon) taxon = currentTaxon;
 		//menu loading
     	
     	//make the JSON query
-    	var query = "SELECT COUNT(*), "+taxon.getSqlFields()+" FROM " + map.getCartoDBTable() + " " + taxon.getSqlWhere() + " group by " + taxon.getSqlFields() + " order by count(*) desc";;
+    	var query = "SELECT COUNT(*), "+taxon.getSqlFields()+" FROM " + map.getCartoDBTable() + " " + taxon.getSqlWhere();
     	//if there was filtering
-    	// " WHERE (the_geom && ST_SetSRID(ST_MakeBox2D(ST_Point("+bounds.left+","+bounds.bottom+"),ST_Point("+bounds.right+","+bounds.top+")),4326))
+    	if(filter) activeFilter = filter;
+    	//circle query
+    	if(activeFilter) query += " AND ST_Distance(ST_Transform(the_geom, 900913), ST_Transform(ST_SetSRID(ST_MakePoint("+activeFilter.lon+","+activeFilter.lat+"),4326), 900913)) < " + activeFilter.radius;
+    	//rectangle query
+    	//query += " AND (the_geom && ST_SetSRID(ST_MakeBox2D(ST_Point("+activeFilter.lon+","+activeFilter.lat+"),ST_Point("+(activeFilter.lon+1)+","+(activeFilter.lat + 1)+")),4326))";
+    	//group bys and orders
+    	query += " group by " + taxon.getSqlFields() + " order by count(*) desc";
+    	
     	$.getJSON(map.getCartoDBApi() + "callback=?", //for JSONP
         {
           q: query
@@ -136,7 +146,12 @@ define(['i18n', 'taxon', 'map', 'bootstrap'], function(i18n, taxon, map) {
     	 
 	};
 	
-	updateUI(new taxon(taxonId, level));
+	var newTaxon = new taxon(taxonId, level);
+	updateUI(newTaxon);
+	map.createFilter(updateUI);
+	
+	//this shouldn't be needed
+	currentTaxon = newTaxon;
 	
 	//translate DOM on click
 	$(document).on("click", ".setLang", function() {

@@ -32,36 +32,44 @@ define(['maplayers', 'cartodb', 'leaflet-draw', 'leaflet-maskcanvas'], function(
      }).on('error', function(err) {
             console.log('cartoDBerror: ' + err);
      });
+     
+    
+ 	 // Initialise the FeatureGroup to store editable layers
+	 var drawnItems = new L.FeatureGroup();
+		   
+     var createFilter = function(callback) {
 	
-	// Initialise the FeatureGroup to store editable layers
-	var drawnItems = new L.FeatureGroup();
-	map.addLayer(drawnItems);
-	
-	var drawControl = new L.Control.Draw({
-		draw: false,
-	    edit: {
-	        featureGroup: drawnItems,
-	        remove: false
-	    }
-	});
-	map.addControl(drawControl);
-	
-	var radius = 50000;
-	var center = [39.977646, 4.067001];
-	var circle = null;
-	
-	//mask
-	var maskLayer = L.TileLayer.maskCanvas({ radius: radius });
-	maskLayer.setZIndex(100).setData([center]);
-	maskLayer.on('load', function() {
-		//default editable polygon
+		var drawControl = new L.Control.Draw({
+			draw: false,
+		    edit: {
+		        featureGroup: drawnItems,
+		        remove: false
+		    }
+		});
+		map.addControl(drawControl);
+		
+		map.on('draw:edited', function (e) {
+		    var layers = e.layers;
+		    layers.eachLayer(function (layer) {
+		    	var newFilter = {
+		    		lat: layer._latlng.lat,
+		    		lon: layer._latlng.lng,
+		    		radius: layer._mRadius
+		    	};
+		        callback(null, newFilter);
+		    });
+		});	
+		
+		var radius = 50000;
+		var center = [39.977646, 4.067001];
+		var circle = null;
+		
 		if(circle == null) circle = new L.circle(center, radius).addTo(drawnItems);
-	});
-	//map.addLayer(maskLayer); // we don't want it as default
+	};
 	
 	var overlays = layers.getOverlayLayers();
 	var base = layers.getBaseLayers();
-	overlays['-mask-'] = maskLayer;
+	overlays['draw'] = drawnItems;
 	base['Terrain'].addTo(map);
 	L.control.layers(base, overlays).addTo(map);	
 	
@@ -76,7 +84,10 @@ define(['maplayers', 'cartodb', 'leaflet-draw', 'leaflet-maskcanvas'], function(
        },
        getCartoDBApi: function() {
        		return cartoDBApi;
-       } 
+       },
+       createFilter: function(cb) {
+       		return createFilter(cb);
+       }
 	};
 	
 });
