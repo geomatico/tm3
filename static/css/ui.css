@@ -17,3 +17,11 @@ body, html {
 	background-color: #CCC;
 	border: 1px solid #999;
 }
+
+#menuTaxon {
+	top: 80px; /* leave space for filters */	
+}
+
+#filters li {
+	margin: 20px 10px;
+}

@@ -1,7 +1,7 @@
 /**
  * @author Martí Pericay <marti@pericay.com>
  */
-define(['maplayers', 'cartodb', 'leaflet-draw', 'leaflet-maskcanvas'], function(layers) {
+define(['maplayers', 'mapfilters', 'cartodb'], function(layers, mapfilters) {
     "use strict";
     	
 	var map = L.map('map').setView([29.085599, 0.966797], 4);
@@ -37,43 +37,14 @@ define(['maplayers', 'cartodb', 'leaflet-draw', 'leaflet-maskcanvas'], function(
  	 // Initialise the FeatureGroup to store editable layers
 	 var drawnItems = new L.FeatureGroup();
 		   
-     var createFilter = function(callback) {
-	
-		var drawControl = new L.Control.Draw({
-			draw: false,
-		    edit: {
-		        featureGroup: drawnItems,
-		        remove: false
-		    }
-		});
-		map.addControl(drawControl);
-		
-		map.on('draw:edited', function (e) {
-		    var layers = e.layers;
-		    layers.eachLayer(function (layer) {
-		    	var newFilter = {
-		    		lat: layer._latlng.lat,
-		    		lon: layer._latlng.lng,
-		    		radius: layer._mRadius
-		    	};
-		        callback(null, newFilter);
-		    });
-		});	
-		
-		var radius = 50000;
-		var center = [39.977646, 4.067001];
-		var circle = null;
-		
-		if(circle == null) circle = new L.circle(center, radius).addTo(drawnItems);
+     var createFilter = function(div, callback) {
+		mapfilters.create(div, drawnItems, map, callback);
 	};
 	
 	var overlays = layers.getOverlayLayers();
 	var base = layers.getBaseLayers();
-	overlays['draw'] = drawnItems;
 	base['Terrain'].addTo(map);
 	L.control.layers(base, overlays).addTo(map);	
-	
-	//var circleDrawer = new L.Draw.Circle(map, drawControl.options.circle).enable();
 	
 	return {
 		setSql: function(sqlWhere) {
@@ -85,8 +56,8 @@ define(['maplayers', 'cartodb', 'leaflet-draw', 'leaflet-maskcanvas'], function(
        getCartoDBApi: function() {
        		return cartoDBApi;
        },
-       createFilter: function(cb) {
-       		return createFilter(cb);
+       createFilter: function(div, cb) {
+       		return createFilter(div, cb);
        }
 	};
 	
