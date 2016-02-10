@@ -146,12 +146,9 @@ define(['i18n', 'taxon', 'map', 'bootstrap'], function(i18n, taxon, map) {
     	 
 	};
 	
-	var newTaxon = new taxon(taxonId, level);
-	updateUI(newTaxon);
+	currentTaxon = new taxon(taxonId, level);
+	updateUI(currentTaxon);
 	map.createFilter(updateUI);
-	
-	//this shouldn't be needed
-	currentTaxon = newTaxon;
 	
 	//translate DOM on click
 	$(document).on("click", ".setLang", function() {
