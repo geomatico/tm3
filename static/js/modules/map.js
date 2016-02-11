@@ -38,7 +38,7 @@ define(['maplayers', 'mapfilters', 'cartodb'], function(layers, mapfilters) {
 	 var drawnItems = new L.FeatureGroup();
 		   
      var createFilter = function(div, callback) {
-		mapfilters.create(div, drawnItems, map, callback);
+		mapfilters.createCircle(div, drawnItems, map, callback);
 	};
 	
 	var overlays = layers.getOverlayLayers();

@@ -15,7 +15,8 @@ define(['i18n', 'taxon', 'map', 'bootstrap'], function(i18n, taxon, map) {
     var taxonId = (params.hasOwnProperty('id') ? params.id : 'Eukaryota');
     var level = (params.hasOwnProperty('level') ? params.level : '0');
     var currentTaxon;
-    var activeFilter;
+    // for the moment, it's only one filter
+    var activeFilter = {};
     
     var setTaxon = function(newTaxon) {
     	
@@ -111,12 +112,16 @@ define(['i18n', 'taxon', 'map', 'bootstrap'], function(i18n, taxon, map) {
     	
     	//make the JSON query
     	var query = "SELECT COUNT(*), "+taxon.getSqlFields()+" FROM " + map.getCartoDBTable() + " " + taxon.getSqlWhere();
-    	//if there was filtering
-    	if(filter) activeFilter = filter;
-    	//circle query
-    	if(activeFilter) query += " AND ST_Distance(ST_Transform(the_geom, 900913), ST_Transform(ST_SetSRID(ST_MakePoint("+activeFilter.lon+","+activeFilter.lat+"),4326), 900913)) < " + activeFilter.radius;
-    	//rectangle query
-    	//query += " AND (the_geom && ST_SetSRID(ST_MakeBox2D(ST_Point("+activeFilter.lon+","+activeFilter.lat+"),ST_Point("+(activeFilter.lon+1)+","+(activeFilter.lat + 1)+")),4326))";
+    	//if filter is null or undefined, we don't change it
+    	if(!filter) filter = activeFilter;
+    	else activeFilter = filter;
+    	//if filter is empty, we remove the filter
+    	if(Object.keys(filter).length) {
+    		//circle query
+    		query += " AND ST_Distance(ST_Transform(the_geom, 900913), ST_Transform(ST_SetSRID(ST_MakePoint("+activeFilter.lon+","+activeFilter.lat+"),4326), 900913)) < " + activeFilter.radius;
+	    	//rectangle query
+	    	//query += " AND (the_geom && ST_SetSRID(ST_MakeBox2D(ST_Point("+activeFilter.lon+","+activeFilter.lat+"),ST_Point("+(activeFilter.lon+1)+","+(activeFilter.lat + 1)+")),4326))";
+	    }
     	//group bys and orders
     	query += " group by " + taxon.getSqlFields() + " order by count(*) desc";
     	
