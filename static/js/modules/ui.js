@@ -33,13 +33,14 @@ define(['i18n', 'taxon', 'map', 'bootstrap'], function(i18n, taxon, map) {
 	};
 	
     var updateMenu = function(div, taxon) {
+    	
         var parent = taxon.getParent();
         var child = taxon.getChild();
         var level = taxon.level;
         //direction = (UI.taxon && (level > UI.taxon.level)) ? "right" : "left";
 
         //delete everything
-        $(div + " > li").remove();
+        $(div).html("");
 
         if(level) $(div).append(drawMenuParent(parent, level));
         // title (active taxon): last level has no 'child' element, we use 'children of parent'
@@ -109,6 +110,10 @@ define(['i18n', 'taxon', 'map', 'bootstrap'], function(i18n, taxon, map) {
 		
 		if(!taxon) taxon = currentTaxon;
 		//menu loading
+		var loadingDiv = $("<div/>", {
+			"class": "menuLoading" 
+		});
+		$("#menuTaxon").html(loadingDiv);
     	
     	//make the JSON query
     	var query = "SELECT COUNT(*), "+taxon.getSqlFields()+" FROM " + map.getCartoDBTable() + " " + taxon.getSqlWhere();
