@@ -9,6 +9,8 @@ define(['maplayers', 'mapfilters', 'cartodb'], function(layers, mapfilters) {
 	var cartoDBTable = 'mcnb_prod';
 	var cartoDBApi = 'http://mcnb.cartodb.com/api/v2/sql?';
 	var cartoDBSubLayer;
+	
+	var symbology = 'intensity';
 	    
 	// create a layer with 1 sublayer
 	cartodb.createLayer(map, {
@@ -24,7 +26,7 @@ define(['maplayers', 'mapfilters', 'cartodb'], function(layers, mapfilters) {
 	.done(function(layer) {
 		 cartoDBSubLayer = layer.getSubLayer(0);
 	     layer.setZIndex(7);
-	     createLegend(cartoDBSubLayer.legend);
+	     createLegend(symbology);
 	     // info window
 	     // if we need a different template: http://requirejs.org/docs/download.html#text
 	     /*var sublayer = layer.getSubLayer(0);
@@ -42,8 +44,8 @@ define(['maplayers', 'mapfilters', 'cartodb'], function(layers, mapfilters) {
 		mapfilters.createCircle(div, drawnItems, map, callback);
 	};
 	
-	var createLegend = function(legend) {
-		var currentLegend = new cdb.geo.ui.Legend.Custom({
+	var createLegend = function(sym) {
+		var phylumLegend = new cdb.geo.ui.Legend.Custom({
 	        title: "Llegenda (fílum)",
 	        data: [
 	          { name: "Tracheophyta",  value: "#58A062" },
@@ -52,8 +54,20 @@ define(['maplayers', 'mapfilters', 'cartodb'], function(layers, mapfilters) {
 	          { name: "Arthropoda",         value: "#AAAAAA" },
 	          { name: "Altres",          value: "#FABB5C" }
 	        ]
-	      });
-	      currentLegend.addTo(".legends");
+	    });
+	    
+	    var bubbleLegend = new cdb.geo.ui.Legend.Bubble({
+	        title: "Llegenda (clúster)",
+	        min: 21, max: 20, color: "red"
+	    });
+	
+	    var intensityLegend = new cdb.geo.ui.Legend.Intensity({
+            title: "Llegenda (intensitat)",
+            left: "1", right: "10", color: "#FFCC00"
+          });
+	    
+	    var legends = { 'phylum': phylumLegend, 'cluster': bubbleLegend, 'intensity': intensityLegend};
+	    legends[sym].addTo(".legends");
 	      
 	      		
 		var div = L.DomUtil.create("div", "cssSelector");
