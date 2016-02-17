@@ -24,6 +24,7 @@ define(['maplayers', 'mapfilters', 'cartodb'], function(layers, mapfilters) {
 	.done(function(layer) {
 		 cartoDBSubLayer = layer.getSubLayer(0);
 	     layer.setZIndex(7);
+	     createLegend(cartoDBSubLayer.legend);
 	     // info window
 	     // if we need a different template: http://requirejs.org/docs/download.html#text
 	     /*var sublayer = layer.getSubLayer(0);
@@ -39,6 +40,26 @@ define(['maplayers', 'mapfilters', 'cartodb'], function(layers, mapfilters) {
 		   
      var createFilter = function(div, callback) {
 		mapfilters.createCircle(div, drawnItems, map, callback);
+	};
+	
+	var createLegend = function(legend) {
+		var currentLegend = new cdb.geo.ui.Legend.Custom({
+	        title: "Llegenda (fílum)",
+	        data: [
+	          { name: "Tracheophyta",  value: "#58A062" },
+	          { name: "Chordata",       value: "#F07971" },
+	          { name: "Mollusca",         value: "#54BFDE" },
+	          { name: "Arthropoda",         value: "#AAAAAA" },
+	          { name: "Altres",          value: "#FABB5C" }
+	        ]
+	      });
+	      currentLegend.addTo(".legends");
+	      
+	      		
+		var div = L.DomUtil.create("div", "cssSelector");
+		div.innerHTML = '<br/><select><option>Fílum</option><option>Densitat</option><option>Cluster</option></select>';
+		$(".cartodb-legend").append(div);
+			
 	};
 	
 	var overlays = layers.getOverlayLayers();
