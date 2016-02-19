@@ -55,7 +55,7 @@ define(['cartodb'], function() {
         legends[sym].cdbLegend.addTo("#legends");
     };
 
-    var createSwitcher = function(map, cssCallback) {    
+    var createSwitcher = function(map, cssCallback, withLegend) {    
         var switcher = L.control({position: "bottomright"});
         switcher.onAdd = function(map) {
             var combo = L.DomUtil.create( "div", "cssSelector");
@@ -66,15 +66,15 @@ define(['cartodb'], function() {
                 option.innerHTML = value.name;
                 
                 if (legends[key].active) {
-                    showLegend(key);
+                    if(withLegend) showLegend(key);
                     option.selected = "selected";
                 }
-		
-                $(sel).change(function() {
-                   showLegend(this.value);
-                   cssCallback(legends[this.value].cartoCSS);
-                });                
             });
+            
+            $(sel).change(function() {
+                if(withLegend) showLegend(this.value);
+                cssCallback(legends[this.value].cartoCSS);
+            });                
             
             return combo;
         };
@@ -83,7 +83,7 @@ define(['cartodb'], function() {
     
 	return {
        createSwitcher: function(map, cb) {
-       		return createSwitcher(map, cb);
+       		return createSwitcher(map, cb, true);
        },
        createLegend: function(sym) {
        		return showLegend(sym);
