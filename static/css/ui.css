@@ -36,3 +36,9 @@ body, html {
 #filters li {
 	margin: 25px 10px;
 }
+
+/* Overwrite CartoDB defaults */
+#legends div.cartodb-legend {
+	bottom: 70px;
+	right: 10px;
+}

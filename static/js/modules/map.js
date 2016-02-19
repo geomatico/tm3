@@ -9,10 +9,12 @@ define(['maplayers', 'mapfilters', 'legend', 'cartodb'], function(layers, mapfil
 	var cartoDBTable = 'mcnb_prod';
 	var cartoDBApi = 'http://mcnb.cartodb.com/api/v2/sql?';
 	var cartoDBSubLayer;
-	
-	var symbology = 'intensity';
-	    
-	// create a layer with 1 sublayer
+    
+    var setCartoCSS = function(css) {
+        return cartoDBSubLayer.setCartoCSS(css);
+    };
+    
+    // create a layer with 1 sublayer
 	cartodb.createLayer(map, {
 	  user_name: 'mcnb',
 	  type: 'cartodb',
@@ -26,7 +28,7 @@ define(['maplayers', 'mapfilters', 'legend', 'cartodb'], function(layers, mapfil
 	.done(function(layer) {
 		 cartoDBSubLayer = layer.getSubLayer(0);
 	     layer.setZIndex(7);
-	     legend.create(".legends", symbology);
+         legend.createSwitcher(map, setCartoCSS);
 	     // info window
 	     // if we need a different template: http://requirejs.org/docs/download.html#text
 	     /*var sublayer = layer.getSubLayer(0);
@@ -47,10 +49,10 @@ define(['maplayers', 'mapfilters', 'legend', 'cartodb'], function(layers, mapfil
 	var overlays = layers.getOverlayLayers();
 	var base = layers.getBaseLayers();
 	base['Terrain'].addTo(map);
-	L.control.layers(base, overlays).addTo(map);	
-	
+	L.control.layers(base, overlays).addTo(map);
+    
 	return {
-		setSql: function(sqlWhere) {
+	   setSql: function(sqlWhere) {
 			return cartoDBSubLayer.setSQL("select * from " + cartoDBTable + sqlWhere);
        },
        getCartoDBTable: function() {
