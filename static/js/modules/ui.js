@@ -32,25 +32,37 @@ define(['i18n', 'taxon', 'map', 'bootstrap'], function(i18n, taxon, map) {
     	currentTaxon = newTaxon;
 	};
 	
-    var updateMenu = function(div, taxon) {
-    	
+    var updateMenu = function(div, taxon, noresults) {
+
+        //delete everything
+        $(div).html("");
+        
         var parent = taxon.getParent();
         var child = taxon.getChild();
         var level = taxon.level;
         //direction = (UI.taxon && (level > UI.taxon.level)) ? "right" : "left";
 
-        //delete everything
-        $(div).html("");
-
         if(level) $(div).append(drawMenuParent(parent, level));
+        
+        if (noresults) {
+            $(div).append(drawTitle(taxon.id));
+            $(div).append("No results");
+            return;
+        }
+        
         // title (active taxon): last level has no 'child' element, we use 'children of parent'
         var active_taxon = (child ? child['name'] : parent['children'][0]['name']);
-        $(div).append("<li><a href='#' class='active'>" + active_taxon + "</a></li>");
+        $(div).append(drawTitle(active_taxon));
 
         if(child && child["children"]) $(div).append(drawMenuChildren(child["children"], level));
 
         //$(div + " ul").show(effect, { direction: direction}, 500);
     };
+    
+    var drawTitle = function(title) {
+        var html = "<li><a href='#' class='active'>" + title + "</a></li>";
+        return html;
+    }
 
     var drawMenuChildren = function(childArray, parentLevel) {
         var level = parseInt(parentLevel) + 1;
@@ -87,7 +99,7 @@ define(['i18n', 'taxon', 'map', 'bootstrap'], function(i18n, taxon, map) {
     };
     
     var flatten = function(children, newArray) {
-    	if(!newArray) var newArray = [];	      
+    	if(!newArray) newArray = [];	      
         if(!children["children"]) return newArray;
         newArray.push({"name": children["name"], "id": children["id"]});
         return flatten(children["children"][0], newArray);
@@ -150,7 +162,7 @@ define(['i18n', 'taxon', 'map', 'bootstrap'], function(i18n, taxon, map) {
                 updateBreadcrumb("#breadcrumbTaxon", taxon);
                 
             } else {
-                //Menu.error();
+                updateMenu("#menuTaxon", taxon, true);
             }
         }).error(function(jqXHR, textStatus, errorThrown) { alert("Error getting taxon data"); });
     	 
