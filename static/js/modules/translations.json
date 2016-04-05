@@ -62,5 +62,9 @@
 	"< Parent taxon": {
 		"es": "< Taxón superior",
 		"ca": "< Tàxon superior"	
+	},
+	"Round filter": {
+		"es": "Filtro circular",
+		"ca": "Filtre circular"	
 	}
 }
