@@ -43,11 +43,18 @@ define(['cartodb', 'leaflet-draw'], function() {
 		});
 		
 		//draw first circle
-		var circle = new L.circle([filters[div].data.lat, filters[div].data.lon], filters[div].data.radius).addTo(drawnItems);
+        var circleCenter = [filters[div].data.lat, filters[div].data.lon];
+		var circle = new L.circle(circleCenter, filters[div].data.radius, { clickable: false }).addTo(drawnItems);
 		
 		$(div + " input").on("click", function() {
 			toggleFilter(div, map, drawnItems, callback);
 		});
+    };
+    
+    var featureInView = function(feat, map, partially) {
+        if(map.getBounds().contains(feat.getBounds())) return true;
+        if(map.getBounds().intersects(feat.getBounds())) return partially; //partially contains
+        return false;
     };
     
     var getFilter = function(type, layer){
@@ -69,10 +76,17 @@ define(['cartodb', 'leaflet-draw'], function() {
     		var filter = {}; //empty filter
     		map.removeLayer(drawnItems);
             map.removeControl(controls[div]);
+            
     	} else {
     		var filter = filters[div].data;
     		map.addLayer(drawnItems);
             map.addControl(controls[div]);
+            
+            //if circle is not on the map, we should move to there?
+            /*var data = filters[div].data;
+            var circleCenter = [data.lat, data.lon];
+            var circle = new L.circle(circleCenter, data.radius);
+            if(!featureInView(circle, map)) map.panTo(circleCenter);*/
     	} 
     	callback(null, filter);
     	filters[div].active = !active; 
