@@ -8,6 +8,9 @@ define(['cartodb', 'leaflet-draw'], function() {
     // we store filters here
     var filters = [];
     
+    // we store controls here
+    var controls = [];    
+    
     var defaultData = {
 		type: 'circle',
 		lat: 33.977646,
@@ -28,7 +31,8 @@ define(['cartodb', 'leaflet-draw'], function() {
 		        remove: false
 		    }
 		});
-		map.addControl(drawControl);
+        
+        controls[div] = drawControl;
 		
 		map.on('draw:edited', function (e) {
 		    var layers = e.layers;
@@ -48,7 +52,7 @@ define(['cartodb', 'leaflet-draw'], function() {
     
     var getFilter = function(type, layer){
     	var newFilter;
-    	if(type = 'circle') {
+    	if(type == 'circle') {
     		newFilter = {
     			type: 'circle',
 	    		lat: layer._latlng.lat,
@@ -64,9 +68,11 @@ define(['cartodb', 'leaflet-draw'], function() {
     	if(active) {
     		var filter = {}; //empty filter
     		map.removeLayer(drawnItems);
+            map.removeControl(controls[div]);
     	} else {
     		var filter = filters[div].data;
     		map.addLayer(drawnItems);
+            map.addControl(controls[div]);
     	} 
     	callback(null, filter);
     	filters[div].active = !active; 
