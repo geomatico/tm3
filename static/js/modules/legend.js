@@ -14,11 +14,6 @@ define(['cartodb'], function() {
           { name: "Altres",          value: "#FABB5C" }
         ]
     });
-    
-    var bubbleLegend = new cdb.geo.ui.Legend.Bubble({
-        title: "Llegenda (clúster)",
-        min: 21, max: 20, color: "red"
-    });
 
     var intensityLegend = new cdb.geo.ui.Legend.Intensity({
         title: "Llegenda (intensitat)",
@@ -31,11 +26,6 @@ define(['cartodb'], function() {
             cartoCSS: "#mcnb_dev{marker-fill: #FFCC00;marker-width: 10;marker-line-color: #FFF;marker-line-width: 1.5;marker-line-opacity: 1;marker-opacity: 0.9;marker-comp-op: multiply;marker-type: ellipse;marker-placement: point;marker-allow-overlap: true;marker-clip: false;marker-multi-policy: largest; }",
             name: "Intensitat",
             active: true
-        },
-        'cluster': {
-            cdbLegend: bubbleLegend,
-            cartoCSS: "#mcnb_dev{ marker-width: 12; marker-fill: #FD8D3C; marker-line-width: 1.5; marker-fill-opacity: 1; marker-line-opacity: 1; marker-line-color: #fff; marker-allow-overlap: true;  [src = 'bucketC'] { marker-line-width: 5; marker-width: 24;} [src = 'bucketB'] { marker-line-width: 5; marker-width: 44;}[src = 'bucketA'] { marker-line-width: 5; marker-width: 64;} }",
-            name: "Cluster"
         },
         'phylum': {
             cdbLegend: phylumLegend,
