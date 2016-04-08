@@ -53,7 +53,7 @@ define(['cartodb', 'leaflet-draw'], function() {
     
     var featureInView = function(feat, map, partially) {
         if(map.getBounds().contains(feat.getBounds())) return true;
-        if(map.getBounds().intersects(feat.getBounds())) return partially; //partially contains
+        if(map.getBounds().intersects(feat.getBounds())) return (partially ? true : false); //partially contains
         return false;
     };
     
@@ -83,10 +83,11 @@ define(['cartodb', 'leaflet-draw'], function() {
             map.addControl(controls[div]);
             
             //if circle is not on the map, we should move to there?
-            /*var data = filters[div].data;
+            // alternatively, we could draw the circle where the view is
+            var data = filters[div].data;
             var circleCenter = [data.lat, data.lon];
             var circle = new L.circle(circleCenter, data.radius);
-            if(!featureInView(circle, map)) map.panTo(circleCenter);*/
+            if(!featureInView(circle, map, true)) map.panTo(circleCenter)
     	} 
     	callback(null, filter);
     	filters[div].active = !active; 
