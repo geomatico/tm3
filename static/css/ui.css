@@ -32,6 +32,16 @@ body, html {
 	height: 100px;
 }
 
+.mapLoading {
+	background: #FFF url('../img/load_small.gif') no-repeat center center;
+	position: absolute;
+	width: 16px;
+	height: 16px;
+	top: 50%;
+	left: 50%;
+	z-index: 10;
+}
+
 /* Filters */
 #filters li {
 	margin: 25px 10px;

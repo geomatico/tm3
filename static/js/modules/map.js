@@ -3,8 +3,8 @@
  */
 define(['maplayers', 'mapfilters', 'legend', 'cartodb'], function(layers, mapfilters, legend) {
     "use strict";
-    	
-	var map = L.map('map').setView([29.085599, 0.966797], 4);
+    
+    var map = L.map('map').setView([29.085599, 0.966797], 4);
 	
 	var cartoDBTable = 'mcnb_prod';
 	var cartoDBApi = 'http://mcnb.cartodb.com/api/v2/sql?';
@@ -29,6 +29,12 @@ define(['maplayers', 'mapfilters', 'legend', 'cartodb'], function(layers, mapfil
 		 cartoDBSubLayer = layer.getSubLayer(0);
 	     layer.setZIndex(7);
          legend.createSwitcher(map, setCartoCSS);
+         layer.bind('loading', function() {
+             $(".mapLoading").show()
+         });
+         layer.bind('load',  function() {
+             $(".mapLoading").hide();
+         });
 	     // info window
 	     // if we need a different template: http://requirejs.org/docs/download.html#text
 	     /*var sublayer = layer.getSubLayer(0);
