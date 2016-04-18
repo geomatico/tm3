@@ -2,6 +2,18 @@ body, html {
 	height: 100%;
 }
 
+#header {
+	background-color: #000;
+	height: 90px;
+	position: fixed;
+	width: 100%;
+	z-index: 100000;
+}
+
+#subbar {
+	top: 90px;
+}
+
 #map {
 	height: 100%;
 }
