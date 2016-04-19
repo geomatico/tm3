@@ -39,7 +39,7 @@ define(['maplayers', 'mapfilters', 'legend', 'cartodb'], function(layers, mapfil
 	     // if we need a different template: http://requirejs.org/docs/download.html#text
 	     /*var sublayer = layer.getSubLayer(0);
 	     sublayer.infowindow.set('template', $('#infowindow_template').html());*/
-	     cdb.vis.Vis.addInfowindow(map, layer.getSubLayer(0), ['kingdom', 'phylum', 'class', '_order', 'family', 'genus', 'scientificname', 'locality', 'cartodb_id']);
+	     cdb.vis.Vis.addInfowindow(map, layer.getSubLayer(0), ['kingdom', 'class', 'family', 'scientificname', 'catalognumber']);
      }).on('error', function(err) {
             console.log('cartoDBerror: ' + err);
      });
