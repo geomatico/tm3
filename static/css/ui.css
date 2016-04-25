@@ -10,6 +10,10 @@ body, html {
 	z-index: 100000;
 }
 
+.logo-nat {
+	padding: 20px 20px 0 0;
+}
+
 #subbar {
 	top: 90px;
 }
