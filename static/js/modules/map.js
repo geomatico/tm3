@@ -4,7 +4,11 @@
 define(['maplayers', 'mapfilters', 'legend', 'cartodb'], function(layers, mapfilters, legend) {
     "use strict";
     
-    var map = L.map('map').setView([29.085599, 0.966797], 4);
+    var options = {
+        maxZoom: 13,
+        minZoom: 1
+    };
+    var map = L.map('map', options).setView([29.085599, 0.966797], 4);
 	
 	var cartoDBTable = 'mcnb_prod';
 	var cartoDBApi = 'http://mcnb.cartodb.com/api/v2/sql?';

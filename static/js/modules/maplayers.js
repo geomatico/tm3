@@ -10,6 +10,7 @@ define(['cartodb'], function() {
 	var orto = L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/{type}/{z}/{x}/{y}.{ext}', {
 		type: 'sat',
 		ext: 'jpg',
+        maxZoom: 11,
 		//attribution: 'Tiles Courtesy of <a href="http://www.mapquest.com/">MapQuest</a> &mdash; Portions Courtesy NASA/JPL-Caltech and U.S. Depart. of Agriculture, Farm Service Agency',
 		subdomains: '1234'
 	});
