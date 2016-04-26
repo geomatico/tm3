@@ -88,11 +88,6 @@ a:hover{text-decoration: none !important}
     padding: 18px 13px 9px 0;
 }
 
-#menuTaxon {
-	top: 41px; /* leave space for filters */	
-}
-
-
 .parent::before {
     border-left: 15px solid transparent;
     border-right: 15px solid transparent;
@@ -133,7 +128,7 @@ a.parent:hover {background: none !important}
 
 /* Filters */
 #filters li {
-	margin: 0;
+	margin: 10px 0;
 	padding: 5px 0;
 }
 
