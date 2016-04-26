@@ -1,6 +1,9 @@
 body, html {
 	height: 100%;
+	font-size: 13px !important;
 }
+
+a:hover{text-decoration: none !important}
 
 #header {
 	background-color: #000;
@@ -16,51 +19,132 @@ body, html {
 
 #subbar {
 	top: 90px;
+	background: #333;
 }
 
 #map {
 	height: 100%;
 }
 
+
+
 #breadcrumbTaxon {
 	z-index: 1002;
 	float: left;
-	margin: 10px;
+	margin: 10px 0;
+	padding: 0;
+	background: none;
 }
+
+
+#breadcrumbTaxon > li::before {
+    border-bottom: 18px solid transparent;
+    border-left: 10px solid #ddb043;
+    border-top: 18px solid transparent;
+    clear: both;
+    color: transparent;
+    content: "";
+    float: right;
+    height: 37px;
+    left: 0;
+    position: relative;
+    top: 0;
+}
+
+.breadcrumb > li {margin-right: 0px; float: left;}
+
+.breadcrumb > li:first-child {margin-right: 10px}
+
+.breadcrumb > li > a {
+    background: #ddb043 none repeat scroll 0 0;
+    color: #fff;
+    float: left;
+    font-weight: bold;
+    padding: 10px 15px;
+    font-size: 12px
+}
+
+.breadcrumb > li:last-child > a {
+	background: #fff;
+	color: #ddb043;
+}
+
+.breadcrumb > li:last-child::before{display: none}
 
 /* Menu */
 .sidebar-nav li a.active {
-	background-color: #CCC;
-	border: 1px solid #999;
+    background-color: #ddb043;
+    color: #fff;
+    font-weight: bold;
 }
 
 .sidebar-nav li .parent{
-	/*border-top: 1px solid #999;*/
-	background-color: #F5F5F5;
+    color: #fff;
+    float: left;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 10px;
+    margin-right: -25px;
+    padding: 18px 13px 9px 0;
 }
 
 #menuTaxon {
-	top: 80px; /* leave space for filters */	
+	top: 41px; /* leave space for filters */	
 }
 
+
+.parent::before {
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-top: 15px solid #ddb043;
+    clear: both;
+    color: transparent;
+    content: "";
+    float: right;
+    height: 35px;
+    left: 11px;
+    position: absolute;
+    top: 33px;
+    width: 25px;
+    display: none;
+}
+
+a.parent:hover {background: none !important}
+
 .menuLoading {
-	background: #FFF url('../img/load_small.gif') no-repeat center top;
-	height: 100px;
+	background: url('../img/load.gif') no-repeat center top;
+	height: 40px;
+	margin-top: 50px;
+	background-color: none;
+	background-size: 40px
 }
 
 .mapLoading {
-	background: #FFF url('../img/load_small.gif') no-repeat center center;
+	background: url('../img/load.gif') no-repeat center center;
 	position: absolute;
-	width: 16px;
-	height: 16px;
+	width: 40px;
+	height: 40px;
 	top: 50%;
 	left: 50%;
 	z-index: 10;
+	background-color: none;
+	background-size: 40px
 }
 
 /* Filters */
 #filters li {
-	margin: 25px 10px;
+	margin: 0;
+	padding: 5px 0;
+}
+
+#filters span{ background: none; border-color: #ccc; border-width: 0 0 1px 0; border-radius: 0; padding: 11px 0 10px; }
+
+#basic-addon3{
+    background: rgba(0, 0, 0, 0) url("../img/cercle.png") no-repeat scroll 15px 11px !important;
+    font-size: 12px;
+    padding-top: 8px;
+    text-indent: 7px;
+    text-transform: uppercase;
 }
 
 /* Overwrite CartoDB defaults */

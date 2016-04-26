@@ -91,7 +91,7 @@ define(['i18n', 'taxon', 'map', 'bootstrap'], function(i18n, taxon, map) {
     };
     
     var drawMenuParent = function(parent, level) {
-        return drawMenuItem({"name": "< Parent taxon", "id": parent.id, "level": level-1, "className": "parent"});
+        return drawMenuItem({"name": "↩", "id": parent.id, "level": level-1, "className": "parent"});
     };
     
     var updateBreadcrumb = function(div, taxon) {
