@@ -6,7 +6,8 @@ define(['maplayers', 'mapfilters', 'legend', 'cartodb'], function(layers, mapfil
     
     var options = {
         maxZoom: 13,
-        minZoom: 1
+        minZoom: 1,
+        attributionControl: false
     };
     var map = L.map('map', options).setView([29.085599, 0.966797], 4);
 	
@@ -18,6 +19,7 @@ define(['maplayers', 'mapfilters', 'legend', 'cartodb'], function(layers, mapfil
 	cartodb.createLayer(map, {
 	  user_name: 'mcnb',
 	  type: 'cartodb',
+      cartodb_logo:false,
 	  sublayers: [{
 	    sql: "SELECT * FROM " + cartoDBTable,
 	    cartocss: '#herbari_cartodb{marker-fill: #FFCC00;marker-width: 10;marker-line-color: #FFF;marker-line-width: 1.5;marker-line-opacity: 1;marker-opacity: 0.9;marker-comp-op: multiply;marker-type: ellipse;marker-placement: point;marker-allow-overlap: true;marker-clip: false;marker-multi-policy: largest; }',

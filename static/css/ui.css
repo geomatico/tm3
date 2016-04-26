@@ -170,3 +170,8 @@ div.cssSelector button {
 .combolegend  {
 	margin-bottom: 10px !important;
 }
+
+/* Hide attribution control */
+.leaflet-control-attribution {
+  display: none;
+}
