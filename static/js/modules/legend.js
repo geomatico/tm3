@@ -1,10 +1,10 @@
 /**
  * @author Martí Pericay <marti@pericay.com>
  */
-define(['cartodb'], function() {
+define(['cartodb', 'select'], function() {
     "use strict";
 
-    var phylumLegend = new cdb.geo.ui.Legend.Custom({
+   var phylumLegend = new cdb.geo.ui.Legend.Custom({
         title: "Llegenda (fílum)",
         data: [
           { name: "Tracheophyta",  value: "#58A062" },
@@ -34,7 +34,9 @@ define(['cartodb'], function() {
         }
     };
     
-    var showLegend = function(sym){
+    var legendDiv;
+    
+    var createLegend = function(sym, parent){
         if (typeof sym === "undefined") {
             $.each(legends, function(key, value) {           
                 if (legends[key].active) {
@@ -42,41 +44,54 @@ define(['cartodb'], function() {
                 }
             });
         }
-        legends[sym].cdbLegend.addTo("#legends");
-    };
 
-    var createSwitcher = function(map, cssCallback, withLegend) {    
+        legendDiv = L.DomUtil.create( "div", "legend", parent);
+        setLegend(sym);
+    };
+    
+    var setLegend = function(sym) {
+        if (!legendDiv) return;
+        $(legendDiv).empty();
+        $(legendDiv).append(legends[sym].cdbLegend.render().el);
+    }
+
+    var createSwitcher = function(map, sublayer, withLegend) {    
         var switcher = L.control({position: "bottomright"});
         switcher.onAdd = function(map) {
-            var combo = L.DomUtil.create( "div", "cssSelector");
-            var sel =  L.DomUtil.create( "select", "form-control", combo );
+            var combolegend = L.DomUtil.create( "div", "combolegend");
+            var combo = L.DomUtil.create( "div", "cssSelector", combolegend);
+            var sel =  L.DomUtil.create( "select", "form-control dropup", combo );
             $.each(legends, function(key, value) {
                 var option =  L.DomUtil.create( "option", "", sel );
                 option.value = key;
                 option.innerHTML = value.name;
                 
                 if (legends[key].active) {
-                    if(withLegend) showLegend(key);
+                    if(withLegend) createLegend(key, combolegend);
                     option.selected = "selected";
                 }
             });
             
             $(sel).change(function() {
-                if(withLegend) showLegend(this.value);
-                cssCallback(legends[this.value].cartoCSS);
-            });                
+                if(withLegend) setLegend(this.value);
+                sublayer.setCartoCSS(legends[this.value].cartoCSS);
+                //sublayer.infowindow.set('template', legends[this.value].template);
+            });
             
-            return combo;
+            // make select responsive and mobile-friendly with https://silviomoreto.github.io/bootstrap-select/
+            $(sel).selectpicker({
+                size: 4
+            });
+            
+            return combolegend;
         };
         switcher.addTo(map);
+        
     };
     
 	return {
-       createSwitcher: function(map, cb) {
-       		return createSwitcher(map, cb, true);
-       },
-       createLegend: function(sym) {
-       		return showLegend(sym);
+       createSwitcher: function(map, sublayer, withLegend) {
+       		return createSwitcher(map, sublayer, withLegend);
        }
 	};
 	

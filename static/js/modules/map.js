@@ -14,10 +14,6 @@ define(['maplayers', 'mapfilters', 'legend', 'cartodb'], function(layers, mapfil
 	var cartoDBApi = 'http://mcnb.cartodb.com/api/v2/sql?';
 	var cartoDBSubLayer;
     
-    var setCartoCSS = function(css) {
-        return cartoDBSubLayer.setCartoCSS(css);
-    };
-    
     // create a layer with 1 sublayer
 	cartodb.createLayer(map, {
 	  user_name: 'mcnb',
@@ -32,7 +28,7 @@ define(['maplayers', 'mapfilters', 'legend', 'cartodb'], function(layers, mapfil
 	.done(function(layer) {
 		 cartoDBSubLayer = layer.getSubLayer(0);
 	     layer.setZIndex(7);
-         legend.createSwitcher(map, setCartoCSS);
+         legend.createSwitcher(map, cartoDBSubLayer, true);
          layer.bind('loading', function() {
              $(".mapLoading").show()
          });

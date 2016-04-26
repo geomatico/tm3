@@ -13,7 +13,8 @@ var require = (function() {
             "cartodb": "//libs.cartocdn.com/cartodb.js/v3/3.15/cartodb",
             "jquery": "//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min",
             "i18n": LIB_PATH + "i18n.js/src/i18n",
-            "text": "//cdnjs.cloudflare.com/ajax/libs/require-text/2.0.12/text.min"
+            "text": "//cdnjs.cloudflare.com/ajax/libs/require-text/2.0.12/text.min",
+			"select": "//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min"
 		},
 		shim: {
 			"bootstrap": {
@@ -30,6 +31,9 @@ var require = (function() {
 			},
 			"i18n" : {
 				deps: ["text"]
+			},
+			"select": {
+				deps: ["bootstrap", "css!https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css"]
 			}
             
 		}

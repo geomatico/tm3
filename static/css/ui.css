@@ -148,7 +148,25 @@ a.parent:hover {background: none !important}
 }
 
 /* Overwrite CartoDB defaults */
-#legends div.cartodb-legend {
-	bottom: 70px;
-	right: 10px;
+div.cartodb-legend, div.cssSelector {
+	position: relative;
+	width: 180px;
+}
+
+div.cssSelector button {
+	background-color: #ddb043;
+	color: #FFF;
+}
+
+.combolegend div.cartodb-legend.intensity ul {
+    min-width: auto;
+}
+
+.combolegend div.cartodb-legend {
+	right: auto;
+}
+
+/* If we want to overwrite leaflet controls */
+.combolegend  {
+	margin-bottom: 10px !important;
 }
