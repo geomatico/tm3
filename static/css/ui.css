@@ -107,22 +107,20 @@ a:hover{text-decoration: none !important}
 a.parent:hover {background: none !important}
 
 .menuLoading {
-	background: url('../img/load.gif') no-repeat center top;
+	background: url('../img/load.svg') no-repeat center top;
 	height: 40px;
 	margin-top: 50px;
-	background-color: none;
 	background-size: 40px
 }
 
 .mapLoading {
-	background: url('../img/load.gif') no-repeat center center;
+	background: url('../img/load.svg') no-repeat center center;
 	position: absolute;
 	width: 40px;
 	height: 40px;
 	top: 50%;
 	left: 50%;
 	z-index: 10;
-	background-color: none;
 	background-size: 40px
 }
 
