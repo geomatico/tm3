@@ -81,11 +81,26 @@ define(function () {
 	    this.tree = taxon;
 	};
 	
+	Taxon.prototype.isIndeterminate = function(id) {
+		if(!id) return false;
+		// we have no other way to check if it is indeterminate taxon, because
+		// in species and subspecies 'name' is always full (genus + specificEpithet)
+		// in the future, 'indeterminate' should be an extra field get by JSON
+		return (id.slice(-1) == ":");
+	};
+	
+	Taxon.prototype.transformIndeterminateName = function(name) {
+		return name + " [indet.]";
+	};
+	
 	Taxon.prototype.convertElement = function(row, level) {
 	    var el = new Object();
 	    el.id = row[this.levelsId[level]];
 	    el.count = row["count"];
 	    el.name = row[this.levels[level]];
+		if (this.isIndeterminate(el.id)) {
+            el.name = this.transformIndeterminateName(el.name);
+        }
 	    el.parent = row[this.levelsId[level-1]]; 
 	    return el;
 	};
