@@ -6,10 +6,7 @@ define(['cartodb', 'leaflet-draw'], function() {
     "use strict";
     
     // we store filters here
-    var filters = [];
-    
-    // we store controls here
-    var controls = [];    
+    var filters = []; 
     
     var defaultData = {
 		type: 'circle',
@@ -24,24 +21,6 @@ define(['cartodb', 'leaflet-draw'], function() {
     };
     
     var addCircleFilter = function(div, drawnItems, map, callback) {
-		var drawControl = new L.Control.Draw({
-			draw: false,
-		    edit: {
-		        featureGroup: drawnItems,
-		        remove: false
-		    }
-		});
-        
-        controls[div] = drawControl;
-		
-		map.on('draw:edited', function (e) {
-		    var layers = e.layers;
-		    layers.eachLayer(function (layer) {
-		    	filters[div].data = getFilter('circle', layer);
-		    	callback(null, filters[div].data);
-		    });
-		});
-		
 		$(div + " input").on("click", function() {
 			toggleFilter(div, map, drawnItems, callback);
 		});
@@ -73,12 +52,10 @@ define(['cartodb', 'leaflet-draw'], function() {
         drawnItems.clearLayers();
     	if(active) {
     		var filter = {}; //empty filter
-            map.removeControl(controls[div]);
             
     	} else {
     		var filter = filters[div].data;
     		map.addLayer(drawnItems);
-            map.addControl(controls[div]);
             
             filters[div].data.lat = map.getCenter().lat; //we ignore default values
             filters[div].data.lon = map.getCenter().lng;
@@ -86,6 +63,14 @@ define(['cartodb', 'leaflet-draw'], function() {
             //draw circle
             var circleCenter = [filters[div].data.lat, filters[div].data.lon];
             var circle = new L.circle(circleCenter, filters[div].data.radius, { clickable: false }).addTo(drawnItems);
+            
+            drawnItems.eachLayer(function (layer) {
+                layer.editing.enable();
+                layer.on('edit', function(e) {
+                	filters[div].data = getFilter('circle', layer);
+                    callback(null, filters[div].data);
+                });
+            });
     	} 
     	callback(null, filter);
     	filters[div].active = !active; 
