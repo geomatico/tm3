@@ -42,19 +42,9 @@ define(['cartodb', 'leaflet-draw'], function() {
 		    });
 		});
 		
-		//draw first circle
-        var circleCenter = [filters[div].data.lat, filters[div].data.lon];
-		var circle = new L.circle(circleCenter, filters[div].data.radius, { clickable: false }).addTo(drawnItems);
-		
 		$(div + " input").on("click", function() {
 			toggleFilter(div, map, drawnItems, callback);
 		});
-    };
-    
-    var featureInView = function(feat, map, partially) {
-        if(map.getBounds().contains(feat.getBounds())) return true;
-        if(map.getBounds().intersects(feat.getBounds())) return (partially ? true : false); //partially contains
-        return false;
     };
     
     var getFilter = function(type, layer){
@@ -70,11 +60,19 @@ define(['cartodb', 'leaflet-draw'], function() {
         return newFilter;
     };
     
+    var getSuitableRadius = function(zoom) {
+        //should be refactored, probably to a continuous function
+        if (zoom < 6) return 800000;
+        else if( zoom < 9) return 100000;
+        else return 20000;
+        
+    };
+    
     var toggleFilter = function(div, map, drawnItems, callback) {
     	var active = filters[div].active;
+        drawnItems.clearLayers();
     	if(active) {
     		var filter = {}; //empty filter
-    		map.removeLayer(drawnItems);
             map.removeControl(controls[div]);
             
     	} else {
@@ -82,12 +80,12 @@ define(['cartodb', 'leaflet-draw'], function() {
     		map.addLayer(drawnItems);
             map.addControl(controls[div]);
             
-            //if circle is not on the map, we should move to there?
-            // alternatively, we could draw the circle where the view is
-            var data = filters[div].data;
-            var circleCenter = [data.lat, data.lon];
-            var circle = new L.circle(circleCenter, data.radius);
-            if(!featureInView(circle, map, true)) map.panTo(circleCenter)
+            filters[div].data.lat = map.getCenter().lat; //we ignore default values
+            filters[div].data.lon = map.getCenter().lng;
+            filters[div].data.radius =  getSuitableRadius(map.getZoom());
+            //draw circle
+            var circleCenter = [filters[div].data.lat, filters[div].data.lon];
+            var circle = new L.circle(circleCenter, filters[div].data.radius, { clickable: false }).addTo(drawnItems);
     	} 
     	callback(null, filter);
     	filters[div].active = !active; 
