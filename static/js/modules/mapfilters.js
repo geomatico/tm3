@@ -16,7 +16,7 @@ define(['cartodb', 'leaflet-draw'], function() {
     };
     
     var draw = function(div, type) {
-    	$(div).append('<div class="input-group"><span class="input-group-addon" id="basic-addon3">Round filter</span><span class="input-group-addon"><input type="checkbox" aria-label="Checkbox for following text input"></span></div>');
+    	$(div).append('<div class="input-group"><span class="input-group-addon" id="basic-addon3">Round filter</span><span class="input-group-addon"><input type="checkbox" aria-label="Activate taxon"></span></div>');
     	filters[div] = {"active": false, "data": defaultData};
     };
     

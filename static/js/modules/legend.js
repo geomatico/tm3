@@ -5,7 +5,7 @@ define(['cartodb', 'select'], function() {
     "use strict";
 
    var phylumLegend = new cdb.geo.ui.Legend.Custom({
-        title: "Llegenda (fílum)",
+        title: "Legend",
         data: [
           { name: "Tracheophyta",  value: "#58A062" },
           { name: "Chordata",       value: "#F07971" },
@@ -16,7 +16,7 @@ define(['cartodb', 'select'], function() {
     });
 
     var intensityLegend = new cdb.geo.ui.Legend.Intensity({
-        title: "Llegenda (intensitat)",
+        title: "Legend",
         left: "1", right: "10+", color: "#FFCC00"
     });
     
@@ -24,13 +24,13 @@ define(['cartodb', 'select'], function() {
         'intensity': {
             cdbLegend: intensityLegend,
             cartoCSS: "#mcnb_dev{marker-fill: #FFCC00;marker-width: 10;marker-line-color: #FFF;marker-line-width: 1.5;marker-line-opacity: 1;marker-opacity: 0.9;marker-comp-op: multiply;marker-type: ellipse;marker-placement: point;marker-allow-overlap: true;marker-clip: false;marker-multi-policy: largest; }",
-            name: "Intensitat",
+            name: "Intensity",
             active: true
         },
         'phylum': {
             cdbLegend: phylumLegend,
             cartoCSS: '#mcnb_dev { marker-fill-opacity: 0.9; marker-line-color: #FFF; marker-line-width: 1; marker-line-opacity: 1; marker-placement: point; marker-type: ellipse; marker-width: 10; marker-allow-overlap: true; #mcnb_dev[phylum="Tracheophyta"] { marker-fill: #58A062;} #mcnb_dev[phylum="Chordata"] { marker-fill: #F07971;}#mcnb_dev[phylum="Mollusca"] { marker-fill: #54BFDE;}#mcnb_dev[phylum="Arthropoda"] { marker-fill: #AAAAAA;}#mcnb_dev { marker-fill: #FABB5C;} }',
-            name: "Fílum"
+            name: "Phylum"
         }
     };
     

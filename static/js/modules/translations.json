@@ -66,5 +66,17 @@
 	"Round filter": {
 		"es": "Filtro circular",
 		"ca": "Filtre circular"	
+	},
+	"Intensity": {
+		"es": "Intensidad",
+		"ca": "Intensitat"	
+	},
+	"Phylum": {
+		"es": "Fílum",
+		"ca": "Fílum"	
+	},
+	"Legend": {
+		"es": "Leyenda",
+		"ca": "Llegenda"	
 	}
 }
