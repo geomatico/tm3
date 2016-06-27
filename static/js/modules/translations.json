@@ -78,5 +78,9 @@
 	"Legend": {
 		"es": "Leyenda",
 		"ca": "Llegenda"	
+	},
+	"No results": {
+		"es": "No hay resultados",
+		"ca": "No s'han trobat resultats"	
 	}
 }

@@ -46,7 +46,9 @@ define(['i18n', 'taxon', 'map', 'bootstrap'], function(i18n, taxon, map) {
         
         if (noresults) {
             $(div).append(drawTitle(taxon.id));
-            $(div).append("No results");
+            var msg = $( "<li/>");
+            msg.append(noresults);
+            $(div).append(msg);
             return;
         }
         
@@ -147,12 +149,8 @@ define(['i18n', 'taxon', 'map', 'bootstrap'], function(i18n, taxon, map) {
           q: query
         },
         function(data){
+            //got results
             if(data && data.total_rows) {
-                if(data.error) {
-                    //Menu.error(data.error);
-                    alert(data.error);
-                    return;
-                } 
                 
                 // we must convert from cartodb JSON format (rows) to TaxoMap JSON format (children objects)
                 taxon.convertFromCartodb(data);
@@ -161,8 +159,12 @@ define(['i18n', 'taxon', 'map', 'bootstrap'], function(i18n, taxon, map) {
                 //update breadcrumb
                 updateBreadcrumb("#breadcrumbTaxon", taxon);
                 
+            //error
+            } else if(data.error) {
+                updateMenu("#menuTaxon", taxon, "An error occured");
+            //no results
             } else {
-                updateMenu("#menuTaxon", taxon, true);
+                updateMenu("#menuTaxon", taxon, "No results");
             }
         }).error(function(jqXHR, textStatus, errorThrown) { alert("Error getting taxon data"); });
     	 
