@@ -140,7 +140,7 @@ define(['i18n', 'taxon', 'map', 'bootstrap'], function(i18n, taxon, map) {
 	    	//query += " AND (the_geom && ST_SetSRID(ST_MakeBox2D(ST_Point("+activeFilter.lon+","+activeFilter.lat+"),ST_Point("+(activeFilter.lon+1)+","+(activeFilter.lat + 1)+")),4326))";
 	    }
     	//group bys and orders
-    	query += " group by " + taxon.getSqlFields() + " order by count(*) desc";
+    	query += "  group by " + taxon.getSqlFields() + " order by count(*) desc";
     	
     	$.getJSON(map.getCartoDBApi() + "callback=?", //for JSONP
         {
