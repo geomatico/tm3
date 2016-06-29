@@ -47,7 +47,7 @@ define(['i18n', 'taxon', 'map', 'bootstrap'], function(i18n, taxon, map) {
         if (noresults) {
             $(div).append(drawTitle(taxon.id));
             var msg = $( "<li/>");
-            msg.append(noresults);
+            msg.append(i18n.t(noresults));
             $(div).append(msg);
             return;
         }
@@ -166,7 +166,11 @@ define(['i18n', 'taxon', 'map', 'bootstrap'], function(i18n, taxon, map) {
             } else {
                 updateMenu("#menuTaxon", taxon, "No results");
             }
-        }).error(function(jqXHR, textStatus, errorThrown) { alert("Error getting taxon data"); });
+        }).error(function(jqXHR, textStatus, errorThrown) {
+            var msg = "An error occured: ";
+            if (jqXHR.status == "404") msg += "404 (" + map.getCartoDBApi() + " not found)";
+            else if(textStatus) msg += errorThrown;
+            updateMenu("#menuTaxon", taxon, msg); });
     	 
 	};
 	
