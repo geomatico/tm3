@@ -11,7 +11,7 @@ define(['cartodb', 'select'], function() {
           { name: "Chordata",       value: "#F07971" },
           { name: "Mollusca",         value: "#54BFDE" },
           { name: "Arthropoda",         value: "#AAAAAA" },
-          { name: "Altres",          value: "#FABB5C" }
+          { name: "Others",          value: "#FABB5C" }
         ]
     });
 
@@ -46,8 +46,16 @@ define(['cartodb', 'select'], function() {
         }
 
         legendDiv = L.DomUtil.create( "div", "legend", parent);
+        disableEvent(legendDiv, 'click');
+        disableEvent(legendDiv, 'dblclick');
         setLegend(sym);
     };
+    
+    var disableEvent = function(div, event) {
+        $(div).bind(event, function(e) {
+            e.stopPropagation();
+        });
+    }
     
     var setLegend = function(sym) {
         if (!legendDiv) return;
@@ -59,6 +67,7 @@ define(['cartodb', 'select'], function() {
         var switcher = L.control({position: "bottomright"});
         switcher.onAdd = function(map) {
             var combolegend = L.DomUtil.create( "div", "combolegend");
+            disableEvent(combolegend, 'mousewheel DOMMouseScroll MozMousePixelScroll');
             var combo = L.DomUtil.create( "div", "cssSelector", combolegend);
             var sel =  L.DomUtil.create( "select", "form-control dropup", combo );
             $.each(legends, function(key, value) {
