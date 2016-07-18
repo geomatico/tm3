@@ -50,4 +50,4 @@ Temporary Items
 .project
 
 #bower
-static/js/lib
+js/lib
