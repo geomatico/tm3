@@ -137,12 +137,12 @@ define(['i18n', 'taxon', 'map', 'bootstrap'], function(i18n, taxon, map) {
     	//if filter is empty, we remove the filter
     	if(Object.keys(filter).length) {
     		//circle query
-    		query += " AND ST_Distance(ST_Transform(the_geom, 900913), ST_Transform(ST_SetSRID(ST_MakePoint("+activeFilter.lon+","+activeFilter.lat+"),4326), 900913)) < " + activeFilter.radius;
-	    	//rectangle query
+    		query += " AND ST_Distance_Sphere(the_geom, ST_SetSRID(ST_MakePoint("+activeFilter.lon+","+activeFilter.lat+"),4326)) < " + activeFilter.radius;
+            //rectangle query
 	    	//query += " AND (the_geom && ST_SetSRID(ST_MakeBox2D(ST_Point("+activeFilter.lon+","+activeFilter.lat+"),ST_Point("+(activeFilter.lon+1)+","+(activeFilter.lat + 1)+")),4326))";
 	    }
     	//group bys and orders
-    	query += "  group by " + taxon.getSqlFields() + " order by count(*) desc";
+    	query += " group by " + taxon.getSqlFields() + " order by count(*) desc";
     	
     	$.getJSON(map.getCartoDBApi() + "callback=?", //for JSONP
         {
