@@ -6,8 +6,7 @@ define(['maplayers', 'mapfilters', 'legend', 'cartodb'], function(layers, mapfil
     
     var options = {
         maxZoom: 13,
-        minZoom: 1,
-        attributionControl: false
+        minZoom: 1
     };
     var map = L.map('map', options).setView([29.085599, 0.966797], 4);
 	
@@ -20,6 +19,7 @@ define(['maplayers', 'mapfilters', 'legend', 'cartodb'], function(layers, mapfil
 	  user_name: 'mcnb',
 	  type: 'cartodb',
       cartodb_logo:false,
+      attribution: "MCNB",
 	  sublayers: [{
 	    sql: "SELECT * FROM " + cartoDBTable,
 	    cartocss: '#herbari_cartodb{marker-fill: #FFCC00;marker-width: 10;marker-line-color: #FFF;marker-line-width: 1.5;marker-line-opacity: 1;marker-opacity: 0.9;marker-comp-op: multiply;marker-type: ellipse;marker-placement: point;marker-allow-overlap: true;marker-clip: false;marker-multi-policy: largest; }',
@@ -38,10 +38,11 @@ define(['maplayers', 'mapfilters', 'legend', 'cartodb'], function(layers, mapfil
              $(".mapLoading").hide();
          });
 	     // info window
-	     // if we need a different template: http://requirejs.org/docs/download.html#text
-	     /*var sublayer = layer.getSubLayer(0);
-	     sublayer.infowindow.set('template', $('#infowindow_template').html());*/
 	     cdb.vis.Vis.addInfowindow(map, layer.getSubLayer(0), ['kingdom', 'class', 'family', 'scientificname', 'catalognumber']);
+         
+         //attribution
+         map.attributionControl.setPrefix("Leaflet");
+         
      }).on('error', function(err) {
             console.log('cartoDBerror: ' + err);
      });
