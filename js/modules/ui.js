@@ -44,16 +44,17 @@ define(['i18n', 'taxon', 'map', 'bootstrap'], function(i18n, taxon, map) {
 
         if(level) $(div).append(drawMenuParent(parent, level));
         
+        // title (active taxon): last level has no 'child' element, we use 'children of parent'
+        var active_taxon = (child ? child['name'] : parent['children'][0]['name']);
+        
         if (noresults) {
-            $(div).append(drawTitle(taxon.id));
+            $(div).append(drawTitle(active_taxon));
             var msg = $( "<li/>");
             msg.append(i18n.t(noresults));
             $(div).append(msg);
             return;
         }
         
-        // title (active taxon): last level has no 'child' element, we use 'children of parent'
-        var active_taxon = (child ? child['name'] : parent['children'][0]['name']);
         $(div).append(drawTitle(active_taxon));
 
         if(child && child["children"]) $(div).append(drawMenuChildren(child["children"], level));
