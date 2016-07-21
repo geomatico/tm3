@@ -19,9 +19,13 @@ define(['cartodb'], function() {
 		maxZoom: 20,
 		ext: 'png'
 	});
+    var positron = 	L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+		attribution: '&copy; OpenStreetMap contributors, &copy; CartoDB'
+	});
 	    
 	var baseLayers = {
 	    "Schematic": topo,
+        "Topographic": positron,
 	    "Ortophoto": orto,
 	    "Terrain" : hyddaBase
 	};
