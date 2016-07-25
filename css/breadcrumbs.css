@@ -62,17 +62,27 @@
 }
 
 /* === For tablets ================================== */
-@media (min-width: 768px) and (max-width:991px) {
+@media (min-width: 768px) and (max-width:951px) {
     .btn-breadcrumb > *:nth-last-child(-n+4) {
         display:block;
     } 
     .btn-breadcrumb > * div {
-        max-width: 100px;
+        max-width: 110px;
     }
 }
 
 /* === For desktops ================================== */
-@media (min-width: 992px) {
+@media (min-width: 952px) and (max-width: 1100px) {
+    .btn-breadcrumb > *:nth-last-child(-n+6) {
+        display:block;
+    } 
+    .btn-breadcrumb > * div {
+        max-width: 150px;
+    }
+}
+
+/* === For large screens ============================= */
+@media (min-width: 1101px) {
     .btn-breadcrumb > *:nth-last-child(-n+6) {
         display:block;
     } 

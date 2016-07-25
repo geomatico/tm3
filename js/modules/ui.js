@@ -133,7 +133,10 @@ define(['i18n', 'taxon', 'map', 'bootstrap'], function(i18n, taxon, map) {
     var drawBreadcrumb = function(childArray) {
         level = parseInt(level);// must be a number!
         var html = [];
-        html.push('<a href="#" class="btn"><div>Eukaryota</div></a>');
+        html.push(drawBreadcrumbItem({
+            name: "Eukaryota",
+            id: "Eukaryota",
+            level: 0}));
         html.push('<a href="#"><div class="btn">...</div></a>');
         var ancestry = flatten(childArray);
 		
