@@ -1,57 +1,41 @@
-
-/* Breadcrumbs from http://bootsnipp.com/snippets/featured/triangle-breadcrumbs-arrows */
-.btn-breadcrumb .btn:not(:last-child):after {
-  content: " ";
-  display: block;
-  width: 0;
-  height: 0;
-  border-top: 17px solid transparent;
-  border-bottom: 17px solid transparent;
-  border-left: 10px solid white;
-  position: absolute;
-  top: 50%;
-  margin-top: -17px;
-  left: 100%;
-  z-index: 3;
-}
-.btn-breadcrumb .btn:not(:last-child):before {
-  content: " ";
-  display: block;
-  width: 0;
-  height: 0;
-  border-top: 17px solid transparent;
-  border-bottom: 17px solid transparent;
-  border-left: 10px solid rgb(173, 173, 173);
-  position: absolute;
-  top: 50%;
-  margin-top: -17px;
-  margin-left: 1px;
-  left: 100%;
-  z-index: 3;
+#breadcrumbTaxon > a {
+	padding: 0;
 }
 
-.btn-breadcrumb .btn {
-  padding:6px 12px 6px 24px;
-}
-.btn-breadcrumb .btn:first-child {
-  padding:6px 6px 6px 10px;
-}
-.btn-breadcrumb .btn:last-child {
-  padding:6px 18px 6px 24px;
+#breadcrumbTaxon > a::before {
+    border-bottom: 18px solid transparent;
+    border-left: 10px solid #ddb043;
+    border-top: 18px solid transparent;
+    clear: both;
+    color: transparent;
+    content: "";
+    float: right;
+    height: 37px;
+    left: 0;
+    position: relative;
+    top: 0;
 }
 
-/** Default button **/
-.btn-breadcrumb .btn.btn-default:not(:last-child):after {
-  border-left: 10px solid #fff;
+.breadcrumb > a {margin-right: 10px; float: left }
+
+.breadcrumb > a > div {
+    background: #ddb043 none repeat scroll 0 0;
+    color: #fff;
+    float: left;
+    font-weight: bold;
+    padding: 10px 15px;
+    font-size: 12px;
+	max-height: 37px;
 }
-.btn-breadcrumb .btn.btn-default:not(:last-child):before {
-  border-left: 10px solid #ccc;
+
+.breadcrumb > a:last-child > div {
+	background: #fff;
+	color: #ddb043;
 }
-.btn-breadcrumb .btn.btn-default:hover:not(:last-child):after {
-  border-left: 10px solid #ebebeb;
-}
-.btn-breadcrumb .btn.btn-default:hover:not(:last-child):before {
-  border-left: 10px solid #adadad;
+
+.breadcrumb > a:last-child::before{
+	display: none;
+	max-width: 110px;
 }
 
 /* The responsive part */
@@ -73,7 +57,7 @@
         display:block;
     } 
     .btn-breadcrumb > * div {
-        max-width: 60px;
+        max-width: 80px;
     }
 }
 

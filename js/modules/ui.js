@@ -133,13 +133,13 @@ define(['i18n', 'taxon', 'map', 'bootstrap'], function(i18n, taxon, map) {
     var drawBreadcrumb = function(childArray) {
         level = parseInt(level);// must be a number!
         var html = [];
-        html.push('<a href="#" class="btn btn-default">Eukaryota</a>');
-        html.push('<div class="btn btn-default">...</div>');
+        html.push('<a href="#" class="btn"><div>Eukaryota</div></a>');
+        html.push('<a href="#"><div class="btn">...</div></a>');
         var ancestry = flatten(childArray);
 		
 		for(var k=1; k < ancestry.length; k++) {
 			ancestry[k].level = k;
-            ancestry[k].className = "btn btn-default";
+            ancestry[k].className = "btn";
 			html.push(drawBreadcrumbItem(ancestry[k]));
 		}
 		
