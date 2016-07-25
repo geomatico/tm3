@@ -27,7 +27,7 @@ a:hover{text-decoration: none !important}
 }
 
 
-
+/*
 #breadcrumbTaxon {
 	z-index: 1002;
 	float: left;
@@ -35,7 +35,6 @@ a:hover{text-decoration: none !important}
 	padding: 0;
 	background: none;
 }
-
 
 #breadcrumbTaxon > li::before {
     border-bottom: 18px solid transparent;
@@ -61,15 +60,21 @@ a:hover{text-decoration: none !important}
     float: left;
     font-weight: bold;
     padding: 10px 15px;
-    font-size: 12px
+    font-size: 12px;
+	max-width: 110px;
+	max-height: 37px;
 }
 
 .breadcrumb > li:last-child > a {
 	background: #fff;
 	color: #ddb043;
+	max-width: 110px;
 }
 
-.breadcrumb > li:last-child::before{display: none}
+.breadcrumb > li:last-child::before{
+	display: none;
+	max-width: 110px;
+} */
 
 /* Menu */
 .sidebar-nav li a.active {
@@ -164,7 +169,3 @@ div.cssSelector button {
 	margin-bottom: 10px !important;
 }
 
-/* Hide attribution control */
-.leaflet-control-attribution {
-  display: none;
-}

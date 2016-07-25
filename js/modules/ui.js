@@ -78,19 +78,41 @@ define(['i18n', 'taxon', 'map', 'bootstrap'], function(i18n, taxon, map) {
         return data;
     };
     
+    var drawBreadcrumbItem = function(item) {
+        var link = $( "<a/>", {
+    		href: "#",
+    		"class": item.className });
+		
+		var link = setLink(link, item);
+
+        var div =  $( "<div/>", {
+            html: item.name,
+        }).appendTo(link);
+        
+		return link;
+    };
+    
     var drawMenuItem = function(item) {
-    	
     	var title = item.name + (item.count? " <small>(" + item.count + ")<small>" : "");
 		var li = $( "<li/>");
         var link =  $( "<a/>", {
 		    html: title,
-    		href: "#",
+            href: "#",
     		"class": item.className }).appendTo(li);
-		link.data("id", item.id);
-		link.on("click", function(){
+        
+        link = setLink(link, item);
+        
+		return li;
+    };   
+        
+    var setLink = function(el, item) {
+
+		el.data("id", item.id);
+		el.on("click", function(){
 			setTaxon(new taxon($(this).data("id"), item.level));
 		});
-		return li;    	
+        
+        return el;
     };
     
     var drawMenuParent = function(parent, level) {
@@ -98,7 +120,7 @@ define(['i18n', 'taxon', 'map', 'bootstrap'], function(i18n, taxon, map) {
     };
     
     var updateBreadcrumb = function(div, taxon) {
-    	$(div).html(drawBreadcrumb(taxon.tree, 0, taxon.level));
+    	$(div).html(drawBreadcrumb(taxon.tree));
     };
     
     var flatten = function(children, newArray) {
@@ -108,17 +130,25 @@ define(['i18n', 'taxon', 'map', 'bootstrap'], function(i18n, taxon, map) {
         return flatten(children["children"][0], newArray);
 	};
     
-    var drawBreadcrumb = function(childArray, level, maxlevel) {
+    var drawBreadcrumb = function(childArray) {
         level = parseInt(level);// must be a number!
         var html = [];
+        html.push('<a href="#" class="btn btn-default">Eukaryota</a>');
+        html.push('<div class="btn btn-default">...</div>');
         var ancestry = flatten(childArray);
 		
-		for(var k=0; k < ancestry.length; k++) {
+		for(var k=1; k < ancestry.length; k++) {
 			ancestry[k].level = k;
-			html.push(drawMenuItem(ancestry[k]));
+            ancestry[k].className = "btn btn-default";
+			html.push(drawBreadcrumbItem(ancestry[k]));
 		}
 		
         return html;
+    };
+    
+    var makeBreadcrumbResponsive = function(div) {
+        var ellipses = $(div + " :nth-child(2)");
+        if ($(div + " a:hidden").length >0) {ellipses.show()} else {ellipses.hide()};
     };
 	
 	var updateUI = function(taxon, filter) {
@@ -158,7 +188,14 @@ define(['i18n', 'taxon', 'map', 'bootstrap'], function(i18n, taxon, map) {
                // update Menu 
                 updateMenu("#menuTaxon", taxon);
                 //update breadcrumb
-                updateBreadcrumb("#breadcrumbTaxon", taxon);
+                var div = "#breadcrumbTaxon";
+                updateBreadcrumb(div, taxon);
+                makeBreadcrumbResponsive(div);
+                
+                $(window).resize(function() {
+                    var ellipses = $("#breadcrumbTaxon :nth-child(2)");
+                    if ($("#breadcrumbTaxon a:hidden").length >0) {ellipses.show()} else {ellipses.hide()}
+                });
                 
             //error
             } else if(data.error) {
