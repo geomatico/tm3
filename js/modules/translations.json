@@ -43,21 +43,21 @@
 		"es": "Cancelar",
 		"ca": "Cancel·la"
 	},
-	" Ortophoto": {
-		"es": " Ortofoto",
-		"ca": " Ortofoto"
+	"Ortophoto": {
+		"es": "Ortofoto",
+		"ca": "Ortofoto"
 	},
-	" Schematic": {
+	"Schematic": {
 		"es": " Esquemático",
 		"ca": " Esquemàtic"
 	},
-	" Map": {
-		"es": " Mapa",
-		"ca": " Mapa"
+	"Map": {
+		"es": "Mapa",
+		"ca": "Mapa"
 	},
-	" Terrain": {
-		"es": " Terreno",
-		"ca": " Terreny"
+	"Terrain": {
+		"es": "Terreno",
+		"ca": "Terreny"
 	},
 	"< Parent taxon": {
 		"es": "< Taxón superior",
@@ -82,5 +82,9 @@
 	"No results": {
 		"es": "No hay resultados",
 		"ca": "No s'han trobat resultats"	
+	},
+	"Others": {
+		"es": "Otros",
+		"ca": "Altres"
 	}
 }
