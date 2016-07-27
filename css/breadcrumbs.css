@@ -16,9 +16,16 @@
     top: 0;
 }
 
-.breadcrumb > a {margin-right: 10px; float: left }
+.breadcrumb  a {
+	margin-right: 10px;
+	float: left;
+}
 
-.breadcrumb > a > div {
+.breadcrumb  a:hover {
+	color: #000;
+}
+
+.breadcrumb div {
     background: #ddb043 none repeat scroll 0 0;
     color: #fff;
     float: left;
@@ -36,6 +43,11 @@
 .breadcrumb > a:last-child::before{
 	display: none;
 	max-width: 110px;
+}
+
+.breadcrumb > div.dots {
+	margin-top: 1px;
+	margin-right: 15px;
 }
 
 /* The responsive part */

@@ -136,8 +136,9 @@ define(['i18n', 'taxon', 'map', 'bootstrap'], function(i18n, taxon, map) {
         html.push(drawBreadcrumbItem({
             name: "Eukaryota",
             id: "Eukaryota",
+            className: "btn",
             level: 0}));
-        html.push('<a href="#"><div class="btn">...</div></a>');
+        html.push('<div class="btn dots">...</div>');
         var ancestry = flatten(childArray);
 		
 		for(var k=1; k < ancestry.length; k++) {
