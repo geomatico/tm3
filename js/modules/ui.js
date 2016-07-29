@@ -195,10 +195,8 @@ define(['i18n', 'taxon', 'map', 'bootstrap'], function(i18n, taxon, map) {
                 var div = "#breadcrumbTaxon";
                 updateBreadcrumb(div, taxon);
                 makeBreadcrumbResponsive(div);
-                
                 $(window).resize(function() {
-                    var ellipses = $("#breadcrumbTaxon :nth-child(2)");
-                    if ($("#breadcrumbTaxon a:hidden").length >0) {ellipses.show()} else {ellipses.hide()}
+                    makeBreadcrumbResponsive(div);
                 });
                 
             //error
