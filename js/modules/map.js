@@ -14,6 +14,14 @@ define(['maplayers', 'mapfilters', 'legend', 'cartodb'], function(layers, mapfil
 	var cartoDBApi = 'http://mcnb.cartodb.com/api/v2/sql?';
 	var cartoDBSubLayer;
     
+    
+    // ONLY FOR EXPO! disable attribution links    
+    $(".leaflet-control-attribution").bind('DOMSubtreeModified', function() {
+        $(".leaflet-control-attribution a").click(function(e) {
+            e.preventDefault();
+        });
+    });    
+    
     // create a layer with 1 sublayer
 	cartodb.createLayer(map, {
 	  user_name: 'mcnb',
@@ -40,9 +48,6 @@ define(['maplayers', 'mapfilters', 'legend', 'cartodb'], function(layers, mapfil
 	     // info window
 	     cdb.vis.Vis.addInfowindow(map, layer.getSubLayer(0), ['kingdom', 'class', 'family', 'scientificname', 'catalognumber']);
          
-         //attribution
-         map.attributionControl.setPrefix("Leaflet");
-         
      }).on('error', function(err) {
             console.log('cartoDBerror: ' + err);
      });
@@ -54,7 +59,7 @@ define(['maplayers', 'mapfilters', 'legend', 'cartodb'], function(layers, mapfil
      var createFilter = function(div, callback) {
 		mapfilters.createCircle(div, drawnItems, map, callback);
 	};
-	
+
 	var overlays = layers.getOverlayLayers();
 	var base = layers.getBaseLayers();
 	base['Terrain'].addTo(map);
