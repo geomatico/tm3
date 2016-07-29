@@ -1,7 +1,7 @@
 /**
  * @author Martí Pericay <marti@pericay.com>
  */
-define(['cartodb', 'select'], function() {
+define(['i18n', 'cartodb', 'select'], function(i18n) {
     "use strict";
 
    var phylumLegend = new cdb.geo.ui.Legend.Custom({
@@ -84,7 +84,12 @@ define(['cartodb', 'select'], function() {
             $(sel).change(function() {
                 if(withLegend) setLegend(this.value);
                 sublayer.setCartoCSS(legends[this.value].cartoCSS);
-                //sublayer.infowindow.set('template', legends[this.value].template);
+                
+                // translate legend
+                // should be refactored: this onchange function better be a callback in ui module
+                var leg = document.getElementsByClassName("legend")[0];
+                leg.lang = "en";
+                i18n.translateDocTree(leg);
             });
             
             // make select responsive and mobile-friendly with https://silviomoreto.github.io/bootstrap-select/
