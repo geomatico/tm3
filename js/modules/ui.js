@@ -12,8 +12,8 @@ define(['i18n', 'taxon', 'map', 'bootstrap'], function(i18n, taxon, map) {
     });
 
     // for future API
-    var taxonId = (params.hasOwnProperty('id') ? params.id : 'Eukaryota');
-    var level = (params.hasOwnProperty('level') ? params.level : '0');
+    var taxonId = (params.hasOwnProperty('id') ? params.id : 'Mammalia');
+    var level = (params.hasOwnProperty('level') ? params.level : '3');
     var currentTaxon;
     // for the moment, it's only one filter
     var activeFilter = {};
@@ -158,6 +158,7 @@ define(['i18n', 'taxon', 'map', 'bootstrap'], function(i18n, taxon, map) {
 	var updateUI = function(taxon, filter) {
 		
 		if(!taxon) taxon = currentTaxon;
+
 		//menu loading
 		var loadingDiv = $("<div/>", {
 			"class": "menuLoading" 
@@ -216,6 +217,7 @@ define(['i18n', 'taxon', 'map', 'bootstrap'], function(i18n, taxon, map) {
 	
 	currentTaxon = new taxon(taxonId, level);
 	updateUI(currentTaxon);
+    map.createMap( {where: currentTaxon.getSqlWhere()});
 	map.createFilter("#circleFilter", updateUI);
 	
 	//translate DOM on click
