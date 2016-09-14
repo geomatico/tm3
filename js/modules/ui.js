@@ -40,6 +40,11 @@ define(['i18n', 'taxon', 'map', 'bootstrap'], function(i18n, taxon, map) {
         //delete everything
         $(div).html("");
         
+        if (!taxon.tree) {
+            $(div).append("Taxon doesn't exist");
+            return;
+        }
+        
         var parent = taxon.getParent();
         var child = taxon.getChild();
         var level = taxon.level;
