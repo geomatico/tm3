@@ -10,9 +10,13 @@ define(['maplayers', 'mapfilters', 'legend', 'cartodb'], function(layers, mapfil
     var map;
     
     var createMap = function(options) {
-        map = L.map('map', {maxZoom: 13,minZoom: 1}).setView([29.085599, 0.966797], 4);
         
+        var lat = options.lat ? options.lat : 0;
+        var lon = options.lon ? options.lon : 0;
+        var zoom = options.zoom ? options.zoom : 2;
         var sqlWhere = options.where ? options.where : "";
+        
+        map = L.map('map', {maxZoom: 13,minZoom: 1}).setView([lat, lon], zoom);
         
         // ONLY FOR EXPO! disable attribution links    
         $(".leaflet-control-attribution").bind('DOMSubtreeModified', function() {

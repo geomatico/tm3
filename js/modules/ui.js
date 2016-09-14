@@ -11,9 +11,12 @@ define(['i18n', 'taxon', 'map', 'bootstrap'], function(i18n, taxon, map) {
         params[kv[0]] = kv[1];
     });
 
-    // for future API
+    // for API
     var taxonId = (params.hasOwnProperty('id') ? params.id : 'Mammalia');
     var level = (params.hasOwnProperty('level') ? params.level : '3');
+    var zoom = (params.hasOwnProperty('zoom') ? params.zoom : '4');
+    var lat = (params.hasOwnProperty('lat') ? params.lat : '29.085599');
+    var lon = (params.hasOwnProperty('lon') ? params.lon : '0.966797');
     var currentTaxon;
     // for the moment, it's only one filter
     var activeFilter = {};
@@ -217,7 +220,13 @@ define(['i18n', 'taxon', 'map', 'bootstrap'], function(i18n, taxon, map) {
 	
 	currentTaxon = new taxon(taxonId, level);
 	updateUI(currentTaxon);
-    map.createMap( {where: currentTaxon.getSqlWhere()});
+    var options = {
+        where: currentTaxon.getSqlWhere(),
+        lat: lat,
+        lon: lon,
+        zoom: zoom
+    }
+    map.createMap(options);
 	map.createFilter("#circleFilter", updateUI);
 	
 	//translate DOM on click
