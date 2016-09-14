@@ -11,9 +11,9 @@ define(['maplayers', 'mapfilters', 'legend', 'cartodb'], function(layers, mapfil
     
     var createMap = function(options) {
         
-        var lat = options.lat ? options.lat : 0;
-        var lon = options.lon ? options.lon : 0;
-        var zoom = options.zoom ? options.zoom : 2;
+        var lat = parseInt(options.lat) ? options.lat : 0;
+        var lon = parseInt(options.lon) ? options.lon : 0;
+        var zoom = parseInt(options.zoom) ? parseInt(options.zoom) : 2;
         var sqlWhere = options.where ? options.where : "";
         
         map = L.map('map', {maxZoom: 13,minZoom: 1}).setView([lat, lon], zoom);
