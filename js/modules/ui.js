@@ -14,7 +14,7 @@ define(['i18n', 'taxon', 'map', 'bootstrap'], function(i18n, taxon, map) {
     // for API
     var taxonId = (params.hasOwnProperty('id') ? params.id : 'Mammalia');
     var level = ((params.hasOwnProperty('level') && parseInt(params.level)) ? params.level : '3');
-    var zoom = (params.hasOwnProperty('zoom') ? params.zoom : '4');
+    var zoom = (params.hasOwnProperty('zoom') ? params.zoom : '3');
     var lat = (params.hasOwnProperty('lat') ? params.lat : '29.085599');
     var lon = (params.hasOwnProperty('lon') ? params.lon : '0.966797');
     var currentTaxon;
