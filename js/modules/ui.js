@@ -233,6 +233,13 @@ define(['i18n', 'taxon', 'map', 'bootstrap'], function(i18n, taxon, map) {
     }
     map.createMap(options);
 	map.createFilter("#circleFilter", updateUI);
+    
+    $("#toggle-button").click(function(e) {
+	    e.preventDefault();
+        //needs some logic to be combined with sidebar auto-hiding
+        //$(this).html(">>");
+	    $("#wrapper").toggleClass("toggled");
+	});
 	
 	//translate DOM on click
 	$(document).on("click", ".setLang", function() {
