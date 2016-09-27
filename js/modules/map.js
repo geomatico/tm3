@@ -18,13 +18,6 @@ define(['maplayers', 'mapfilters', 'legend', 'cartodb'], function(layers, mapfil
         
         map = L.map('map', {maxZoom: 13,minZoom: 1}).setView([lat, lon], zoom);
         
-        // ONLY FOR EXPO! disable attribution links    
-        $(".leaflet-control-attribution").bind('DOMSubtreeModified', function() {
-            $(".leaflet-control-attribution a").click(function(e) {
-                e.preventDefault();
-            });
-        }); 
-        
         // create a layer with 1 sublayer
         cartodb.createLayer(map, {
           user_name: 'mcnb',
