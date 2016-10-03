@@ -34,6 +34,24 @@ define(['i18n', 'taxon', 'map', 'bootstrap'], function(i18n, taxon, map) {
     	//update taxon_id
     	currentTaxon = newTaxon;
 	};
+    
+    var updateStats = function(div, taxon) {
+        $(div).html("<br>Under construction");
+    };
+    
+    var updateData = function(div, taxon) {
+
+        $(div).html("<br>");
+        
+        var link =  $( "<a/>", {
+		    html: "Download CSV",
+            href: "#",
+    		"class": "btn btn-default" }).appendTo(div);
+        
+        link.click(function() {
+            map.getQuotes(taxon, activeFilter, 'csv');
+        });
+    };
 	
     var updateMenu = function(div, taxon, noresults) {
 
@@ -200,6 +218,8 @@ define(['i18n', 'taxon', 'map', 'bootstrap'], function(i18n, taxon, map) {
                 taxon.convertFromCartodb(data);
                // update Menu 
                 updateMenu("#menuTaxon", taxon);
+                updateStats("#menuStats", taxon);
+                updateData("#menuData", taxon);
                 //update breadcrumb
                 var div = "#breadcrumbTaxon";
                 updateBreadcrumb(div, taxon);
@@ -220,7 +240,7 @@ define(['i18n', 'taxon', 'map', 'bootstrap'], function(i18n, taxon, map) {
             if (jqXHR.status == "404") msg += "404 (" + map.getCartoDBApi() + " not found)";
             else if(textStatus) msg += errorThrown;
             updateMenu("#menuTaxon", taxon, msg); });
-    	 
+        
 	};
 	
 	currentTaxon = new taxon(taxonId, level);
@@ -240,6 +260,17 @@ define(['i18n', 'taxon', 'map', 'bootstrap'], function(i18n, taxon, map) {
         //$(this).html(">>");
 	    $("#wrapper").toggleClass("toggled");
 	});
+    
+    //tabs
+    $('#sidebarTabs a').click(function (e) {
+        e.preventDefault();
+        $(this).tab("show");
+        $("#menuTaxon").hide();
+        $("#menuStats").hide();
+        $("#menuData").hide();
+        var div = $(this).attr("data");
+        $("#" + div).show();
+    });
 	
 	//translate DOM on click
 	$(document).on("click", ".setLang", function() {

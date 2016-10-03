@@ -76,6 +76,9 @@ define(['maplayers', 'mapfilters', 'legend', 'cartodb'], function(layers, mapfil
        },
        createMap: function(options) {
        		return createMap(options);
+       },
+       getQuotes: function(taxon, filters, format) {
+            return true;
        }
 	};
 	
