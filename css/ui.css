@@ -35,7 +35,10 @@ a:hover{text-decoration: none !important}
 }
 
 #toggle-button {
-	float: left;
+	position: absolute;
+	bottom: 5px;
+	left: 0px;
+	z-index: 2000;
 }
 
 /* Menu */
