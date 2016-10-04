@@ -86,5 +86,17 @@
 	"Others": {
 		"es": "Otros",
 		"ca": "Altres"
+	},
+	"Taxon": {
+		"es": "Taxón",
+		"ca": "Tàxon"
+	},
+	"Stats": {
+		"es": "Estad.",
+		"ca": "Estad."
+	},
+	"Data": {
+		"es": "Datos",
+		"ca": "Dades"
 	}
 }
