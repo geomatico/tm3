@@ -54,6 +54,18 @@ define(['maplayers', 'mapfilters', 'legend', 'cartodb'], function(layers, mapfil
         L.control.layers(base, overlays).addTo(map);
     };
     
+    var getQuotes = function(taxon, filters, format) {
+ 		if(!format) format = "csv";
+        
+        var query = "select " + taxon.getSqlDownload() + " from " + cartoDBTable + " where " + taxon.levelsId[taxon.level] + "='"+taxon.id+"'";
+        if(filters) {
+            //circle, square, field ...
+        }
+        var service = cartoDBApi + "q=" + encodeURIComponent(query) + "&format=" + format;
+        //if(locale) service += "&LANG=" + locale;
+        location.href = service; 
+    };
+    
     // Initialise the FeatureGroup to store editable layers
     var drawnItems = new L.FeatureGroup();
     
@@ -78,7 +90,7 @@ define(['maplayers', 'mapfilters', 'legend', 'cartodb'], function(layers, mapfil
        		return createMap(options);
        },
        getQuotes: function(taxon, filters, format) {
-            return true;
+            return getQuotes(taxon, filters, format);
        }
 	};
 	

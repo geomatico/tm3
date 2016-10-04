@@ -39,17 +39,17 @@ define(['i18n', 'taxon', 'map', 'bootstrap'], function(i18n, taxon, map) {
         $(div).html("<br>Under construction");
     };
     
-    var updateData = function(div, taxon) {
+    var updateData = function(div, taxon, filters) {
 
         $(div).html("<br>");
         
         var link =  $( "<a/>", {
-		    html: "Download CSV",
+		    html: "Download",
             href: "#",
     		"class": "btn btn-default" }).appendTo(div);
         
         link.click(function() {
-            map.getQuotes(taxon, activeFilter, 'csv');
+            map.getQuotes(taxon, filters, 'csv');
         });
     };
 	
@@ -216,10 +216,10 @@ define(['i18n', 'taxon', 'map', 'bootstrap'], function(i18n, taxon, map) {
                 
                 // we must convert from cartodb JSON format (rows) to TaxoMap JSON format (children objects)
                 taxon.convertFromCartodb(data);
-               // update Menu 
+               // update Menus
                 updateMenu("#menuTaxon", taxon);
-                updateStats("#menuStats", taxon);
-                updateData("#menuData", taxon);
+                updateStats("#menuStats", taxon, activeFilter);
+                updateData("#menuData", taxon, activeFilter);
                 //update breadcrumb
                 var div = "#breadcrumbTaxon";
                 updateBreadcrumb(div, taxon);

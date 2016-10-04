@@ -98,5 +98,9 @@
 	"Data": {
 		"es": "Datos",
 		"ca": "Dades"
+	},
+	"Download": {
+		"es": "Descargar",
+		"ca": "Descarregar"
 	}
 }
