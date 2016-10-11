@@ -34,7 +34,7 @@ a:hover{text-decoration: none !important}
 	background: none;
 }
 
-#toggle-button {
+#toggleButton {
 	position: absolute;
 	bottom: 5px;
 	left: 0px;
@@ -134,3 +134,12 @@ div.cssSelector button {
 	margin-bottom: 10px !important;
 }
 
+//search
+.btn-blk{
+    background:transparent;
+    color:#aaa;
+  }
+  
+.btn-blk:hover {
+    color:white
+}
