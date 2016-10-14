@@ -2,7 +2,7 @@
  * @author Martí Pericay <marti@pericay.com>
  */
 
-define(['i18n', 'taxon', 'map', 'bootstrap'], function(i18n, taxon, map) {
+define(['i18n', 'taxon', 'map', 'bootstrap', 'typeahead'], function(i18n, taxon, map) {
     "use strict";
     	
 	var params = {};
@@ -262,8 +262,21 @@ define(['i18n', 'taxon', 'map', 'bootstrap'], function(i18n, taxon, map) {
 	});
     
     //search
-    $('#searchButton').popover();
-    
+    $('#searchButton').popover().on('shown.bs.popover', function () {
+        $('#taxon').typeahead({
+            source: function (query, process) {
+                return $.get(map.getCartoDBApi() + 'q=' + encodeURIComponent(currentTaxon.getSqlSearch(query, map.getCartoDBTable())), function (data) {
+                    //provisional to show sth. We have to add link and format
+                    var array = $.map(data.rows, function(value, index) {
+                        return [value.label];
+                    });
+
+                    return process(array);
+                });
+            }
+        });
+    });
+        
     //tabs
     $('#sidebarTabs a').click(function (e) {
         e.preventDefault();
