@@ -278,6 +278,8 @@ define(['i18n', 'taxon', 'map', 'bootstrap', 'typeahead'], function(i18n, taxon,
     });
         
     //tabs
+    $("#menuStats").hide();
+    $("#menuData").hide();
     $('#sidebarTabs a').click(function (e) {
         e.preventDefault();
         $(this).tab("show");
