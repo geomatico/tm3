@@ -263,16 +263,32 @@ define(['i18n', 'taxon', 'map', 'bootstrap', 'typeahead'], function(i18n, taxon,
     
     //search
     $('#searchButton').popover().on('shown.bs.popover', function () {
+        var results;
         $('#taxon').typeahead({
-            source: function (query, process) {
-                return $.get(map.getCartoDBApi() + 'q=' + encodeURIComponent(currentTaxon.getSqlSearch(query, map.getCartoDBTable())), function (data) {
+            source: function (query, process) {            
+                $.get(map.getCartoDBApi() + 'q=' + encodeURIComponent(currentTaxon.getSqlSearch(query, map.getCartoDBTable())), function (data) {
+                    results = data.rows;
                     //provisional to show sth. We have to add link and format
-                    var array = $.map(data.rows, function(value, index) {
-                        return [value.label];
+                    var array = $.map(results, function(value, index) {
+                        return [value.id]
                     });
-
                     return process(array);
                 });
+            },
+            matcher: function(item) {
+                return true;
+            },
+            highlighter: function(id) {
+                //must be rewritten
+                var result = $.grep(results, function(e){ return e.id == id; });
+                return result[0].label; // + " (" + result[0].id + ")";
+            },
+            updater: function(id) {
+                var result = $.grep(results, function(e){ return e.id == id; });
+                var newTaxon = new taxon(id, result[0].level);
+                setTaxon(newTaxon);
+                //needs double click to hide? TO DO
+                $('#searchButton').popover('hide');
             }
         });
     });
