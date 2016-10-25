@@ -265,6 +265,7 @@ define(['i18n', 'taxon', 'map', 'bootstrap', 'typeahead'], function(i18n, taxon,
     $('#searchButton').popover().on('shown.bs.popover', function () {
         var results;
         var button = this;
+        $("#noresults").hide();
         $('#taxon').typeahead({
             delay: 300,
             dynamic: true,
@@ -275,6 +276,7 @@ define(['i18n', 'taxon', 'map', 'bootstrap', 'typeahead'], function(i18n, taxon,
                     var array = $.map(results, function(value, index) {
                         return [value.id]
                     });
+                    if (array.length == 0) $("#noresults").show(); //no results
                     return process(array);
                 });
             },
@@ -284,7 +286,8 @@ define(['i18n', 'taxon', 'map', 'bootstrap', 'typeahead'], function(i18n, taxon,
             highlighter: function(id) {
                 //must be rewritten
                 var result = $.grep(results, function(e){ return e.id == id; });
-                return result[0].label; // + " (" + result[0].id + ")";
+                $("#noresults").hide();
+                return result[0].label;
             },
             updater: function(id) {
                 var result = $.grep(results, function(e){ return e.id == id; });

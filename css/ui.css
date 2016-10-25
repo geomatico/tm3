@@ -138,8 +138,11 @@ div.cssSelector button {
 .btn-blk{
     background:transparent;
     color:#aaa;
-  }
-  
+  }  
 .btn-blk:hover {
     color:white
+}
+#noresults {
+	display: none;
+	padding: 5px;
 }
