@@ -54,12 +54,17 @@ define(['maplayers', 'mapfilters', 'legend', 'cartodb'], function(layers, mapfil
         L.control.layers(base, overlays).addTo(map);
     };
     
+    var getCircleSQL = function(circle) {
+        return "ST_Distance_Sphere(the_geom, ST_SetSRID(ST_MakePoint("+circle.lon+","+circle.lat+"),4326)) < " + circle.radius;
+    };
+    
     var getQuotes = function(taxon, filters, format) {
  		if(!format) format = "csv";
         
         var query = "select " + taxon.getSqlDownload() + " from " + cartoDBTable + " where " + taxon.levelsId[taxon.level] + "='"+taxon.id+"'";
         if(filters) {
-            //circle, square, field ...
+            //circular filter
+            query += " AND " + getCircleSQL(filters);
         }
         var service = cartoDBApi + "q=" + encodeURIComponent(query) + "&format=" + format;
         //if(locale) service += "&LANG=" + locale;
@@ -85,6 +90,9 @@ define(['maplayers', 'mapfilters', 'legend', 'cartodb'], function(layers, mapfil
        },
        createFilter: function(div, cb) {
        		return createFilter(div, cb);
+       },
+       getCircleSQL: function(circle) {
+            return getCircleSQL(circle)
        },
        createMap: function(options) {
        		return createMap(options);

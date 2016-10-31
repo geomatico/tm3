@@ -193,18 +193,22 @@ define(['i18n', 'taxon', 'map', 'bootstrap', 'typeahead'], function(i18n, taxon,
     	
     	//make the JSON query
     	var query = "SELECT COUNT(*), "+taxon.getSqlFields()+" FROM " + map.getCartoDBTable() + " " + taxon.getSqlWhere();
+        //add total count?
+        //(SELECT COUNT(*) FROM mcnb_prod  where class='Mammalia') AS totalcount
     	//if filter is null or undefined, we don't change it
     	if(!filter) filter = activeFilter;
     	else activeFilter = filter;
     	//if filter is empty, we remove the filter
     	if(Object.keys(filter).length) {
     		//circle query
-    		query += " AND ST_Distance_Sphere(the_geom, ST_SetSRID(ST_MakePoint("+activeFilter.lon+","+activeFilter.lat+"),4326)) < " + activeFilter.radius;
+    		query += " AND "+ map.getCircleSQL(activeFilter);
             //rectangle query
 	    	//query += " AND (the_geom && ST_SetSRID(ST_MakeBox2D(ST_Point("+activeFilter.lon+","+activeFilter.lat+"),ST_Point("+(activeFilter.lon+1)+","+(activeFilter.lat + 1)+")),4326))";
 	    }
     	//group bys and orders
     	query += "  group by " + taxon.getSqlFields() + " order by count(*) desc";
+        
+        //console.log(query);
     	
     	$.getJSON(map.getCartoDBApi() + "callback=?", //for JSONP
         {
