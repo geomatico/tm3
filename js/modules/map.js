@@ -62,7 +62,7 @@ define(['maplayers', 'mapfilters', 'legend', 'cartodb'], function(layers, mapfil
  		if(!format) format = "csv";
         
         var query = "select " + taxon.getSqlDownload() + " from " + cartoDBTable + " where " + taxon.levelsId[taxon.level] + "='"+taxon.id+"'";
-        if(filters) {
+        if(Object.getOwnPropertyNames(filters).length > 0) {
             //circular filter
             query += " AND " + getCircleSQL(filters);
         }

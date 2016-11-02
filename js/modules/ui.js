@@ -199,7 +199,7 @@ define(['i18n', 'taxon', 'map', 'bootstrap', 'typeahead'], function(i18n, taxon,
     	if(!filter) filter = activeFilter;
     	else activeFilter = filter;
     	//if filter is empty, we remove the filter
-    	if(Object.keys(filter).length) {
+    	if (Object.getOwnPropertyNames(filter).length > 0) {
     		//circle query
     		query += " AND "+ map.getCircleSQL(activeFilter);
             //rectangle query
