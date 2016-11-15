@@ -126,3 +126,11 @@
     }
 }
 
+
+
+/**** Auupa 01.11.2016 ****/
+
+#sidebar-wrapper            {height: 85%;}
+#wrapper                    {padding-top: 143px;}
+#sidebar-wrapper            {overflow-y: auto;overflow-x: hidden;}
+.personlalize-header-fix    {margin-bottom: 0px !important;}
