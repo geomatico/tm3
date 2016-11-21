@@ -168,12 +168,7 @@
 
           </ul>
 		  
-		<!-- search -->
-		<a id="searchButton" type="button" class="btn btn-default navbar-btn hidden-xs pull-right btn-link btn-blk" data-toggle="popover" data-placement="bottom" data-html="true" data-content="<form class='form-inline' role='search'><div class='form-group' id='searchTaxon'><input id='taxon' class='form-control typeahead' data-provide='typeahead' placeholder='Search taxon'></div></form><div id='noresults'>No results</div>" data-container="body">
-        <span class="glyphicon glyphicon-search"></span>
-		</a>
-		  		  
-          <!--form class="navbar-form navbar-right">
+		  <!--form class="navbar-form navbar-right">
             <input type="text" class="form-control" placeholder="Search...">
           </form-->
         </div>
@@ -184,6 +179,9 @@
     	
         <!-- Sidebar -->
         <div id="sidebar-wrapper">
+			<ul class="sidebar-nav" id="search">
+        		<form class='form-inline' role='search'><div class='form-group' id='searchTaxon'><input id='taxon' class='form-control typeahead' data-provide='typeahead' placeholder='Search taxon'></div></form><div id='noresults'>No results</div>
+        	</ul>
         	<ul class="sidebar-nav" id="filters">
         		<li id="circleFilter"></li>
         	</ul>

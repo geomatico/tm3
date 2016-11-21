@@ -266,9 +266,8 @@ define(['i18n', 'taxon', 'map', 'bootstrap', 'typeahead'], function(i18n, taxon,
 	});
     
     //search
-    $('#searchButton').popover().on('shown.bs.popover', function () {
+    var createSearch = function() {
         var results;
-        var button = this;
         $("#noresults").hide();
         $('#taxon').typeahead({
             delay: 300,
@@ -297,11 +296,11 @@ define(['i18n', 'taxon', 'map', 'bootstrap', 'typeahead'], function(i18n, taxon,
                 var result = $.grep(results, function(e){ return e.id == id; });
                 var newTaxon = new taxon(id, result[0].level);
                 setTaxon(newTaxon);
-                //needs double click to reopen? Known bug: https://github.com/twbs/bootstrap/issues/16732
-                $(button).popover('hide');
             }
         });
-    });
+    };
+    
+    createSearch();
         
     //tabs
     $("#menuStats").hide();
