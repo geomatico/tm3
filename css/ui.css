@@ -74,6 +74,11 @@ a:hover{text-decoration: none !important}
     display: none;
 }
 
+.sidebar-nav li .downloadLink{
+    /* Marc: to do */
+	color: #F00;
+}
+
 a.parent:hover {background: none !important}
 
 .menuLoading {

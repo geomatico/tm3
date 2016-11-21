@@ -38,20 +38,6 @@ define(['i18n', 'taxon', 'map', 'bootstrap', 'typeahead'], function(i18n, taxon,
     var updateStats = function(div, taxon) {
         $(div).html("<br>Under construction");
     };
-    
-    var updateData = function(div, taxon, filters) {
-
-        $(div).html("<br>");
-        
-        var link =  $( "<a/>", {
-		    html: "Download",
-            href: "#",
-    		"class": "btn btn-default" }).appendTo(div);
-        
-        link.click(function() {
-            map.getQuotes(taxon, filters, 'csv');
-        });
-    };
 	
     var updateMenu = function(div, taxon, noresults) {
 
@@ -72,7 +58,7 @@ define(['i18n', 'taxon', 'map', 'bootstrap', 'typeahead'], function(i18n, taxon,
         
         // title (active taxon): last level has no 'child' element, we use 'children of parent'
         var active_taxon = (child ? child['name'] : parent['children'][0]['name']);
-        
+                
         if (noresults) {
             $(div).append(drawTitle(active_taxon));
             var msg = $( "<li/>");
@@ -82,6 +68,7 @@ define(['i18n', 'taxon', 'map', 'bootstrap', 'typeahead'], function(i18n, taxon,
         }
         
         $(div).append(drawTitle(active_taxon));
+        $(div).append(drawDownload(taxon, activeFilter));
 
         if(child && child["children"]) $(div).append(drawMenuChildren(child["children"], level));
 
@@ -91,6 +78,22 @@ define(['i18n', 'taxon', 'map', 'bootstrap', 'typeahead'], function(i18n, taxon,
     var drawTitle = function(title) {
         var html = "<li><a href='#' class='active'>" + title + "</a></li>";
         return html;
+    }
+    
+    var drawDownload = function(taxon, filters) {
+        var li =  $( "<li/>");
+        
+        var link =  $( "<a/>", {
+		    html: "Download",
+            href: "#",
+            "class": "downloadLink"
+        }).appendTo(li);
+        
+        link.click(function() {
+            map.getQuotes(taxon, filters, 'csv');
+        });
+        
+        return li;
     }
 
     var drawMenuChildren = function(childArray, parentLevel) {
@@ -222,8 +225,6 @@ define(['i18n', 'taxon', 'map', 'bootstrap', 'typeahead'], function(i18n, taxon,
                 taxon.convertFromCartodb(data);
                // update Menus
                 updateMenu("#menuTaxon", taxon);
-                updateStats("#menuStats", taxon, activeFilter);
-                updateData("#menuData", taxon, activeFilter);
                 //update breadcrumb
                 var div = "#breadcrumbTaxon";
                 updateBreadcrumb(div, taxon);
@@ -301,19 +302,6 @@ define(['i18n', 'taxon', 'map', 'bootstrap', 'typeahead'], function(i18n, taxon,
     };
     
     createSearch();
-        
-    //tabs
-    $("#menuStats").hide();
-    $("#menuData").hide();
-    $('#sidebarTabs a').click(function (e) {
-        e.preventDefault();
-        $(this).tab("show");
-        $("#menuTaxon").hide();
-        $("#menuStats").hide();
-        $("#menuData").hide();
-        var div = $(this).attr("data");
-        $("#" + div).show();
-    });
 	
 	//translate DOM on click
 	$(document).on("click", ".setLang", function() {
