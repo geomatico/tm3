@@ -182,9 +182,24 @@
 			<ul class="sidebar-nav" id="search">
         		<form class='form-inline' role='search'><div class='form-group' id='searchTaxon'><input id='taxon' class='form-control typeahead' data-provide='typeahead' placeholder='Search taxon'></div></form><div id='noresults'>No results</div>
         	</ul>
-        	<ul class="sidebar-nav" id="filters">
-        		<li id="circleFilter"></li>
-        	</ul>
+			<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+				<div class="panel panel-default">
+				  <div class="panel-heading" role="tab" id="headingOne">
+					<h4 class="panel-title">
+					  <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+						Filters
+					  </a>
+					</h4>
+				  </div>
+				  <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+					<div class="panel-body">
+					  <ul class="sidebar-nav" id="filters">
+						<li id="circleFilter"></li>
+					</ul>
+					</div>
+				  </div>
+				</div>
+			  </div>
 			
             <ul class="sidebar-nav" id="menuTaxon"></ul>
         </div>
