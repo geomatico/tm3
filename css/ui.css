@@ -100,11 +100,11 @@ a.parent:hover {background: none !important}
 }
 
 /* Filters */
-#filters li {
+#circleFilter {
 	padding: 5px 0;
 }
 
-#filters span{ background: none; border-color: #ccc; border-radius: 0; padding: 11px 0 10px; }
+#circleFilter span{ background: none; border-color: #ccc; border-radius: 0; padding: 11px 0 10px; }
 
 #basic-addon3{
     background: rgba(0, 0, 0, 0) url("../img/cercle.png") no-repeat scroll 15px 11px !important;

@@ -2,7 +2,7 @@
  * @author Martí Pericay <marti@pericay.com>
  */
 
-define(['i18n', 'taxon', 'map', 'bootstrap', 'typeahead'], function(i18n, taxon, map) {
+define(['i18n', 'taxon', 'map', 'bootstrap', 'typeahead', 'select'], function(i18n, taxon, map) {
     "use strict";
     	
 	var params = {};
@@ -258,6 +258,7 @@ define(['i18n', 'taxon', 'map', 'bootstrap', 'typeahead'], function(i18n, taxon,
     }
     map.createMap(options);
 	map.createFilter("#circleFilter", updateUI);
+    $('.selectpicker').selectpicker();
     
     $("#toggleButton").click(function(e) {
 	    e.preventDefault();
