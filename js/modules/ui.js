@@ -257,8 +257,8 @@ define(['i18n', 'taxon', 'map', 'bootstrap', 'typeahead', 'select'], function(i1
         zoom: zoom
     }
     map.createMap(options);
-	map.createFilter("#circleFilter", updateUI);
-    $('.selectpicker').selectpicker();
+	map.createGeoFilter("#circleFilter", updateUI);
+    map.createComboFilter("#fvFilter", updateUI);
     
     $("#toggleButton").click(function(e) {
 	    e.preventDefault();
@@ -277,7 +277,6 @@ define(['i18n', 'taxon', 'map', 'bootstrap', 'typeahead', 'select'], function(i1
             source: function (query, process) {            
                 $.get(map.getCartoDBApi() + 'q=' + encodeURIComponent(currentTaxon.getSqlSearch(query, map.getCartoDBTable())), function (data) {
                     results = data.rows;
-                    //provisional to show sth. We have to add link and format
                     var array = $.map(results, function(value, index) {
                         return [value.id]
                     });

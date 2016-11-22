@@ -74,8 +74,14 @@ define(['maplayers', 'mapfilters', 'legend', 'cartodb'], function(layers, mapfil
     // Initialise the FeatureGroup to store editable layers
     var drawnItems = new L.FeatureGroup();
     
-    var createFilter = function(div, callback) {
+    var createGeoFilter = function(div, callback) {
         mapfilters.createCircle(div, drawnItems, map, callback);
+    };
+    
+    var createComboFilter = function(div, callback) {
+        var query = "select distinct __field__ AS value from " + cartoDBTable;
+        var service = cartoDBApi + "q=" + encodeURIComponent(query);
+        mapfilters.createFieldValue(div, service, callback);
     };
     
 	return {
@@ -88,8 +94,11 @@ define(['maplayers', 'mapfilters', 'legend', 'cartodb'], function(layers, mapfil
        getCartoDBApi: function() {
        		return cartoDBApi;
        },
-       createFilter: function(div, cb) {
-       		return createFilter(div, cb);
+       createGeoFilter: function(div, cb) {
+       		return createGeoFilter(div, cb);
+       },
+       createComboFilter: function(div, cb) {
+       		return createComboFilter(div, cb);
        },
        getCircleSQL: function(circle) {
             return getCircleSQL(circle)

@@ -16,13 +16,47 @@ define(['cartodb', 'leaflet-draw'], function() {
     };
     
     var draw = function(div, type) {
-    	$(div).append('<div class="input-group"><span class="input-group-addon" id="basic-addon3">Round filter</span><span class="input-group-addon"><input type="checkbox" aria-label="Activate taxon"></span></div>');
-    	filters[div] = {"active": false, "data": defaultData};
+    	switch(type) {
+            case "circle":
+                $(div).append('<div class="input-group"><span class="input-group-addon" id="basic-addon3">Round filter</span><span class="input-group-addon"><input type="checkbox" aria-label="Activate taxon"></span></div>');
+                filters[div] = {"active": false, "data": defaultData};
+                break;
+            case "fieldvalue":
+                $(div).append('<select class="selectpicker" id="fieldFilter"><option value="">--select filter--</option><option value="typestatus">Typestatus</option><option value="institutioncode">Institution</option></select><select class="selectpicker" id="valueFilter"><option value="">-</option></select>');
+                filters[div] = {"active": false, "data": ""};
+                $('.selectpicker').selectpicker();
+                break;
+        }
+        
     };
     
     var addCircleFilter = function(div, drawnItems, map, callback) {
 		$(div + " input").on("click", function() {
 			toggleFilter(div, map, drawnItems, callback);
+		});
+    };
+    
+    var addFVEvents = function(div, service, callback) {
+		$(div + " #fieldFilter").on("change", function() {
+            var field = $(div + " #fieldFilter").val();
+            var realService = service.replace("__field__", field);
+
+			$.getJSON(realService + "&callback=?", //for JSONP,
+                function(data){
+                    //got results
+                    if(data && data.total_rows) {
+                        $(div + " #valueFilter").empty();
+                        for(var i = 0; i < data.rows.length; i++) {
+                            if (data.rows[i].value) {
+                                $(div + " #valueFilter").append($('<option>', {
+                                    value: data.rows[i].value,
+                                    text: data.rows[i].value
+                                }));
+                            }
+                        }
+                        $(div + " #valueFilter").selectpicker('refresh');
+                    }
+                });
 		});
     };
     
@@ -80,6 +114,10 @@ define(['cartodb', 'leaflet-draw'], function() {
     	createCircle: function(div, layer, map, callback) {
     		draw(div, 'circle');
     		addCircleFilter(div, layer, map, callback);
+    	},
+        createFieldValue: function(div, service, callback) {
+    		draw(div, 'fieldvalue');
+    		addFVEvents(div, service, callback);
     	}
     };
     		
