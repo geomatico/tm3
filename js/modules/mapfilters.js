@@ -46,6 +46,11 @@ define(['cartodb', 'leaflet-draw'], function() {
                     //got results
                     if(data && data.total_rows) {
                         $(div + " #valueFilter").empty();
+                        // "All" value
+                        $(div + " #valueFilter").append($('<option>', {
+                                value: "",
+                                text: "All"
+                            }));
                         for(var i = 0; i < data.rows.length; i++) {
                             if (data.rows[i].value) {
                                 $(div + " #valueFilter").append($('<option>', {
@@ -58,6 +63,16 @@ define(['cartodb', 'leaflet-draw'], function() {
                     }
                 });
 		});
+        
+        $(div + " #valueFilter").on("change", function() {
+            filters[div].data = {
+    			type: 'fieldvalue',
+	    		field: $(div + " #fieldFilter").val(),
+	    		value: $(div + " #valueFilter").val()
+	    	};
+            filters[div].active = true; 
+            callback(null, filters);
+        });
     };
     
     var getFilter = function(type, layer){
@@ -102,12 +117,12 @@ define(['cartodb', 'leaflet-draw'], function() {
                 layer.editing.enable();
                 layer.on('edit', function(e) {
                 	filters[div].data = getFilter('circle', layer);
-                    callback(null, filters[div].data);
+                    callback(null, filters);
                 });
             });
-    	} 
-    	callback(null, filter);
-    	filters[div].active = !active; 
+    	}
+        filters[div].active = !active; 
+    	callback(null, filters);
     };
     
     return {

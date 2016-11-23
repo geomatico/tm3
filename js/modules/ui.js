@@ -18,8 +18,8 @@ define(['i18n', 'taxon', 'map', 'bootstrap', 'typeahead', 'select'], function(i1
     var lat = (params.hasOwnProperty('lat') ? params.lat : '29.085599');
     var lon = (params.hasOwnProperty('lon') ? params.lon : '0.966797');
     var currentTaxon;
-    // for the moment, it's only one filter
-    var activeFilter = {};
+    // store filters
+    var activeFilters = [];
     
     var setTaxon = function(newTaxon) {
     	
@@ -68,7 +68,7 @@ define(['i18n', 'taxon', 'map', 'bootstrap', 'typeahead', 'select'], function(i1
         }
         
         $(div).append(drawTitle(active_taxon));
-        $(div).append(drawDownload(taxon, activeFilter));
+        $(div).append(drawDownload(taxon, activeFilters));
 
         if(child && child["children"]) $(div).append(drawMenuChildren(child["children"], level));
 
@@ -184,7 +184,7 @@ define(['i18n', 'taxon', 'map', 'bootstrap', 'typeahead', 'select'], function(i1
         if ($(div + " a:hidden").length >0) {ellipses.show()} else {ellipses.hide()};
     };
 	
-	var updateUI = function(taxon, filter) {
+	var updateUI = function(taxon, filters) {
 		
 		if(!taxon) taxon = currentTaxon;
 
@@ -199,15 +199,31 @@ define(['i18n', 'taxon', 'map', 'bootstrap', 'typeahead', 'select'], function(i1
         //add total count?
         //(SELECT COUNT(*) FROM mcnb_prod  where class='Mammalia') AS totalcount
     	//if filter is null or undefined, we don't change it
-    	if(!filter) filter = activeFilter;
-    	else activeFilter = filter;
-    	//if filter is empty, we remove the filter
-    	if (Object.getOwnPropertyNames(filter).length > 0) {
-    		//circle query
-    		query += " AND "+ map.getCircleSQL(activeFilter);
-            //rectangle query
-	    	//query += " AND (the_geom && ST_SetSRID(ST_MakeBox2D(ST_Point("+activeFilter.lon+","+activeFilter.lat+"),ST_Point("+(activeFilter.lon+1)+","+(activeFilter.lat + 1)+")),4326))";
-	    }
+    	if(!filters) filters = activeFilters;
+    	else activeFilters = filters;
+        for (var property in activeFilters) {
+            if (activeFilters.hasOwnProperty(property)) {
+                var filter = activeFilters[property].data;
+                if (activeFilters[property].active) {
+                    switch (filter.type) {
+                        case "circle":
+                            //circle query
+                            query += " AND "+ map.getCircleSQL(filter);
+                            break;
+                        case "rectangle":
+                            //rectangle query
+                            //query += " AND (the_geom && ST_SetSRID(ST_MakeBox2D(ST_Point("+activeFilter.lon+","+activeFilter.lat+"),ST_Point("+(activeFilter.lon+1)+","+(activeFilter.lat + 1)+")),4326))";
+                            break;
+                        case "fieldvalue":
+                            if (filter.value) {
+                                query += " AND "+ filter.field + "='" + filter.value + "'";
+                            }
+                            break;    
+                    }
+                }
+            }
+        }
+    	
     	//group bys and orders
     	query += "  group by " + taxon.getSqlFields() + " order by count(*) desc";
         
