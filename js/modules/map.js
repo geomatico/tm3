@@ -79,7 +79,7 @@ define(['maplayers', 'mapfilters', 'legend', 'cartodb'], function(layers, mapfil
     };
     
     var createComboFilter = function(div, callback) {
-        var query = "select distinct __field__ AS value from " + cartoDBTable;
+        var query = "select distinct __field__ AS value from " + cartoDBTable + " order by __field__";
         var service = cartoDBApi + "q=" + encodeURIComponent(query);
         mapfilters.createFieldValue(div, service, callback);
     };

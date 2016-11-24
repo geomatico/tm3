@@ -39,7 +39,7 @@ define(['cartodb', 'leaflet-draw'], function() {
     var addFVEvents = function(div, service, callback) {
 		$(div + " #fieldFilter").on("change", function() {
             var field = $(div + " #fieldFilter").val();
-            var realService = service.replace("__field__", field);
+            var realService = service.replace(/__field__/g, field);
 
 			$.getJSON(realService + "&callback=?", //for JSONP,
                 function(data){
