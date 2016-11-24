@@ -21,15 +21,17 @@ define(['i18n', 'taxon', 'map', 'bootstrap', 'typeahead', 'select'], function(i1
     // store filters
     var activeFilters = [];
     
-    var setTaxon = function(newTaxon) {
+    var setTaxon = function(newTaxon, filters) {
     	
-		// make sure that taxon is changing
-	    if(currentTaxon && currentTaxon.id == newTaxon.id && currentTaxon.level == newTaxon.level) return;
+		// check if filters are changing
+        if (!newTaxon) newTaxon = currentTaxon;
+	    if (!filters) filters = activeFilters;
     	    	
     	//change the cartoDB taxon layer
-    	map.setSql(newTaxon.getSqlWhere());
+        var query = newTaxon.getSqlWhere() + map.getFiltersSQL(filters, ["fieldvalue"]);
+    	map.setSql(query);
     	
-    	updateUI(newTaxon);
+    	updateUI(newTaxon, filters);
     	
     	//update taxon_id
     	currentTaxon = newTaxon;
@@ -201,28 +203,7 @@ define(['i18n', 'taxon', 'map', 'bootstrap', 'typeahead', 'select'], function(i1
     	//if filter is null or undefined, we don't change it
     	if(!filters) filters = activeFilters;
     	else activeFilters = filters;
-        for (var property in activeFilters) {
-            if (activeFilters.hasOwnProperty(property)) {
-                var filter = activeFilters[property].data;
-                if (activeFilters[property].active) {
-                    switch (filter.type) {
-                        case "circle":
-                            //circle query
-                            query += " AND "+ map.getCircleSQL(filter);
-                            break;
-                        case "rectangle":
-                            //rectangle query
-                            //query += " AND (the_geom && ST_SetSRID(ST_MakeBox2D(ST_Point("+activeFilter.lon+","+activeFilter.lat+"),ST_Point("+(activeFilter.lon+1)+","+(activeFilter.lat + 1)+")),4326))";
-                            break;
-                        case "fieldvalue":
-                            if (filter.value) {
-                                query += " AND "+ filter.field + "='" + filter.value + "'";
-                            }
-                            break;    
-                    }
-                }
-            }
-        }
+        query += map.getFiltersSQL(filters, ["circle", "fieldvalue"]);
     	
     	//group bys and orders
     	query += "  group by " + taxon.getSqlFields() + " order by count(*) desc";
@@ -274,7 +255,7 @@ define(['i18n', 'taxon', 'map', 'bootstrap', 'typeahead', 'select'], function(i1
     }
     map.createMap(options);
 	map.createGeoFilter("#circleFilter", updateUI);
-    map.createComboFilter("#fvFilter", updateUI);
+    map.createComboFilter("#fvFilter", setTaxon);
     
     $("#toggleButton").click(function(e) {
 	    e.preventDefault();
