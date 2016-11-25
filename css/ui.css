@@ -138,7 +138,7 @@ div.cssSelector button {
 	margin-bottom: 10px !important;
 }
 
-//search
+/* Search */
 .btn-blk{
     background:transparent;
     color:#aaa;
@@ -151,6 +151,10 @@ div.cssSelector button {
 	padding: 5px;
 }
 
+/* Modal */		
+#textModal .modal-content {		
+	overflow: auto;		
+}		
 
 
 /**** Auupa 01.11.2016 ****/
