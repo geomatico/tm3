@@ -97,7 +97,7 @@ define(['maplayers', 'mapfilters', 'legend', 'cartodb'], function(layers, mapfil
         var query = "select " + taxon.getSqlDownload() + " from " + cartoDBTable + " where " + taxon.levelsId[taxon.level] + "='"+taxon.id+"'";
         if(Object.getOwnPropertyNames(filters).length > 0) {
             //circular filter
-            query += " AND " + getCircleSQL(filters);
+            query += getFiltersSQL(filters, ["circle", "fieldvalue"]);
         }
         var service = cartoDBApi + "q=" + encodeURIComponent(query) + "&format=" + format;
         //if(locale) service += "&LANG=" + locale;
