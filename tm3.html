@@ -187,10 +187,7 @@
 	        </li>
 
           </ul>
-		  
-		  <!--form class="navbar-form navbar-right">
-            <input type="text" class="form-control" placeholder="Search...">
-          </form-->
+
         </div>
       </div>
     </nav>	
@@ -199,21 +196,15 @@
     	
         <!-- Sidebar -->
         <div id="sidebar-wrapper">
-			<ul class="sidebar-nav" id="search">
-        		<form class='form-inline' role='search'><div class='form-group' id='searchTaxon'><input id='taxon' class='form-control typeahead' data-provide='typeahead' placeholder='Search taxon'></div></form><div id='noresults'>No results</div>
-        	</ul>
 			<div id="accordion" role="tablist" aria-multiselectable="true">
 				<div class="panel panel-default">
-        <!-- Marc: link a tot el panell i no només al títol h4 -->
-          <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-    				  <div class="panel-heading" role="tab" id="headingOne">
-    					<h4 class="panel-title">
-    					  
-    						Filters
-    					  
-    					</h4>
-    				  </div>
-          </a>
+					<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+								<div class="panel-heading" role="tab" id="headingOne">
+								  <h4 class="panel-title">
+									  Filters
+								  </h4>
+								</div>
+					</a>
 				  <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
 					<div class="panel-body">
 					  <div class="sidebar-nav" id="filters">
@@ -225,7 +216,10 @@
 				</div>
 			  </div>
 			
-            <ul class="sidebar-nav" id="menuTaxon"></ul>
+            <ul class="sidebar-nav" id="search">
+        		<form class='form-inline' role='search'><div class='form-group' id='searchTaxon'><input id='taxon' class='form-control typeahead' data-provide='typeahead' placeholder='Search taxon'></div></form><div id='noresults'>No results</div>
+        	</ul>
+			<ul class="sidebar-nav" id="menuTaxon"></ul>
         </div>
         <!-- /#sidebar-wrapper -->
 
