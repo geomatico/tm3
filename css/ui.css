@@ -34,12 +34,29 @@ a:hover{text-decoration: none !important}
 	background: none;
 }
 
+/* Marc: bottom de 5px a -1px, altura 100% i border left */
 #toggleButton {
-	position: absolute;
-	bottom: 5px;
-	left: 0px;
-	z-index: 2000;
+    position: absolute;
+    bottom: -1px;
+    left: 0px;
+    z-index: 2000;
+    height: 100%;
+    border-left: 3px solid #fff;
 }
+
+/* Marc: afegit*/
+#toggleButton a {
+    height: 30px;
+    width: 30px;
+    background: url(../img/menu.png) #fff no-repeat center center;
+    border: none;
+    border-radius: 0;
+    top: calc(50% - 15px);
+    position: absolute;
+    background-size: 15px;
+}
+
+
 
 /* Menu */
 .sidebar-nav li a.active {
@@ -76,8 +93,17 @@ a:hover{text-decoration: none !important}
 
 .sidebar-nav li .downloadLink{
     /* Marc: to do */
-	color: #F00;
+    background: url(../img/download.png) no-repeat;
+    position: absolute;
+    margin-top: -27px;
+    right: 15px;
+    width: 15px;
+    height: 15px;
+    background-size: 15px;
 }
+
+/* Marc: afegit */
+.sidebar-nav li .downloadLink:hover { background: url(../img/download.png) no-repeat; background-size: 15px; }
 
 a.parent:hover {background: none !important}
 
@@ -101,10 +127,18 @@ a.parent:hover {background: none !important}
 
 /* Filters */
 #circleFilter {
-	padding: 5px 0;
+	padding: 0; /* Canvi: de 5px 0 a 0; */
 }
 
-#circleFilter span{ background: none; border-color: #ccc; border-radius: 0; padding: 11px 0 10px; }
+#circleFilter span{ background: none; border-color: #ccc; border-radius: 0; padding: 11px 0 10px;
+ border-top: none; border-right: none; border-left: none; /* Canvi: Eliminar borders*/
+}
+
+/* Canvi: Afegit fins línia 115 */
+#circleFilter span:nth-child(2) {
+    padding-right: 15px;
+    text-align: right;
+}
 
 #basic-addon3{
     background: rgba(0, 0, 0, 0) url("../img/cercle.png") no-repeat scroll 15px 11px !important;
@@ -138,7 +172,8 @@ div.cssSelector button {
 	margin-bottom: 10px !important;
 }
 
-/* Search */
+/* Search */ 
+
 .btn-blk{
     background:transparent;
     color:#aaa;
@@ -151,11 +186,155 @@ div.cssSelector button {
 	padding: 5px;
 }
 
-/* Modal */		
-#textModal .modal-content {		
-	overflow: auto;		
-}		
+/* Marc: Afegit nou fins línia 223 */
+.form-group {
+    width: 100%;
+}
 
+ul.typeahead.dropdown-menu {
+    width: 100%;
+    border-radius: 0;
+    background: #f5f5f5;
+    margin: 0;
+    border: 0;
+    box-shadow: none;
+}
+
+li.active a {
+    background: #ddb043 !important;
+    color: #fff !important;
+}
+
+#noresults {
+    background: rgba(200,100,100,0.7);
+    color: #fff;
+    padding-left: 15px !important;
+}
+
+#taxon {
+    width: 100%;
+    padding: 10px 10px 10px 40px;
+    border: none;
+    background: url(../img/search.png) no-repeat 15px;
+    background-size: 15px;
+    font-size: 12px;
+    color: #777;
+    font-style: italic;
+}
+
+
+/* Filtres */
+
+/* Marc: Afegit nou fins línia 296 */
+
+#headingOne {
+    background: url(../img/filter.png) #333 no-repeat 15px;
+    color: #fff;
+    border: none;
+    border-radius: 0;
+    padding-left: 40px;
+    background-size: 15px;
+}
+
+#headingOne:after {
+    background: url(../img/arrow.png);
+    content: "";
+    height: 10px;
+    position: absolute;
+    width: 10px;
+    right: 15px;
+    margin-top: -10px;
+    background-size: 10px;
+    transform: rotate(180deg);
+    transition: transform 0.2s linear;
+}
+
+a.collapsed #headingOne:after {
+    transform: rotate(0deg);
+    transition: transform 0.2s linear;
+}
+
+h4.panel-title {
+    font-size: 14px;
+}
+
+.panel.panel-default {
+    border: none;
+    border-radius: 0;
+    margin: 0;
+    background: #f5f5f5;
+}
+
+#filters {
+    background: #f5f5f5;
+}
+
+.panel-body {
+    padding: 0 !important;
+}
+
+#fvFilter .dropdown-menu.inner a, #fvFilter .dropdown-menu.inner span.text {
+    padding: 3px 0 !important;
+    display: inherit !important;
+    font-size: 12px;
+}
+
+#fvFilter .btn-group.bootstrap-select:nth-child(1) {
+    margin-bottom: 5px;
+}
+
+#fvFilter .btn-group.bootstrap-select {
+    width: 100% !important;
+}
+
+#fvFilter {
+    padding: 15px;
+}
+
+#fvFilter button.btn.dropdown-toggle.btn-default {
+    font-size: 12px;
+}
+
+
+/* Modal */	
+
+/* Marc: treure border i ombres*/
+#textModal .modal-content {
+    overflow: auto;
+    border-radius: 0;
+    box-shadow: none;
+    border: none;
+}
+
+/* Marc: Afegit fins línea 226 */
+.modal-backdrop.fade.in {
+    background: none;
+}
+
+#textModal {
+    background: rgba(0,0,0,0.6);
+    z-index: 9999999999;
+}
+
+.modal-content {
+    padding: 0;
+    border-radius: 0;
+    box-shadow: none;
+    height: auto !important;
+    max-height: 90vh;
+}
+
+.modal-header, .modal-footer {
+    display: none;
+}
+
+.modal-body { padding: 30px !important; }
+
+.modal-body h3 { margin-top: 0; }
+
+.modal-body iframe {
+    width: 100%;
+}
 
 /**** Auupa 01.11.2016 ****/
 

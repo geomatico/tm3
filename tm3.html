@@ -204,13 +204,16 @@
         	</ul>
 			<div id="accordion" role="tablist" aria-multiselectable="true">
 				<div class="panel panel-default">
-				  <div class="panel-heading" role="tab" id="headingOne">
-					<h4 class="panel-title">
-					  <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-						Filters
-					  </a>
-					</h4>
-				  </div>
+        <!-- Marc: link a tot el panell i no només al títol h4 -->
+          <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+    				  <div class="panel-heading" role="tab" id="headingOne">
+    					<h4 class="panel-title">
+    					  
+    						Filters
+    					  
+    					</h4>
+    				  </div>
+          </a>
 				  <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
 					<div class="panel-body">
 					  <div class="sidebar-nav" id="filters">
@@ -231,7 +234,7 @@
             <div id="map">
             	<div id="legends"></div>
 				<div class="mapLoading"></div>
-				<div id="toggleButton"><a href="#toggle-button" class="btn btn-default">&gt;&gt;</a></div>
+				<div id="toggleButton"><a href="#toggle-button" class="btn btn-default"><!-- Marc: borrar ">>" --></a></div>
             </div>
         </div>
         <!-- /#page-content-wrapper -->

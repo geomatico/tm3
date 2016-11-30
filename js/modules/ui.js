@@ -86,7 +86,7 @@ define(['i18n', 'taxon', 'map', 'text!../../sections/about.ca.html', 'text!../..
         var li =  $( "<li/>");
         
         var link =  $( "<a/>", {
-		    html: "Download",
+		    html: "", // Marc: treure text
             href: "#",
             "class": "downloadLink"
         }).appendTo(li);

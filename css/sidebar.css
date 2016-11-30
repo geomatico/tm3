@@ -55,7 +55,7 @@
 .sidebar-nav {
     /* position: absolute; */
     top: 0;
-    width: 250px;
+    width: auto;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -134,3 +134,8 @@
 #wrapper                    {padding-top: 143px;}
 #sidebar-wrapper            {overflow-y: auto;overflow-x: hidden;}
 .personlalize-header-fix    {margin-bottom: 0px !important;}
+
+
+
+
+
