@@ -92,7 +92,6 @@ a:hover{text-decoration: none !important}
 }
 
 .sidebar-nav li .downloadLink{
-    /* Marc: to do */
     background: url(../img/download.png) no-repeat;
     position: absolute;
     margin-top: -27px;
@@ -102,7 +101,7 @@ a:hover{text-decoration: none !important}
     background-size: 15px;
 }
 
-/* Marc: afegit */
+
 .sidebar-nav li .downloadLink:hover { background: url(../img/download.png) no-repeat; background-size: 15px; }
 
 a.parent:hover {background: none !important}
@@ -131,7 +130,7 @@ a.parent:hover {background: none !important}
 }
 
 #circleFilter span{ background: none; border-color: #ccc; border-radius: 0; padding: 11px 0 10px;
- border-top: none; border-right: none; border-left: none; /* Canvi: Eliminar borders*/
+ border-top: none; border-right: none; border-left: none;
 }
 
 /* Canvi: Afegit fins línia 115 */
@@ -225,8 +224,6 @@ li.active a {
 
 /* Filtres */
 
-/* Marc: Afegit nou fins línia 296 */
-
 #headingOne {
     background: url(../img/filter.png) #333 no-repeat 15px;
     color: #fff;
@@ -298,16 +295,20 @@ h4.panel-title {
 
 /* Modal */	
 
-/* Marc: treure border i ombres*/
 #textModal .modal-content {
     overflow: auto;
     border-radius: 0;
     box-shadow: none;
     border: none;
+    padding: 0;
+    border-radius: 0;
+    box-shadow: none;
+    height: auto !important;
+    max-height: 90vh;	
 }
 
 /* Marc: Afegit fins línea 226 */
-.modal-backdrop.fade.in {
+#textModal .modal-backdrop.fade.in {
     background: none;
 }
 
@@ -316,23 +317,15 @@ h4.panel-title {
     z-index: 9999999999;
 }
 
-.modal-content {
-    padding: 0;
-    border-radius: 0;
-    box-shadow: none;
-    height: auto !important;
-    max-height: 90vh;
-}
-
-.modal-header, .modal-footer {
+#textModal .modal-header, .modal-footer {
     display: none;
 }
 
-.modal-body { padding: 30px !important; }
+#textModal .modal-body { padding: 30px !important; }
 
-.modal-body h3 { margin-top: 0; }
+#textModal .modal-body h3 { margin-top: 0; }
 
-.modal-body iframe {
+#textModal .modal-body iframe {
     width: 100%;
 }
 
