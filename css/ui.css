@@ -48,7 +48,7 @@ a:hover{text-decoration: none !important}
 #toggleButton a {
     height: 30px;
     width: 30px;
-    background: url(../img/menu.png) #fff no-repeat center center;
+    background: url(../img/doblearrow.png) #fff no-repeat center center;
     border: none;
     border-radius: 0;
     top: calc(50% - 15px);
@@ -56,7 +56,9 @@ a:hover{text-decoration: none !important}
     background-size: 15px;
 }
 
-
+#wrapper.toggled #toggleButton a {
+    transform: rotate(180deg);
+}
 
 /* Menu */
 .sidebar-nav li a.active {
@@ -225,7 +227,7 @@ li.active a {
 /* Filtres */
 
 #headingOne {
-    background: url(../img/filter.png) #333 no-repeat 15px;
+    background: url(../img/filter.png) #555 no-repeat 15px;
     color: #fff;
     border: none;
     border-radius: 0;
@@ -317,7 +319,7 @@ h4.panel-title {
     z-index: 9999999999;
 }
 
-#textModal .modal-header, .modal-footer {
+.modal-footer {
     display: none;
 }
 
@@ -327,6 +329,23 @@ h4.panel-title {
 
 #textModal .modal-body iframe {
     width: 100%;
+}
+
+.modal-header.modal-tm3 {
+    position: fixed;
+    padding: 0;
+    right: -30px;
+    width: 20px;
+    border: none;
+    top: 3px;
+}
+
+.modal-tm3 button.close {
+    width: 15px;
+    height: 15px;
+    background: url(../img/close-white.png);
+    background-size: cover;
+    opacity: 1;
 }
 
 /**** Auupa 01.11.2016 ****/
