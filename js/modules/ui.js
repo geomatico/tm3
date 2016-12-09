@@ -210,7 +210,6 @@ define(['i18n', 'taxon', 'map', 'text!../../sections/about.ca.html', 'text!../..
         if(filters) query += map.getFiltersSQL(filters, ["circle", "fieldvalue"]);
         //group bys and orders
     	query += "  group by " + fields + " order by count(*) desc";
-        console.log(query);
         return query;
     };
     
