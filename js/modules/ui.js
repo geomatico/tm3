@@ -2,7 +2,7 @@
  * @author Martí Pericay <marti@pericay.com>
  */
 
-define(['i18n', 'taxon', 'map', 'text!../../sections/about.ca.html', 'text!../../sections/help.ca.html', 'bootstrap', 'typeahead', 'select'], function(i18n, taxon, map, about_ca, help_ca) {
+define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/about.ca.html', 'text!../../sections/help.ca.html', 'bootstrap', 'typeahead', 'select'], function(i18n, taxon, map, search, about_ca, help_ca) {
     "use strict";
     	
 	var params = {};
@@ -32,7 +32,6 @@ define(['i18n', 'taxon', 'map', 'text!../../sections/about.ca.html', 'text!../..
         } else {
             //make the JSON query to get taxon
             var total_query = buildQuery(newTaxon, false, false);
-            console.log(total_query);
             
             makeQuery(total_query, function(data) {
                 if (data.error) {
@@ -300,40 +299,9 @@ define(['i18n', 'taxon', 'map', 'text!../../sections/about.ca.html', 'text!../..
  	})
     
     //search
-    var createSearch = function() {
-        var results;
-        $("#noresults").hide();
-        $('#taxon').typeahead({
-            delay: 300,
-            dynamic: true,
-            source: function (query, process) {            
-                $.get(map.getCartoDBApi() + 'q=' + encodeURIComponent(currentTaxon.getSqlSearch(query, map.getCartoDBTable())), function (data) {
-                    results = data.rows;
-                    var array = $.map(results, function(value, index) {
-                        return [value.id]
-                    });
-                    if (array.length == 0) $("#noresults").show(); //no results
-                    return process(array);
-                });
-            },
-            matcher: function(item) {
-                return true;
-            },
-            highlighter: function(id) {
-                //must be rewritten
-                var result = $.grep(results, function(e){ return e.id == id; });
-                $("#noresults").hide();
-                return result[0].label;
-            },
-            updater: function(id) {
-                var result = $.grep(results, function(e){ return e.id == id; });
-                var newTaxon = new taxon(id, result[0].level);
-                setTaxon(newTaxon);
-            }
-        });
-    };
-    
-    createSearch();
+    search.create({
+        callback: setTaxon
+    });
 	
 	//translate DOM on click
 	$(document).on("click", ".setLang", function() {
