@@ -21,20 +21,38 @@ define(['i18n', 'taxon', 'map', 'text!../../sections/about.ca.html', 'text!../..
     // store filters
     var activeFilters = [];
     
-    var setTaxon = function(newTaxon, filters) {
+    var setTaxon = function(newTaxon, filters, firstload) {
     	
 		// check if filters are changing
-        if (!newTaxon) newTaxon = currentTaxon;
 	    if (!filters) filters = activeFilters;
-    	    	
-    	//change the cartoDB taxon layer
-        var query = newTaxon.getSqlWhere() + map.getFiltersSQL(filters, ["fieldvalue"]);
-    	map.setSql(query);
-    	
-    	updateUI(newTaxon, filters);
-    	
-    	//update taxon_id
-    	currentTaxon = newTaxon;
+        
+        if (!newTaxon) newTaxon = currentTaxon;
+        else {
+            //make the JSON query to get taxon
+            var total_query = buildQuery(newTaxon, false, false);
+            
+            makeQuery(total_query, function(data) {
+                if (data.error) {
+                    if (data.error == "empty") data.error = "Taxon does not exist";
+                    updateMenu("#menuTaxon", taxon, data.error);
+                // we need to update info for new taxon
+                } else { 
+                    // we must convert from cartodb JSON format (rows) to TaxoMap JSON format (children objects)
+                    newTaxon.convertFromCartodb(data);
+                    updateBreadcrumb("#breadcrumbTaxon", newTaxon);
+                }
+            });
+        }
+        
+        if (!firstload) {
+            //change the cartoDB taxon layer
+            var query = newTaxon.getSqlWhere() + map.getFiltersSQL(filters, ["fieldvalue"]);
+            map.setSql(query);
+            updateUI(newTaxon, filters);
+            
+            //update taxon_id
+            currentTaxon = newTaxon;
+        }
 	};
     
     var updateStats = function(div, taxon) {
@@ -45,11 +63,6 @@ define(['i18n', 'taxon', 'map', 'text!../../sections/about.ca.html', 'text!../..
 
         //delete everything
         $(div).html("");
-        
-        if (!taxon.tree) {
-            $(div).append("Taxon doesn't exist");
-            return;
-        }
         
         var parent = taxon.getParent();
         var child = taxon.getChild();
@@ -211,7 +224,7 @@ define(['i18n', 'taxon', 'map', 'text!../../sections/about.ca.html', 'text!../..
                 if(data && data.total_rows) {
                     callback(data);
                 } else {
-                    callback({ error: "No results" });
+                    callback({ error: "empty" });
                 }
             }).error(function(jqXHR, textStatus, errorThrown) {
                 var msg = "An error occured: ";
@@ -235,35 +248,22 @@ define(['i18n', 'taxon', 'map', 'text!../../sections/about.ca.html', 'text!../..
     	if(!filters) filters = activeFilters;
     	else activeFilters = filters;
         
-    	var total_query = buildQuery(taxon, false, false);
-    	
-    	//make the JSON query
-        makeQuery(total_query, function(data) {
+        //query to get children
+        var query = buildQuery(taxon, true, filters);
+        makeQuery(query, function(data) {
             if (data.error) {
-                    updateMenu("#menuTaxon", taxon, data.error);
-            } else { 
-                // we must convert from cartodb JSON format (rows) to TaxoMap JSON format (children objects)
+                if (data.error == "empty") data.error = "No results";
+                updateMenu("#menuTaxon", taxon, data.error);
+            } else {
                 taxon.convertFromCartodb(data);
-                updateBreadcrumb("#breadcrumbTaxon", taxon);
-            
-                //query to get children
-                var query = buildQuery(taxon, true, filters);
-                makeQuery(query, function(data2) {
-                    if (data2.error) {
-                        updateMenu("#menuTaxon", taxon, data2.error);
-                    } else {
-                        taxon.convertFromCartodb(data2);
-                        // update Menu
-                        updateMenu("#menuTaxon", taxon);
-                    }
-                    });
+                // update Menu
+                updateMenu("#menuTaxon", taxon);
             }
-                
         });
 	};
 	
 	currentTaxon = new taxon(taxonId, level);
-	updateUI(currentTaxon);
+	setTaxon(currentTaxon, null, 'firstload');
     var options = {
         where: currentTaxon.getSqlWhere(),
         lat: lat,
