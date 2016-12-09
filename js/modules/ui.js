@@ -200,6 +200,26 @@ define(['i18n', 'taxon', 'map', 'text!../../sections/about.ca.html', 'text!../..
         console.log(query);
         return query;
     };
+    
+    var makeQuery = function(query, callback) {
+        $.getJSON(map.getCartoDBApi() + "callback=?", //for JSONP
+            {
+              q: query
+            },
+            function(data){
+                //got results
+                if(data && data.total_rows) {
+                    callback(data);
+                } else {
+                    callback({ error: "No results" });
+                }
+            }).error(function(jqXHR, textStatus, errorThrown) {
+                var msg = "An error occured: ";
+                if (jqXHR.status == "404") msg += "404 (" + map.getCartoDBApi() + " not found)";
+                else if(textStatus) msg += errorThrown;
+                callback({ error: msg });
+        });
+    };
 	
 	var updateUI = function(taxon, filters) {
 		
@@ -211,54 +231,35 @@ define(['i18n', 'taxon', 'map', 'text!../../sections/about.ca.html', 'text!../..
 		});
 		$("#menuTaxon").html(loadingDiv);
     	
-    	//make the JSON query
-    	
         //if filter is null or undefined, we don't change it
     	if(!filters) filters = activeFilters;
     	else activeFilters = filters;
         
     	var total_query = buildQuery(taxon, false, false);
     	
-    	$.getJSON(map.getCartoDBApi() + "callback=?", //for JSONP
-        {
-          q: total_query
-        },
-        function(data){
-            //got results
-            if(data && data.total_rows) {
+    	//make the JSON query
+        makeQuery(total_query, function(data) {
+            if (data.error) {
+                    updateMenu("#menuTaxon", taxon, data.error);
+            } else { 
                 // we must convert from cartodb JSON format (rows) to TaxoMap JSON format (children objects)
                 taxon.convertFromCartodb(data);
                 updateBreadcrumb("#breadcrumbTaxon", taxon);
-                
-                //query for children
+            
+                //query to get children
                 var query = buildQuery(taxon, true, filters);
-                
-                $.getJSON(map.getCartoDBApi() + "callback=?", //for JSONP
-                        {
-                          q: query
-                        },
-                        function(data2){
-                            //got results
-                            if(data2 && data2.total_rows) {
-                                taxon.convertFromCartodb(data2);
-                                // update Menus
-                                updateMenu("#menuTaxon", taxon);
-                                //no results
-                            } else {
-                                updateMenu("#menuTaxon", taxon, "No results");
-                            }
-                        });
-                
-            //error
-            } else if(data.error) {
-                updateMenu("#menuTaxon", taxon, "An error occured");
+                makeQuery(query, function(data2) {
+                    if (data2.error) {
+                        updateMenu("#menuTaxon", taxon, data2.error);
+                    } else {
+                        taxon.convertFromCartodb(data2);
+                        // update Menu
+                        updateMenu("#menuTaxon", taxon);
+                    }
+                    });
             }
-        }).error(function(jqXHR, textStatus, errorThrown) {
-            var msg = "An error occured: ";
-            if (jqXHR.status == "404") msg += "404 (" + map.getCartoDBApi() + " not found)";
-            else if(textStatus) msg += errorThrown;
-            updateMenu("#menuTaxon", taxon, msg); });
-        
+                
+        });
 	};
 	
 	currentTaxon = new taxon(taxonId, level);
