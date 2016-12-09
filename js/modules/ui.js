@@ -21,15 +21,18 @@ define(['i18n', 'taxon', 'map', 'text!../../sections/about.ca.html', 'text!../..
     // store filters
     var activeFilters = [];
     
-    var setTaxon = function(newTaxon, filters, firstload) {
+    var setTaxon = function(newTaxon, filters) {
     	
 		// check if filters are changing
 	    if (!filters) filters = activeFilters;
         
-        if (!newTaxon) newTaxon = currentTaxon;
-        else {
+        if (!newTaxon) {
+            newTaxon = currentTaxon;
+            updateUI(newTaxon, filters);
+        } else {
             //make the JSON query to get taxon
             var total_query = buildQuery(newTaxon, false, false);
+            console.log(total_query);
             
             makeQuery(total_query, function(data) {
                 if (data.error) {
@@ -40,23 +43,22 @@ define(['i18n', 'taxon', 'map', 'text!../../sections/about.ca.html', 'text!../..
                     // we must convert from cartodb JSON format (rows) to TaxoMap JSON format (children objects)
                     newTaxon.convertFromCartodb(data);
                     updateBreadcrumb("#breadcrumbTaxon", newTaxon);
+                    updateUI(newTaxon, filters);
                 }
             });
         }
         
-        if (!firstload) {
-            //change the cartoDB taxon layer
-            var query = newTaxon.getSqlWhere() + map.getFiltersSQL(filters, ["fieldvalue"]);
-            map.setSql(query);
-            updateUI(newTaxon, filters);
-            
-            //update taxon_id
-            currentTaxon = newTaxon;
-        }
+        //update taxon_id
+        currentTaxon = newTaxon;
 	};
     
-    var updateStats = function(div, taxon) {
-        $(div).html("<br>Under construction");
+    var updateUI = function(newTaxon, filters) {
+        //change the cartoDB taxon layer
+        var query = newTaxon.getSqlWhere() + map.getFiltersSQL(filters, ["fieldvalue"]);
+        map.setSql(query);
+
+        //updateMenus
+        updateMenus(newTaxon, filters);
     };
 	
     var updateMenu = function(div, taxon, noresults) {
@@ -233,7 +235,7 @@ define(['i18n', 'taxon', 'map', 'text!../../sections/about.ca.html', 'text!../..
         });
     };
 	
-	var updateUI = function(taxon, filters) {
+	var updateMenus = function(taxon, filters) {
 		
 		if(!taxon) taxon = currentTaxon;
 
@@ -262,7 +264,7 @@ define(['i18n', 'taxon', 'map', 'text!../../sections/about.ca.html', 'text!../..
 	};
 	
 	currentTaxon = new taxon(taxonId, level);
-	setTaxon(currentTaxon, null, 'firstload');
+	setTaxon(currentTaxon);
     var options = {
         where: currentTaxon.getSqlWhere(),
         lat: lat,
@@ -270,7 +272,7 @@ define(['i18n', 'taxon', 'map', 'text!../../sections/about.ca.html', 'text!../..
         zoom: zoom
     }
     map.createMap(options);
-	map.createGeoFilter("#circleFilter", updateUI);
+	map.createGeoFilter("#circleFilter", updateMenus);
     map.createComboFilter("#fvFilter", setTaxon);
     
     $("#toggleButton").click(function(e) {
