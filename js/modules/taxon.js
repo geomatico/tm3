@@ -42,10 +42,16 @@ define(function () {
 	    }    
 	}
 	
-	Taxon.prototype.getSqlFields = function() {
+	Taxon.prototype.getSqlFields = function(limit) {
+		if (limit) {
+            if (limit == 'parent') limit = this.level;
+			else limit = this.level + 1;
+        } else {
+			limit = this.level + 1;
+		}
 	    var sqlSelect = "";
 	    // we select only until parents and immediate children (if they exist)
-	    for(var i = 0; i <= this.level+1; i++) {
+	    for(var i = 0; i <= limit; i++) {
 	        if(this.levels[i]) {
 	            if(sqlSelect) sqlSelect += ",";
 	            //both levels and levels id

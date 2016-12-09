@@ -152,6 +152,10 @@ define(['i18n', 'taxon', 'map', 'text!../../sections/about.ca.html', 'text!../..
     
     var updateBreadcrumb = function(div, taxon) {
     	$(div).html(drawBreadcrumb(taxon.tree));
+        makeBreadcrumbResponsive(div);
+        $(window).resize(function() {
+            makeBreadcrumbResponsive(div);
+        });
     };
     
     var flatten = function(children, newArray) {
@@ -185,6 +189,17 @@ define(['i18n', 'taxon', 'map', 'text!../../sections/about.ca.html', 'text!../..
         var ellipses = $(div + " :nth-child(2)");
         if ($(div + " a:hidden").length >0) {ellipses.show()} else {ellipses.hide()};
     };
+    
+    var buildQuery = function(taxon, children, filters) {
+        var fields = taxon.getSqlFields('child');
+        if (!children) fields = taxon.getSqlFields('parent');
+        var query = "SELECT COUNT(*), "+ fields +" FROM " + map.getCartoDBTable() + " " + taxon.getSqlWhere();
+        if(filters) query += map.getFiltersSQL(filters, ["circle", "fieldvalue"]);
+        //group bys and orders
+    	query += "  group by " + fields + " order by count(*) desc";
+        console.log(query);
+        return query;
+    };
 	
 	var updateUI = function(taxon, filters) {
 		
@@ -197,45 +212,46 @@ define(['i18n', 'taxon', 'map', 'text!../../sections/about.ca.html', 'text!../..
 		$("#menuTaxon").html(loadingDiv);
     	
     	//make the JSON query
-    	var query = "SELECT COUNT(*), "+taxon.getSqlFields()+" FROM " + map.getCartoDBTable() + " " + taxon.getSqlWhere();
-        //add total count?
-        //(SELECT COUNT(*) FROM mcnb_prod  where class='Mammalia') AS totalcount
-    	//if filter is null or undefined, we don't change it
+    	
+        //if filter is null or undefined, we don't change it
     	if(!filters) filters = activeFilters;
     	else activeFilters = filters;
-        query += map.getFiltersSQL(filters, ["circle", "fieldvalue"]);
-    	
-    	//group bys and orders
-    	query += "  group by " + taxon.getSqlFields() + " order by count(*) desc";
         
-        //console.log(query);
+    	var total_query = buildQuery(taxon, false, false);
     	
     	$.getJSON(map.getCartoDBApi() + "callback=?", //for JSONP
         {
-          q: query
+          q: total_query
         },
         function(data){
             //got results
             if(data && data.total_rows) {
-                
                 // we must convert from cartodb JSON format (rows) to TaxoMap JSON format (children objects)
                 taxon.convertFromCartodb(data);
-               // update Menus
-                updateMenu("#menuTaxon", taxon);
-                //update breadcrumb
-                var div = "#breadcrumbTaxon";
-                updateBreadcrumb(div, taxon);
-                makeBreadcrumbResponsive(div);
-                $(window).resize(function() {
-                    makeBreadcrumbResponsive(div);
-                });
+                updateBreadcrumb("#breadcrumbTaxon", taxon);
+                
+                //query for children
+                var query = buildQuery(taxon, true, filters);
+                
+                $.getJSON(map.getCartoDBApi() + "callback=?", //for JSONP
+                        {
+                          q: query
+                        },
+                        function(data2){
+                            //got results
+                            if(data2 && data2.total_rows) {
+                                taxon.convertFromCartodb(data2);
+                                // update Menus
+                                updateMenu("#menuTaxon", taxon);
+                                //no results
+                            } else {
+                                updateMenu("#menuTaxon", taxon, "No results");
+                            }
+                        });
                 
             //error
             } else if(data.error) {
                 updateMenu("#menuTaxon", taxon, "An error occured");
-            //no results
-            } else {
-                updateMenu("#menuTaxon", taxon, "No results");
             }
         }).error(function(jqXHR, textStatus, errorThrown) {
             var msg = "An error occured: ";
