@@ -8,8 +8,7 @@ define(['jquery', 'map', 'taxon', 'i18n'], function($, map, taxon, i18n) {
     // we store filters here
     var results; 
     
-    var create = function(options) {
-        var callback = options.callback;
+    var create = function(callback) {
         $("#noresults").hide();
         $('#taxon').typeahead({
             delay: 300,

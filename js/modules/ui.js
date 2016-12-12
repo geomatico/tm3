@@ -299,9 +299,7 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/about.ca.html', '
  	})
     
     //search
-    search.create({
-        callback: setTaxon
-    });
+    search.create(setTaxon);
 	
 	//translate DOM on click
 	$(document).on("click", ".setLang", function() {
