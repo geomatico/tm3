@@ -39,7 +39,7 @@ a:hover{text-decoration: none !important}
     position: absolute;
     bottom: -1px;
     left: 0px;
-    z-index: 2000;
+    z-index: 1020;
     height: 100%;
     border-left: 3px solid #fff;
 }
@@ -104,7 +104,14 @@ a:hover{text-decoration: none !important}
 }
 
 
-.sidebar-nav li .downloadLink:hover { background: url(../img/download.png) no-repeat; background-size: 15px; }
+.sidebar-nav li .downloadLink:hover {
+	background: url(../img/download.png) no-repeat;
+	background-size: 15px;
+}
+
+a.downloadFormatList {
+	display: block;
+}
 
 a.parent:hover {background: none !important}
 

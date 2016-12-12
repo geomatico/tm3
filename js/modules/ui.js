@@ -100,17 +100,53 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/about.ca.html', '
         var li =  $( "<li/>");
         
         var link =  $( "<a/>", {
-		    html: "", // Marc: treure text
+		    html: "",
             href: "#",
             "class": "downloadLink"
         }).appendTo(li);
         
-        link.click(function() {
-            map.getQuotes(taxon, filters, 'csv');
+        var pop = drawDownloadPopover(taxon, filters); 
+        
+        link.popover({
+            content: pop,
+            toggle: "popover",
+            container: "body",
+            html: true
         });
         
         return li;
-    }
+    };
+    
+    var drawDownloadPopover = function(taxon, filters) {
+        var downloadFormats = [
+            { name: "Spreadsheet (CSV)", format: "csv"},
+            { name: "Google Earth (KML)", format: "kml"},
+            { name: "GIS software (SHP)", format: "shp"},
+            { name: "Vectorial graphic (SVG)", format: "svg"},
+            { name: "Geometry (GeoJSON)", format: "geoJSON"}
+        ];
+        
+        var pop = $( "<div/>", {
+		    html: ""
+        });
+        
+        var attachEvent = function(item, num) {
+            item.on("click", function() {
+                map.getQuotes(taxon, filters, downloadFormats[num].format);
+            });
+        };
+        
+        for(var i = 0; i < downloadFormats.length; i++) {
+            var csv = $( "<a/>", {
+                html: downloadFormats[i].name,
+                href: "#",
+                "class": "downloadFormatList"
+            }).appendTo(pop);
+            attachEvent(csv, i);
+        }
+        
+        return pop;
+    };
 
     var drawMenuChildren = function(childArray, parentLevel) {
         var level = parseInt(parentLevel) + 1;
