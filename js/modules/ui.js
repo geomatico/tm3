@@ -2,7 +2,7 @@
  * @author Martí Pericay <marti@pericay.com>
  */
 
-define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/about.ca.html', 'text!../../sections/help.ca.html', 'bootstrap', 'typeahead', 'select'], function(i18n, taxon, map, search, about_ca, help_ca) {
+define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text!../../sections/about.ca.html', 'text!../../sections/about.es.html', 'text!../../sections/about.en.html', 'bootstrap', 'typeahead', 'select'], function(i18n, taxon, map, search, help, about_ca, about_es, about_en) {
     "use strict";
     	
 	var params = {};
@@ -320,15 +320,19 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/about.ca.html', '
     // text modal management
  	var texts = {
  		"about": {
- 			"ca": about_ca 
+ 			"ca": about_ca,
+            "es": about_es,
+            "en": about_en 
  		},
  		"help": {
- 			"ca": help_ca 
+ 			"ca": help,
+            "en": help,
+            "es": help
  		}
  	};
  	$(document).on("click", ".open-textModal", function () {
  	     var pageId = $(this).data("id");
- 	     var html = texts[pageId]["ca"];
+ 	     var html = texts[pageId][i18n.getLang()];
  	     $('#textModal .modal-content').css('height',$( window ).height()*0.8);
  	     $("#textModal .modal-body").html(html);
  	     // it is superfluous to have to manually call the modal.
