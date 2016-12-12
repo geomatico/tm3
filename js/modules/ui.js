@@ -111,6 +111,7 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
             content: pop,
             toggle: "popover",
             container: "body",
+            trigger: "focus",
             html: true
         });
         
