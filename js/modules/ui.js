@@ -88,7 +88,8 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
 
         if(child && child["children"]) $(div).append(drawMenuChildren(child["children"], level));
 
-        //$(div + " ul").show(effect, { direction: direction}, 500);
+        //cannot animate because div is not position:absolute
+        //$(div).animate({ left: "+=300" }, 2000);
     };
     
     var drawTitle = function(title) {
