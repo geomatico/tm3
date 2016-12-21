@@ -56,7 +56,7 @@ define(function () {
 	            if(sqlSelect) sqlSelect += ",";
 	            //both levels and levels id
 	            sqlSelect += this.levels[i];
-	            sqlSelect += ","+this.levelsId[i];
+	            if(this.levelsId[i] != this.levels[i]) sqlSelect += ","+this.levelsId[i];
 	        }
 	    }  
 	    
