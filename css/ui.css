@@ -60,6 +60,15 @@ a:hover{text-decoration: none !important}
     transform: rotate(180deg);
 }
 
+@media screen and (max-width: 767px){
+    #toggleButton a {
+    transform: rotate(180deg);
+    }
+    #wrapper.toggled #toggleButton a {
+    transform: rotate(0deg);
+    }
+}
+
 /* Menu */
 .sidebar-nav li a.active {
     background-color: #ddb043;
@@ -111,7 +120,12 @@ a:hover{text-decoration: none !important}
 
 a.downloadFormatList {
 	display: block;
+    color: #333;
+    padding: 5px 10px;
+    font-size: 12px;
 }
+
+a.downloadFormatList:hover { color: #ddb043; }
 
 a.parent:hover {background: none !important}
 
@@ -154,6 +168,19 @@ a.parent:hover {background: none !important}
     padding-top: 8px;
     text-indent: 7px;
     text-transform: uppercase;
+}
+
+#clicker {
+    background: transparent;
+    height: 18px;
+    position: absolute;
+    z-index: 1;
+    width: 18px;
+    margin-left: 14px;
+    opacity: .3;
+    margin-top: 10px;
+    border-radius: 50%;
+    cursor: pointer;
 }
 
 /* Overwrite CartoDB defaults */
@@ -202,10 +229,12 @@ div.cssSelector button {
 ul.typeahead.dropdown-menu {
     width: 100%;
     border-radius: 0;
-    background: #f5f5f5;
+    background: rgba(255,255,255,0.9);
     margin: 0;
     border: 0;
     box-shadow: none;
+    height: 100%;
+    top: 64px !important;
 }
 
 li.active a {
@@ -301,6 +330,29 @@ h4.panel-title {
     font-size: 12px;
 }
 
+#clear-filters {
+    float: right;
+    margin-right: 20px;
+    background: #eee;
+    border-radius: 3px;
+    color: #3f3f3f;
+    padding: 3px 5px;
+    font-size: 11px;
+    margin-top: -1px;
+    cursor: pointer;
+}
+
+#clear-filters > span {
+    float: right;
+    margin-left: 5px;
+    font-size: 13px;
+    line-height: 10px;
+    color: #9E9E9E;
+}
+
+#clear-filters > span:hover {
+    color: #555;
+}
 
 /* Modal */	
 

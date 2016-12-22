@@ -66,6 +66,17 @@
     line-height: 40px;
 }
 
+.sidebar-nav .dropdown-menu li { background: #f5f5f5; }
+
+.sidebar-nav .dropdown-menu li:first-child {
+    padding-top: 5px;
+}
+
+.sidebar-nav .dropdown-menu li:last-child {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+}
+
 .sidebar-nav li a {
     display: block;
     text-decoration: none;
