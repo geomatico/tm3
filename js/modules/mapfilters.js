@@ -88,12 +88,10 @@ define(['cartodb', 'leaflet-draw'], function() {
         return newFilter;
     };
     
-    var getSuitableRadius = function(zoom) {
-        //should be refactored, probably to a continuous function
-        if (zoom < 6) return 800000;
-        else if( zoom < 9) return 100000;
-        else return 20000;
-        
+    var getSuitableRadius = function(map) {
+        var bounds = map.getBounds();
+        var height = bounds._northEast.lat - bounds._southWest.lat;
+        return height * 20000;
     };
     
     var toggleFilter = function(div, map, drawnItems, callback) {
@@ -108,7 +106,7 @@ define(['cartodb', 'leaflet-draw'], function() {
             
             filters[div].data.lat = map.getCenter().lat; //we ignore default values
             filters[div].data.lon = map.getCenter().lng;
-            filters[div].data.radius =  getSuitableRadius(map.getZoom());
+            filters[div].data.radius =  getSuitableRadius(map);
             //draw circle
             var circleCenter = [filters[div].data.lat, filters[div].data.lon];
             var circle = new L.circle(circleCenter, filters[div].data.radius, { clickable: false }).addTo(drawnItems);
