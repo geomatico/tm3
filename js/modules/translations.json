@@ -63,6 +63,18 @@
 		"es": "< Taxón superior",
 		"ca": "< Tàxon superior"	
 	},
+	"Filters": {
+		"es": "Filtros",
+		"ca": "Filtres"	
+	},
+	"Institution": {
+		"es": "Institución",
+		"ca": "Institució"	
+	},
+	"--select filter--": {
+		"es": "--seleccionar filtro--",
+		"ca": "--seleccionar filtre--"	
+	},
 	"Round filter": {
 		"es": "Filtro circular",
 		"ca": "Filtre circular"	
@@ -87,9 +99,17 @@
 		"es": "Otros",
 		"ca": "Altres"
 	},
+	"All": {
+		"es": "Todos",
+		"ca": "Tots"
+	},
 	"Taxon": {
 		"es": "Taxón",
 		"ca": "Tàxon"
+	},
+	"Search taxon": {
+		"es": "Buscar taxón",
+		"ca": "Cercar tàxon"
 	},
 	"Stats": {
 		"es": "Estad.",
@@ -102,5 +122,9 @@
 	"Download": {
 		"es": "Descargar",
 		"ca": "Descarregar"
+	},
+	"Spreadsheet (CSV)": {
+		"es": "Hoja de cálculo (CSV)",
+		"ca": "Full de càlcul (CSV)"
 	}
 }
