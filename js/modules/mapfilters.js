@@ -22,7 +22,7 @@ define(['cartodb', 'leaflet-draw'], function() {
                 filters[div] = {"active": false, "data": defaultData};
                 break;
             case "fieldvalue":
-                $(div).append('<select class="selectpicker" id="fieldFilter"><option value="">--select filter--</option><option value="institutioncode">Institution</option></select><select class="selectpicker" id="valueFilter"><option value="">-</option></select>');
+                $(div).append('<select class="selectpicker" id="fieldFilter" title="-- select filter --"><option value="institutioncode">Institution</option></select><select class="selectpicker" id="valueFilter"><option value="">-</option></select>');
                 filters[div] = {"active": false, "data": ""};
                 $('.selectpicker').selectpicker();
                 break;
