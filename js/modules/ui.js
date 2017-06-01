@@ -12,8 +12,8 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
     });
 
     // for API
-    var taxonId = (params.hasOwnProperty('id') ? params.id : 'Mammalia');
-    var level = ((params.hasOwnProperty('level') && parseInt(params.level)) ? params.level : '3');
+    var taxonId = (params.hasOwnProperty('id') ? params.id : 'Eukaryota');
+    var level = ((params.hasOwnProperty('level') && parseInt(params.level)) ? params.level : '0');
     var zoom = (params.hasOwnProperty('zoom') ? params.zoom : '3');
     var lat = (params.hasOwnProperty('lat') ? params.lat : '29.085599');
     var lon = (params.hasOwnProperty('lon') ? params.lon : '0.966797');

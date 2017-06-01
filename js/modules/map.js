@@ -55,7 +55,7 @@ define(['maplayers', 'mapfilters', 'legend', 'cartodb'], function(layers, mapfil
     };
     
     var getCircleSQL = function(circle) {
-        return "ST_Distance_Sphere(the_geom, ST_SetSRID(ST_MakePoint("+circle.lon+","+circle.lat+"),4326)) < " + circle.radius;
+        return "ST_DWithin(the_geom::geography, ST_SetSRID(ST_MakePoint("+circle.lon+","+circle.lat+"),4326)::geography," + circle.radius + ")";
     };
     
     var getFiltersSQL = function(filters, filterArray) {
