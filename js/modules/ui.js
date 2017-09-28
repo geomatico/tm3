@@ -47,6 +47,9 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
             });
         }
         
+        // clear search
+        $('#noresults').hide();
+        
         //update taxon_id
         currentTaxon = newTaxon;
 	};
@@ -63,7 +66,7 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
     var updateMenu = function(div, taxon, noresults) {
 
         //delete everything
-        $(div).html("");
+        $(div).empty();
         
         var parent = taxon.getParent();
         var child = taxon.getChild();
