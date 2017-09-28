@@ -103,7 +103,8 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
         var link =  $( "<a/>", {
 		    html: "",
             href: "#",
-            "class": "downloadLink"
+            "class": "downloadLink",
+            tabindex: "1"
         }).appendTo(li);
         
         var pop = drawDownloadPopover(taxon, filters); 
