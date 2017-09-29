@@ -80,7 +80,7 @@ define(['maplayers', 'mapfilters', 'legend', 'cartodb'], function(layers, mapfil
                         case "fieldvalue":
                             if (filterArray.indexOf("fieldvalue") != -1) {
                                 if (filter.value) {
-                                    query += " AND "+ filter.field + "='" + filter.value + "'";
+                                    query += " AND "+ filter.field + "='" + filter.value.replace('\x27', '\x27\x27') + "'";
                                 }
                             }
                             break;    
