@@ -164,15 +164,19 @@ define(function () {
 	    return sqlSelect;
 	};
 	
-	Taxon.prototype.getSqlDownload = function() {
+	Taxon.prototype.getSqlDownload = function(format) {
 	    var sqlSelect = "";
 	    for (var prop in this.downloadFields) {
 	        // important check that this is objects own property 
 	        // not from prototype prop inherited
 	        if(this.downloadFields.hasOwnProperty(prop)){
-	          if(sqlSelect) sqlSelect += ", ";
-	          sqlSelect += prop;
-	          if(this.downloadFields[prop]) sqlSelect += " AS \"" + this.downloadFields[prop] + "\"";
+				if (format && format == 'csv' && prop == 'the_geom') {
+                    //hack: avoid the_geom for CSV
+					continue;
+                }
+				if(sqlSelect) sqlSelect += ", ";
+				sqlSelect += prop;
+				if(this.downloadFields[prop]) sqlSelect += " AS \"" + this.downloadFields[prop] + "\"";
 	        }
 	     }
 	    
