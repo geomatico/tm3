@@ -94,7 +94,7 @@ define(['maplayers', 'mapfilters', 'legend', 'cartodb'], function(layers, mapfil
     var getQuotes = function(taxon, filters, format) {
  		if(!format) format = "csv";
         
-        var query = "select " + taxon.getSqlDownload() + " from " + cartoDBTable + " where " + taxon.levelsId[taxon.level] + "='"+taxon.id+"'";
+        var query = "select " + taxon.getSqlDownload(format) + " from " + cartoDBTable + " where " + taxon.levelsId[taxon.level] + "='"+taxon.id+"'";
         if(Object.getOwnPropertyNames(filters).length > 0) {
             //circular filter
             query += getFiltersSQL(filters, ["circle", "fieldvalue"]);
