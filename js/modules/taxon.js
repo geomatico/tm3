@@ -105,7 +105,8 @@ define(function () {
 	    el.count = row["count"];
 	    el.name = row[this.levels[level]];
 		if (this.isIndeterminate(el.id)) {
-            el.name = this.transformIndeterminateName(el.name);
+            var name = row[this.levels[level-1]]; // we use name of parent
+			el.name = this.transformIndeterminateName(name);
         }
 	    el.parent = row[this.levelsId[level-1]]; 
 	    return el;
