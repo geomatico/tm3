@@ -71,6 +71,10 @@
 		"es": "Institución",
 		"ca": "Institució"	
 	},
+	"Basis of record": {
+		"es": "Tipo de registro",
+		"ca": "Tipus de registre"	
+	},
 	"--select filter--": {
 		"es": "--seleccionar filtro--",
 		"ca": "--seleccionar filtre--"	
