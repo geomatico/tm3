@@ -75,9 +75,9 @@
 		"es": "Tipo de registro",
 		"ca": "Tipus de registre"	
 	},
-	"--select filter--": {
-		"es": "--seleccionar filtro--",
-		"ca": "--seleccionar filtre--"	
+	"-- select filter --": {
+		"es": "-- seleccionar filtro --",
+		"ca": "-- seleccionar filtre --"	
 	},
 	"Round filter": {
 		"es": "Filtro circular",
@@ -130,5 +130,17 @@
 	"Spreadsheet (CSV)": {
 		"es": "Hoja de cálculo (CSV)",
 		"ca": "Full de càlcul (CSV)"
+	},
+	"GIS software (SHP)": {
+		"es": "Software SIG (SHP)",
+		"ca": "Software SIG (SHP)"
+	},
+	"Vectorial graphic (SVG)": {
+		"es": "Gráfico vectorial (SVG)",
+		"ca": "Gràfic vectorial (SVG)"
+	},
+	"Geometry (GeoJSON)": {
+		"es": "Geometría (GeoJSON)",
+		"ca": "Geometria (GeoJSON)"
 	}
 }

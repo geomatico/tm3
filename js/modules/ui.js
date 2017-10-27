@@ -152,6 +152,8 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
             attachEvent(csv, i);
         }
         
+        i18n.translateDocTree(pop[0]);
+        
         return pop;
     };
 
