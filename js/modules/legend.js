@@ -14,6 +14,24 @@ define(['i18n', 'cartodb', 'select'], function(i18n) {
           { name: "Others",          value: "#FABB5C" }
         ]
     });
+   
+   var institutionLegend = new cdb.geo.ui.Legend.Custom({
+        title: "Legend",
+        data: [
+          { name: "IBB",  value: "#58A062" },
+          { name: "MVHN", value: "#545FDE" },
+          { name: "IMEDEA", value: "#F02921" },
+          { name: "MCNB", value: "#FABB5C" }
+        ]
+    });   
+   
+   var basisLegend = new cdb.geo.ui.Legend.Custom({
+        title: "Legend",
+        data: [
+          { name: "No fossil",  value: "#58A062" },
+          { name: "Fossil",       value: "#F07971" }
+        ]
+    });   
 
     var intensityLegend = new cdb.geo.ui.Legend.Intensity({
         title: "Legend",
@@ -31,7 +49,18 @@ define(['i18n', 'cartodb', 'select'], function(i18n) {
             cdbLegend: phylumLegend,
             cartoCSS: '#mcnb_dev { marker-fill-opacity: 0.9; marker-line-color: #FFF; marker-line-width: 1; marker-line-opacity: 1; marker-placement: point; marker-type: ellipse; marker-width: 10; marker-allow-overlap: true; #mcnb_dev[phylum="Tracheophyta"] { marker-fill: #58A062;} #mcnb_dev[phylum="Chordata"] { marker-fill: #F07971;}#mcnb_dev[phylum="Mollusca"] { marker-fill: #54BFDE;}#mcnb_dev[phylum="Arthropoda"] { marker-fill: #AAAAAA;}#mcnb_dev { marker-fill: #FABB5C;} }',
             name: "Phylum"
-        }
+        },
+        'basis': {
+            cdbLegend: basisLegend,
+            cartoCSS: '#mcnb_dev { marker-fill-opacity: 0.9; marker-line-color: #FFF; marker-line-width: 1; marker-line-opacity: 1; marker-placement: point; marker-type: ellipse; marker-width: 10; marker-allow-overlap: true; #mcnb_dev[basisofrecord="PreservedSpecimen"] { marker-fill: #58A062;} #mcnb_dev[basisofrecord="FossilSpecimen"] { marker-fill: #F07971;} }',
+            name: "Basis of record"
+        },
+        'institution': {
+            cdbLegend: institutionLegend,
+            cartoCSS: '#mcnb_dev { marker-fill-opacity: 0.9; marker-line-color: #FFF; marker-line-width: 1; marker-line-opacity: 1; marker-placement: point; marker-type: ellipse; marker-width: 10; marker-allow-overlap: true; #mcnb_dev[institutioncode="Institut Botànic de Barcelona"] { marker-fill: #58A062;} #mcnb_dev[institutioncode="Museu Valencià d\'Història Natural"] { marker-fill: #545FDE;}#mcnb_dev[institutioncode="Institut Mediterrani d\'Estudis Avançats"] { marker-fill: #F02921;}#mcnb_dev[institutioncode="Museu Ciències Naturals Barcelona"] { marker-fill: #FABB5C;}#mcnb_dev { marker-fill: #FABB5C;} }',
+            name: "Institution"
+        },
+       
     };
     
     var legendDiv;
