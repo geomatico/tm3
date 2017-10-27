@@ -93,6 +93,7 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
 
         //cannot animate because div is not position:absolute
         //$(div).animate({ left: "+=300" }, 2000);
+        i18n.translateDocTree();
     };
     
     var drawTitle = function(title) {
@@ -353,7 +354,5 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
 		i18n.setLang(langId);
 		i18n.translateDocTree();
 	});
-
-	i18n.translateDocTree();
 	
 });
