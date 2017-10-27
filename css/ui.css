@@ -407,6 +407,17 @@ h4.panel-title {
     opacity: 1;
 }
 
+/* Infowindow */	
+div.cartodb-popup-content {
+	height: 215px!important;
+	max-height: 215px!important;
+}
+
+div.cartodb-popup div.cartodb-popup-content-wrapper {
+	height: 240px;
+	max-height: 240px;
+}
+
 /**** Auupa 01.11.2016 ****/
 
 #subbar {top: 83px;}
