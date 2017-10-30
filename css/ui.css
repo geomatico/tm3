@@ -224,6 +224,7 @@ div.cssSelector button {
 /* Marc: Afegit nou fins línia 223 */
 .form-group {
     width: 100%;
+	position: relative;
 }
 
 ul.typeahead.dropdown-menu {
@@ -258,7 +259,6 @@ li.active a {
     color: #777;
     font-style: italic;
 }
-
 
 /* Filtres */
 
