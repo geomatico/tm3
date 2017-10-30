@@ -52,7 +52,7 @@ define(['i18n', 'cartodb', 'select'], function(i18n) {
         },
         'basis': {
             cdbLegend: basisLegend,
-            cartoCSS: '#mcnb_dev { marker-fill-opacity: 0.9; marker-line-color: #FFF; marker-line-width: 1; marker-line-opacity: 1; marker-placement: point; marker-type: ellipse; marker-width: 10; marker-allow-overlap: true; #mcnb_dev[basisofrecord="PreservedSpecimen"] { marker-fill: #58A062;} #mcnb_dev[basisofrecord="FossilSpecimen"] { marker-fill: #F07971;} }',
+            cartoCSS: '#mcnb_dev { marker-fill-opacity: 0.9; marker-line-color: #FFF; marker-line-width: 1; marker-line-opacity: 1; marker-placement: point; marker-type: ellipse; marker-width: 10; marker-allow-overlap: true; #mcnb_dev[basisofrecord="No fossil"] { marker-fill: #58A062;} #mcnb_dev[basisofrecord="Fossil"] { marker-fill: #F07971;} }',
             name: "Basis of record"
         },
         'institution': {
