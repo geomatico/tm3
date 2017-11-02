@@ -33,7 +33,7 @@ define(['maplayers', 'mapfilters', 'legend', 'cartodb'], function(layers, mapfil
         
         .done(function(layer) {
              cartoDBSubLayer = layer.getSubLayer(0);
-             layer.setZIndex(7);
+             layer.setZIndex(20);
              legend.createSwitcher(map, cartoDBSubLayer, true);
              layer.bind('loading', function() {
                  $(".mapLoading").show()
