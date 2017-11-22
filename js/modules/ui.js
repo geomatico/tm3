@@ -5,10 +5,7 @@
 define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text!../../sections/about.ca.html', 'text!../../sections/about.es.html', 'text!../../sections/about.en.html', 'bootstrap', 'typeahead', 'select'], function(i18n, taxon, map, search, help, about_ca, about_es, about_en) {
     "use strict";
     	
-	//default language
-    i18n.setLang("ca");
-    
-    var params = {};
+	var params = {};
     location.search.substr(1).split("&").forEach(function(item) {
         var kv = item.split("=");
         params[kv[0]] = kv[1];
