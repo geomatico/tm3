@@ -1,7 +1,7 @@
 /**
  * @author Martí Pericay <marti@pericay.com>
  */
-define(['i18n', 'cartodb', 'select'], function(i18n) {
+define(['i18n', 'leaflet', 'select'], function(i18n) {
     "use strict";
 
    var phylumLegend = new cdb.geo.ui.Legend.Custom({

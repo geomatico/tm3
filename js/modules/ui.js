@@ -308,7 +308,7 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
 	};
 	
 	currentTaxon = new taxon(taxonId, level);
-	setTaxon(currentTaxon);
+	//setTaxon(currentTaxon);
     var options = {
         where: currentTaxon.getSqlWhere(),
         lat: lat,
@@ -316,8 +316,8 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
         zoom: zoom
     }
     map.createMap(options);
-	map.createGeoFilter("#circleFilter", updateMenus);
-    map.createComboFilter("#fvFilter", setTaxon);
+	//map.createGeoFilter("#circleFilter", updateMenus);
+    //map.createComboFilter("#fvFilter", setTaxon);
     
     $("#toggleButton").click(function(e) {
 	    e.preventDefault();

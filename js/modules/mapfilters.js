@@ -2,7 +2,7 @@
  * @author Martí Pericay <marti@pericay.com>
  */
 
-define(['cartodb', 'leaflet-draw'], function() {
+define(['leaflet', 'leaflet-draw'], function() {
     "use strict";
     
     // we store filters here

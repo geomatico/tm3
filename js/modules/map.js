@@ -1,7 +1,7 @@
 /**
  * @author Martí Pericay <marti@pericay.com>
  */
-define(['maplayers', 'mapfilters', 'legend', 'cartodb'], function(layers, mapfilters, legend) {
+define(['maplayers', 'mapfilters', 'leaflet'], function(layers, mapfilters) {
     "use strict";
 	
 	var cartoDBTable = 'mcnb_prod';
@@ -18,37 +18,9 @@ define(['maplayers', 'mapfilters', 'legend', 'cartodb'], function(layers, mapfil
         
         map = L.map('map', {maxZoom: 13,minZoom: 1}).setView([lat, lon], zoom);
         
-        // create a layer with 1 sublayer
-        cartodb.createLayer(map, {
-          user_name: 'mcnb',
-          type: 'cartodb',
-          cartodb_logo:false,
-          attribution: "MCNB",
-          sublayers: [{
-            sql: "SELECT * FROM " + cartoDBTable + sqlWhere,
-            cartocss: '#herbari_cartodb{marker-fill: #FFCC00;marker-width: 10;marker-line-color: #FFF;marker-line-width: 1.5;marker-line-opacity: 1;marker-opacity: 0.9;marker-comp-op: multiply;marker-type: ellipse;marker-placement: point;marker-allow-overlap: true;marker-clip: false;marker-multi-policy: largest; }',
-            interactivity: 'cartodb_id'
-          }]
-        }).addTo(map)
-        
-        .done(function(layer) {
-             cartoDBSubLayer = layer.getSubLayer(0);
-             layer.setZIndex(20);
-             legend.createSwitcher(map, cartoDBSubLayer, true);
-             layer.bind('loading', function() {
-                 $(".mapLoading").show()
-             });
-             layer.bind('load',  function() {
-                 $(".mapLoading").hide();
-             });
-             // info window
-             cdb.vis.Vis.addInfowindow(map, layer.getSubLayer(0), ['kingdom', 'class', 'family', 'scientificname', 'catalognumber']);
-             
-         }).on('error', function(err) {
-                console.log('cartoDBerror: ' + err);
-         });
-    
-        var overlays = layers.getOverlayLayers();
+        var gbif = L.tileLayer('https://api.gbif.org/v2/map/occurrence/density/{z}/{x}/{y}@1x.png?style=classic.poly&bin=hex&hexPerTile=70&publishingOrg=e8eada63-4a33-44aa-b2fd-4f71efb222a0');
+        gbif.on("load",function() { $(".mapLoading").hide() }).addTo(map);
+        var overlays = [gbif];
         var base = layers.getBaseLayers();
         base['Terrain'].addTo(map);
         L.control.layers(base, overlays).addTo(map);
