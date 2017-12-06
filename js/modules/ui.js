@@ -2,7 +2,7 @@
  * @author Martí Pericay <marti@pericay.com>
  */
 
-define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text!../../sections/about.ca.html', 'text!../../sections/about.es.html', 'text!../../sections/about.en.html', 'bootstrap', 'typeahead', 'select'], function(i18n, taxon, map, search, help, about_ca, about_es, about_en) {
+define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text!../../sections/about.ca.html', 'text!../../sections/about.es.html', 'text!../../sections/about.en.html', 'sheet', 'bootstrap', 'typeahead', 'select'], function(i18n, taxon, map, search, help, about_ca, about_es, about_en, sheet) {
     "use strict";
     	
 	var params = {};
@@ -337,6 +337,11 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
  			"ca": help,
             "en": help,
             "es": help
+ 		},
+ 		"wiki": {
+ 			"ca": sheet.getHtml(),
+            "en": sheet.getHtml(),
+            "es": sheet.getHtml()
  		}
  	};
  	$(document).on("click", ".open-textModal", function () {
@@ -344,7 +349,6 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
  	     var html = texts[pageId][i18n.getLang()];
  	     $('#textModal .modal-content').css('height',$( window ).height()*0.8);
  	     $("#textModal .modal-body").html(html);
- 	     // it is superfluous to have to manually call the modal.
  	})
     
     //search
