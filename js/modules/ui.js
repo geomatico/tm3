@@ -88,6 +88,7 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
         
         $(div).append(drawTitle(active_taxon));
         $(div).append(drawDownload(taxon, activeFilters));
+        $(div).append(drawSheetLink(child['name']));
 
         if(child && child["children"]) $(div).append(drawMenuChildren(child["children"], level));
 
@@ -100,6 +101,24 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
         var html = "<li><a href='#' class='active'>" + title + "</a></li>";
         return html;
     }
+    
+     var drawSheetLink = function(taxon) {
+        var li =  $( "<li/>");
+        
+        var link =  $( "<a/>", {
+		    html: "",
+            id: "wiki",
+            href: "#",
+            "class": "sheetLink",
+            "data-toggle": "modal",
+            "data-target": "#textModal"
+        }).on('click', function() {
+            $("#textModal .modal-body").html(sheet.getHtml());
+            sheet.showSheet($('#textModal .modal-content'), i18n.getLang(), taxon);
+        }).appendTo(li);
+        
+        return li;
+    };    	     
     
     var drawDownload = function(taxon, filters) {
         var li =  $( "<li/>");
@@ -337,11 +356,6 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
  			"ca": help,
             "en": help,
             "es": help
- 		},
- 		"wiki": {
- 			"ca": sheet.getHtml(),
-            "en": sheet.getHtml(),
-            "es": sheet.getHtml()
  		}
  	};
  	$(document).on("click", ".open-textModal", function () {
