@@ -154,5 +154,13 @@
 	"Geometry (GeoJSON)": {
 		"es": "Geometría (GeoJSON)",
 		"ca": "Geometria (GeoJSON)"
+	},
+	"More info": {
+		"es": "Más información",
+		"ca": "Més informació"
+	},
+	"here": {
+		"es": "aquí",
+		"ca": "aquí"
 	}
 }

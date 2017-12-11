@@ -113,8 +113,7 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
             "data-toggle": "modal",
             "data-target": "#textModal"
         }).on('click', function() {
-            $("#textModal .modal-body").html(sheet.getHtml());
-            sheet.showSheet($('#textModal .modal-content'), i18n.getLang(), taxon);
+            sheet.showSheet($('#textModal .modal-body'), taxon, i18n.getLang());
         }).appendTo(li);
         
         return li;

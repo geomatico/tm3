@@ -1,18 +1,21 @@
 /**
  * @author Martí Pericay <marti@pericay.com>
  */
-define(['jquery'], function($) {
+define(['jquery', 'i18n'], function($, i18n) {
     "use strict";
 	
 	var divWiki;
+    var localeWiki = 'en';
     var wikiApi = "wikipedia.org/wiki/";
     
     var drawWikiSheet = function(div, data){
 	     
          var title = data.parse.title;
          div.find("#title").html(title);
+         var moreinfo = i18n.t("More info");
+         var here = i18n.t("here");
          
-         //div.find("#subtitle").html("More info <a href='http://" + locale + '.' + wikiApi + title + "' target='_blank'>here</a>").show();
+         div.find("#subtitle").html(moreinfo + " <a href='http://" + localeWiki + '.' + wikiApi + title + "' target='_blank'>" + here + "</a>").show();
 
          // get raw HTML text ... but we need to do a few hacks
          div.find("#desc").html(data.parse.text["*"]);
@@ -30,7 +33,6 @@ define(['jquery'], function($) {
          $('#desc .mw-ext-cite-error').remove();
          //remove disambiguations 
          $('#desc .noprint').remove();
-
      };
      
      var drawLinksSheet = function(title){
@@ -54,17 +56,15 @@ define(['jquery'], function($) {
                     '    <img src="img/load.svg" />Loading<br/>',
                     '    <img alt="Wikipedia Logo" src="img/logos/wiki.png" />',
                     ' </div>',
-                '</div>'].join("\n");
-        var footer = '<div id="links"><div id="bottomTitle">More info:</div><a id="wikispecies" target="_blank"><img alt="Wikispecies Logo" title="Consultar Wikispecies" src="img/logos/wikispecies.png" /></a><a id="eol" target="_blank"><img alt="Encyclopedia Of Life Logo" title="Consultar Encyclopedia Of Life" src="img/logos/eol.png" /></a><a id="gbif" target="_blank"><img alt="GBIF Logo" title="Consultar GBIF" src="img/logos/gbif.jpg" /></a></div>';
+                    ' </div>'].join("\n");
+        var footer = '<div id="links"><a id="wikispecies" target="_blank"><img alt="Wikispecies Logo" title="Consultar Wikispecies" src="img/logos/wikispecies.png" /></a><a id="eol" target="_blank"><img alt="Encyclopedia Of Life Logo" title="Consultar Encyclopedia Of Life" src="img/logos/eol.png" /></a><a id="gbif" target="_blank"><img alt="GBIF Logo" title="Consultar GBIF" src="img/logos/gbif.jpg" /></a></div>';
         
         return html + footer;
      };
      
-     var showSheet = function(div, locale, taxon){
+     var getWikiInfo = function(div, taxon){
          
-         divWiki = div;
-         
-         var wiki_url = "http://" + locale + ".wikipedia.org/w/api.php?action=parse&prop=text&section=0&format=json&page="+ taxon + "&contentformat=text%2Fx-wiki&redirects=";
+         var wiki_url = "http://" + localeWiki + ".wikipedia.org/w/api.php?action=parse&prop=text&section=0&format=json&page="+ taxon + "&contentformat=text%2Fx-wiki&redirects=";
              
          $.getJSON(wiki_url+"&callback=?", //for JSONP
             {
@@ -88,14 +88,11 @@ define(['jquery'], function($) {
      };
     
 	return {
-	   drawWikiSheet: function(data) {
-			return drawWikiSheet(divWiki, data);
-       },
-       showSheet: function(div, locale, taxon) {
-			return showSheet(div, locale, taxon);
-       },
-       getHtml: function() {
-			return createSheetDiv();
+       showSheet: function(div, taxon, locale) {
+            divWiki = div;
+            if(locale) localeWiki = locale;
+            $(div).html(createSheetDiv());
+			return getWikiInfo(div, taxon);
        }
 	};
 	
