@@ -113,13 +113,13 @@ a:hover{text-decoration: none !important}
 }
 
 .sidebar-nav li .sheetLink{
-    background: url(../img/wikipedia.svg) no-repeat;
+    background: url(../img/wiki.png) no-repeat;
     position: absolute;
     margin-top: -27px;
     right: 35px;
-    width: 15px;
-    height: 15px;
-    background-size: 15px;
+    width: 17px;
+    height: 17px;
+    background-size: 17px;
 }
 
 
@@ -129,8 +129,8 @@ a:hover{text-decoration: none !important}
 }
 
 .sidebar-nav li .sheetLink:hover{
-    background: url(../img/wikipedia.svg) no-repeat;
-	background-size: 15px;
+    background: url(../img/wiki.png) no-repeat;
+	background-size: 17px;
 }
 
 a.downloadFormatList {
