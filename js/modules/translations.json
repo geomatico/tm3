@@ -162,5 +162,9 @@
 	"here": {
 		"es": "aquí",
 		"ca": "aquí"
+	},
+	"Loading from Wikipedia": {
+		"es": "Cargando desde Wikipedia",
+		"ca": "Carregant des de la Wikipèdia"
 	}
 }

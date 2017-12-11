@@ -433,6 +433,31 @@ div.cartodb-popup div.cartodb-popup-content-wrapper {
 	max-height: 240px;
 }
 
+/* Wiki sheet */
+
+#divSheetModal #title {
+    font-weight:bold;
+    font-size:20pt;
+    padding-bottom: 10px;
+}
+
+#divSheetModal #subtitle {
+    font-weight:bold;
+    font-size:13pt;
+    padding-bottom: 10px;
+}
+
+#divSheetModal #desc {
+    text-align: justify;
+    padding: 10px;
+}
+
+#links img {
+    height: 120px;
+    padding: 20px;
+}
+
+
 /**** Auupa 01.11.2016 ****/
 
 #subbar {top: 83px;}

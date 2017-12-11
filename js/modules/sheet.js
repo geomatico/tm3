@@ -44,16 +44,19 @@ define(['jquery', 'i18n'], function($, i18n) {
      
      var createSheetDiv = function(){
         
+        //TODO: refator! don't build raw html
         var html= ['<div id="divSheetModal">',
                     '<div id="content">',
-                    '    <div id="title">Tàxon</div>',
+                    '    <div id="title"></div>',
                     '    <div id="subtitle"></div>',
                     '    <div id="textColumn">',
                     '        <div id="desc"></div>',
                     '    </div>',
                     ' </div>',
-                    ' <div id="loading">',
-                    '    <img src="img/load.svg" />Loading<br/>',
+                    ' <div id="loading" class="text-center">',
+                    '    <img src="img/load.svg" />',
+                    i18n.t('Loading from Wikipedia'),
+                    '<br/>',
                     '    <img alt="Wikipedia Logo" src="img/logos/wiki.png" />',
                     ' </div>',
                     ' </div>'].join("\n");
@@ -65,6 +68,7 @@ define(['jquery', 'i18n'], function($, i18n) {
      var getWikiInfo = function(div, taxon){
          
          var wiki_url = "http://" + localeWiki + ".wikipedia.org/w/api.php?action=parse&prop=text&section=0&format=json&page="+ taxon + "&contentformat=text%2Fx-wiki&redirects=";
+         div.find("#links").hide();
              
          $.getJSON(wiki_url+"&callback=?", //for JSONP
             {
@@ -80,6 +84,7 @@ define(['jquery', 'i18n'], function($, i18n) {
                     div.find("#subtitle").hide();
                 }
                 div.find("#content").show();
+                div.find("#links").show();
                 div.find("#loading").hide();
                 drawLinksSheet(taxon);
         });
