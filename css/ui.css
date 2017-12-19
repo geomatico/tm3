@@ -102,7 +102,7 @@ a:hover{text-decoration: none !important}
     display: none;
 }
 
-.sidebar-nav li .downloadLink{
+.sidebar-nav span .downloadLink{
     background: url(../img/download.png) no-repeat;
     position: absolute;
     margin-top: -27px;
@@ -112,25 +112,31 @@ a:hover{text-decoration: none !important}
     background-size: 15px;
 }
 
-.sidebar-nav li .sheetLink{
+.sidebar-nav span .sheetLink{
     background: url(../img/wiki.png) no-repeat;
     position: absolute;
     margin-top: -27px;
-    right: 35px;
+    right: 40px;
     width: 17px;
     height: 17px;
     background-size: 17px;
 }
 
-
-.sidebar-nav li .downloadLink:hover {
+.sidebar-nav span .downloadLink:hover {
 	background: url(../img/download.png) no-repeat;
 	background-size: 15px;
 }
 
-.sidebar-nav li .sheetLink:hover{
+.sidebar-nav span .sheetLink:hover{
     background: url(../img/wiki.png) no-repeat;
 	background-size: 17px;
+}
+
+/* Tooltip */
+.links + .tooltip > .tooltip-inner {
+    color: #ddb043;
+	background-color: #F5F5F5;
+    border: 1px solid #AAA;
 }
 
 a.downloadFormatList {

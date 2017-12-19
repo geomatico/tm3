@@ -103,31 +103,35 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
     }
     
      var drawSheetLink = function(taxon) {
-        var li =  $( "<li/>");
+        var li =  $( "<span/>");
         
         var link =  $( "<a/>", {
 		    html: "",
             id: "wiki",
             href: "#",
-            "class": "sheetLink",
+            "class": "sheetLink links",
             "data-toggle": "modal",
             "data-target": "#textModal"
         }).on('click', function() {
             sheet.showSheet($('#textModal .modal-body'), taxon, i18n.getLang());
         }).appendTo(li);
         
+        link.tooltip({"title": i18n.t("Wikipedia sheet")});
+        
         return li;
     };    	     
     
     var drawDownload = function(taxon, filters) {
-        var li =  $( "<li/>");
+        var li =  $( "<span/>");
         
         var link =  $( "<a/>", {
 		    html: "",
             href: "#",
-            "class": "downloadLink",
+            "class": "downloadLink links",
             tabindex: "1"
         }).appendTo(li);
+        
+        link.tooltip({"title": i18n.t("Download selection")});
         
         var pop = drawDownloadPopover(taxon, filters); 
         

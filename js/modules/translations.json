@@ -135,10 +135,6 @@
 		"es": "Datos",
 		"ca": "Dades"
 	},
-	"Download": {
-		"es": "Descargar",
-		"ca": "Descarregar"
-	},
 	"Spreadsheet (CSV)": {
 		"es": "Hoja de cálculo (CSV)",
 		"ca": "Full de càlcul (CSV)"
@@ -162,6 +158,14 @@
 	"here": {
 		"es": "aquí",
 		"ca": "aquí"
+	},
+	"Wikipedia sheet": {
+		"es": "Ficha Wikipedia",
+		"ca": "Fitxa Wikipedia"
+	},
+	"Download selection": {
+		"es": "Descargar selección",
+		"ca": "Descarregar selecció"
 	},
 	"Loading from Wikipedia": {
 		"es": "Cargando desde Wikipedia",
