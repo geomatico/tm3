@@ -1,0 +1,12 @@
+table.externalLegend {	
+	border-collapse: separate;
+	border-spacing: 3px;	
+}
+
+.externalLegend td {
+	min-width: 30px;
+}
+
+img.externalLegend  {
+	height: 450px;
+}

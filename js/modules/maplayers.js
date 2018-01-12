@@ -1,7 +1,7 @@
 /**
  * @author Martí Pericay <marti@pericay.com>
  */
-define(['cartodb'], function() {
+define(['text!../../sections/legends/temp.html', 'text!../../sections/legends/rain.html', 'text!../../sections/legends/landcover.html', 'cartodb'], function(temp_leg, rain_leg, landcover_leg) {
     "use strict";
     	
 	var hyddaBase = L.tileLayer('http://{s}.tile.openstreetmap.se/hydda/base/{z}/{x}/{y}.png', {
@@ -78,17 +78,6 @@ define(['cartodb'], function() {
         tilematrixset: 'GoogleMapsCompatible_Level',
     });
     
-    var NASAGIBS_ModisCorrectedReflectance_Bands = L.tileLayer('https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/MODIS_Aqua_CorrectedReflectance_Bands721/default/2014-04-09/GoogleMapsCompatible_Level9/{z}/{y}/{x}.{format}', {
-        attribution: 'Imagery provided by services from the Global Imagery Browse Services (GIBS), operated by the NASA/GSFC/Earth Science Data and Information System (<a href="https://earthdata.nasa.gov">ESDIS</a>) with funding provided by NASA/HQ.',
-        bounds: [[-85.0511287776, -179.999999975], [85.0511287776, 179.999999975]],
-        minZoom: 1,
-        maxZoom: 7,
-        format: 'jpg',
-        time: '',
-        tilematrixset: 'GoogleMapsCompatible_Level',
-    });
-
-    
     var baseLayers = {
         "Map": positron,
         //"Map2": openTopoMap,
@@ -99,16 +88,25 @@ define(['cartodb'], function() {
         //"Stamen Terrain": stamenTerrain,
         
 	};
+    
+    var buildLegendLink = function(id, page_html) {
+       $(document).on("click", id, function () {
+            $("#textModal .modal-body").html(page_html);
+        });
+    };
 	
 	
 	// Initialise the FeatureGroup to store editable layers
 	var overlayLayers = {
-        "Temperature": temperature,
-        "Rain": rain,
-        "Land cover": euroSpaceAgency
-        //"NASAGIBS_ModisCorrectedReflectance_Bands": NASAGIBS_ModisCorrectedReflectance_Bands,
-		//"NASAGIBS_ModisTerraChlorophyll": NASAGIBS_ModisTerraChlorophyll
+        "Temperature (<a id='tempLeg' data-toggle='modal' href='#textModal'>leg</a>)": temperature,
+        "Rain (<a id='rainLeg' data-toggle='modal' href='#textModal'>leg</a>)": rain,
+        "Land cover (<a id='landLeg' data-toggle='modal' href='#textModal'>leg</a>)": euroSpaceAgency
 	};
+    
+    // external legends
+    buildLegendLink("#tempLeg", temp_leg);
+    buildLegendLink("#rainLeg", rain_leg);
+    buildLegendLink("#landLeg", landcover_leg);
 	
 	return {
 	   getBaseLayers: function() {
