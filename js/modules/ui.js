@@ -71,7 +71,6 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
         var parent = taxon.getParent();
         var child = taxon.getChild();
         var level = taxon.level;
-        //direction = (UI.taxon && (level > UI.taxon.level)) ? "right" : "left";
 
         if(level) $(div).append(drawMenuParent(parent, level));
         
@@ -91,9 +90,7 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
         if(child) $(div).append(drawSheetLink(child['name']));
 
         if(child && child["children"]) $(div).append(drawMenuChildren(child["children"], level));
-
-        //cannot animate because div is not position:absolute
-        //$(div).animate({ left: "+=300" }, 2000);
+        
         i18n.translateDocTree();
     };
     
@@ -303,7 +300,8 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
 	
 	var updateMenus = function(taxon, filters) {
 		
-		if(!taxon) taxon = currentTaxon;
+		//var direction = (taxon && (currentTaxon.level > taxon.level)) ? "right" : "left";
+        if(!taxon) taxon = currentTaxon;
 
 		//menu loading
 		var loadingDiv = $("<div/>", {
@@ -318,6 +316,7 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
         //query to get children
         var query = buildQuery(taxon, true, filters);
         makeQuery(query, function(data) {
+            $('#menuTaxon').hide().show({ direction: 'right' });
             if (data.error) {
                 if (data.error == "empty") data.error = "No results";
                 updateMenu("#menuTaxon", taxon, data.error);
