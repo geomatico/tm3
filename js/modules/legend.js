@@ -117,7 +117,7 @@ define(['i18n', 'cartodb', 'select'], function(i18n) {
                 // translate legend
                 // should be refactored: this onchange function better be a callback in ui module
                 var leg = document.getElementsByClassName("legend")[0];
-                leg.lang = "en";
+                leg.lang = "";
                 i18n.translateDocTree(leg);
             });
             
