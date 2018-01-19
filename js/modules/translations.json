@@ -59,17 +59,17 @@
 		"es": "Terreno",
 		"ca": "Terreny"
 	},
-	"Rain": {
-		"es": "Lluvia",
-		"ca": "Pluja"
+	"Rain (": {
+		"es": "Lluvia (",
+		"ca": "Pluja ("
 	},
-	"Temperature": {
-		"es": "Temperatura",
-		"ca": "Temperatura"
+	"Temperature (": {
+		"es": "Temperatura (",
+		"ca": "Temperatura ("
 	},
-	"Land cover": {
-		"es": "Cubiertas del suelo",
-		"ca": "Cobertes del sòl"
+	"Land cover (": {
+		"es": "Cubiertas del suelo (",
+		"ca": "Cobertes del sòl ("
 	},
 	"< Parent taxon": {
 		"es": "< Taxón superior",
