@@ -365,7 +365,24 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
  	     var html = texts[pageId][i18n.getLang()];
  	     $('#textModal .modal-content').css('height',$( window ).height()*0.8);
  	     $("#textModal .modal-body").html(html);
- 	})
+ 	});
+    
+    var stopVideo = function (element) {
+        var iframe = element.querySelector('iframe');
+        var video = element.querySelector('video');
+        if (iframe) {
+            var iframeSrc = iframe.src;
+            iframe.src = iframeSrc;
+        }
+        if (video) {
+            video.pause();
+        }
+    };
+    
+    //stop video when closing modal
+    $('#textModal').on('hidden.bs.modal', function () {
+       stopVideo(document.getElementById('textModal'));
+     });    
     
     //search
     search.create("#taxon", "#noresults", setTaxon);
