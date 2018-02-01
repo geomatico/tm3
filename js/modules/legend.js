@@ -91,6 +91,18 @@ define(['i18n', 'cartodb', 'select'], function(i18n) {
         $(legendDiv).empty();
         $(legendDiv).append(legends[sym].cdbLegend.render().el);
     }
+    
+    var disableDragging = function(element, map) {
+        // Disable dragging when user's cursor enters the element
+        element.addEventListener('mouseover', function () {
+            map.dragging.disable();
+        });
+    
+        // Re-enable dragging when user's cursor leaves the element
+        element.addEventListener('mouseout', function () {
+            map.dragging.enable();
+        });        
+    }
 
     var createSwitcher = function(map, sublayer, withLegend) {    
         var switcher = L.control({position: "bottomright"});
@@ -109,6 +121,8 @@ define(['i18n', 'cartodb', 'select'], function(i18n) {
                     option.selected = "selected";
                 }
             });
+            
+            disableDragging(combolegend, map);
             
             $(sel).change(function() {
                 if(withLegend) setLegend(this.value);
