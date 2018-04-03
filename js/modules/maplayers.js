@@ -1,7 +1,7 @@
 /**
  * @author Martí Pericay <marti@pericay.com>
  */
-define(['text!../../sections/legends/landcover.html', 'cartodb'], function(landcover_leg) {
+define(['text!../../sections/legends/temp.html', 'text!../../sections/legends/rain.html', 'text!../../sections/legends/landcover.html', 'cartodb'], function(temp_leg, rain_leg, landcover_leg) {
     "use strict";
     	
 	var hyddaBase = L.tileLayer('http://{s}.tile.openstreetmap.se/hydda/base/{z}/{x}/{y}.png', {
@@ -31,6 +31,20 @@ define(['text!../../sections/legends/landcover.html', 'cartodb'], function(landc
      //create additional overlays
      var hillshade2 =  L.tileLayer.wms("http://www.opengis.uab.cat/cgi-bin/world/MiraMon.cgi?", {
 		layers: 'glcc-world',
+		format: 'image/png'
+		//opacity: 0.40,
+		//transparent: true
+	});
+		
+	var temperature =  L.tileLayer.wms("http://spatial-dev.ala.org.au/geoserver/wms?", {
+		layers: 'worldclim_bio_5',
+		format: 'image/png'
+		//opacity: 0.40,
+		//transparent: true
+	});
+		
+	var rain =  L.tileLayer.wms("http://spatial-dev.ala.org.au/geoserver/wms?", {
+		layers: 'worldclim_bio_12',
 		format: 'image/png'
 		//opacity: 0.40,
 		//transparent: true
@@ -70,7 +84,9 @@ define(['text!../../sections/legends/landcover.html', 'cartodb'], function(landc
 	    "Ortophoto": orto,
         //"Toner": stamenToner,
 	    "Terrain" : stamenTerrain,
-        //"Hillshade": hillshade2
+        //"Hillshade": hillshade2,
+        //"Stamen Terrain": stamenTerrain,
+        
 	};
     
     var buildLegendLink = function(id, page_html) {
@@ -82,10 +98,14 @@ define(['text!../../sections/legends/landcover.html', 'cartodb'], function(landc
 	
 	// Initialise the FeatureGroup to store editable layers
 	var overlayLayers = {
+        "Temperature (<a id='tempLeg' data-toggle='modal' href='#textModal'>leg</a>)": temperature,
+        "Rain (<a id='rainLeg' data-toggle='modal' href='#textModal'>leg</a>)": rain,
         "Land cover (<a id='landLeg' data-toggle='modal' href='#textModal'>leg</a>)": euroSpaceAgency
 	};
     
     // external legends
+    buildLegendLink("#tempLeg", temp_leg);
+    buildLegendLink("#rainLeg", rain_leg);
     buildLegendLink("#landLeg", landcover_leg);
 	
 	return {
