@@ -36,14 +36,14 @@ define(['text!../../sections/legends/temp.html', 'text!../../sections/legends/ra
 		//transparent: true
 	});
 		
-	var temperature =  L.tileLayer.wms("http://spatial-dev.ala.org.au/geoserver/wms?", {
+	var temperature =  L.tileLayer.wms("http://spatial.ala.org.au/geoserver/wms?", {
 		layers: 'worldclim_bio_5',
 		format: 'image/png'
 		//opacity: 0.40,
 		//transparent: true
 	});
 		
-	var rain =  L.tileLayer.wms("http://spatial-dev.ala.org.au/geoserver/wms?", {
+	var rain =  L.tileLayer.wms("http://spatial.ala.org.au/geoserver/wms?", {
 		layers: 'worldclim_bio_12',
 		format: 'image/png'
 		//opacity: 0.40,
