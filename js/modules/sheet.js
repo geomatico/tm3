@@ -1,7 +1,7 @@
 /**
  * @author Martí Pericay <marti@pericay.com>
  */
-define(['jquery', 'i18n'], function($, i18n) {
+define(['jquery', 'i18n', 'mustache'], function($, i18n) {
     "use strict";
 	
 	var divWiki;
@@ -44,7 +44,6 @@ define(['jquery', 'i18n'], function($, i18n) {
      
      var createSheetDiv = function(){
         
-        //TODO: refator! don't build raw html
         var html= ['<div id="divSheetModal">',
                     '<div id="content">',
                     '    <div id="title"></div>',
@@ -55,14 +54,19 @@ define(['jquery', 'i18n'], function($, i18n) {
                     ' </div>',
                     ' <div id="loading" class="text-center">',
                     '    <img src="img/load.svg" />',
-                    i18n.t('Loading from Wikipedia'),
+                    '{{loadingtext}}',
                     '<br/>',
                     '    <img alt="Wikipedia Logo" src="img/logos/wiki.png" />',
                     ' </div>',
                     ' </div>'].join("\n");
+        
+        var data = {
+            loadingtext: i18n.t('Loading from Wikipedia')
+        };
+        
         var footer = '<div id="links"><a id="wikispecies" target="_blank"><img alt="Wikispecies Logo" title="Consultar Wikispecies" src="img/logos/wikispecies.png" /></a><a id="eol" target="_blank"><img alt="Encyclopedia Of Life Logo" title="Consultar Encyclopedia Of Life" src="img/logos/eol.png" /></a><a id="gbif" target="_blank"><img alt="GBIF Logo" title="Consultar GBIF" src="img/logos/gbif.jpg" /></a></div>';
         
-        return html + footer;
+        return Mustache.render(html, data) + footer;
      };
      
      var getWikiInfo = function(div, taxon){
