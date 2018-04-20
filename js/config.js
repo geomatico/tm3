@@ -14,7 +14,9 @@ var require = (function() {
             "text": "//cdnjs.cloudflare.com/ajax/libs/require-text/2.0.12/text.min",
 			"select": "//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min",
 			"typeahead": "//cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min",
-			"mustache": "//cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min"
+			"mustache": "//cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min",
+			"c3js": "//cdnjs.cloudflare.com/ajax/libs/c3/0.5.3/c3.min",
+			"d3": "//cdnjs.cloudflare.com/ajax/libs/d3/4.13.0/d3.min"
 		},
 		shim: {
 			"bootstrap": {
@@ -34,7 +36,10 @@ var require = (function() {
 			},
 			"typeahead": {
 				deps: ["bootstrap"]
-			}
+			},
+			"c3js": {
+				deps: ["d3", "css!https://cdnjs.cloudflare.com/ajax/libs/c3/0.5.3/c3.min.css"]
+			},
             
 		}
 	};

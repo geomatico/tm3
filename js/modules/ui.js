@@ -87,7 +87,7 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
         
         $(div).append(drawTitle(active_taxon));
         $(div).append(drawDownload(taxon, activeFilters));
-        if(child) $(div).append(drawSheetLink(child['name']));
+        if(child) $(div).append(drawSheetLink(taxon));
 
         if(child && child["children"]) $(div).append(drawMenuChildren(child["children"], level));
         

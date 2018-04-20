@@ -1,7 +1,7 @@
 /**
  * @author Martí Pericay <marti@pericay.com>
  */
-define(['jquery', 'i18n', 'mustache'], function($, i18n) {
+define(['jquery', 'stats', 'i18n', 'mustache'], function($, stats, i18n) {
     "use strict";
 	
 	var divWiki;
@@ -126,8 +126,9 @@ define(['jquery', 'i18n', 'mustache'], function($, i18n) {
                 $("#tabLinks").hide();
                 var div = $(this).attr("data");
                 $("#" + div).show();
-            });            
-			return getWikiInfo(div, taxon);
+            });
+            stats.createPie("#tabStats", taxon);
+			return getWikiInfo(div, taxon.getChild()['name']);
        }
 	};
 	
