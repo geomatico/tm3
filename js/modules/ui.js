@@ -113,7 +113,7 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
             sheet.showSheet($('#textModal .modal-body'), taxon, i18n.getLang());
         }).appendTo(li);
         
-        link.tooltip({"title": i18n.t("Wikipedia sheet")});
+        link.tooltip({"title": i18n.t("Statistics and info")});
         
         return li;
     };    	     

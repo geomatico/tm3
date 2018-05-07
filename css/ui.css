@@ -113,7 +113,7 @@ a:hover{text-decoration: none !important}
 }
 
 .sidebar-nav span .sheetLink{
-    background: url(../img/wiki.png) no-repeat;
+    background: url(../img/stats.png) no-repeat;
     position: absolute;
     margin-top: -27px;
     right: 40px;
@@ -128,7 +128,7 @@ a:hover{text-decoration: none !important}
 }
 
 .sidebar-nav span .sheetLink:hover{
-    background: url(../img/wiki.png) no-repeat;
+    background: url(../img/stats.png) no-repeat;
 	background-size: 17px;
 }
 
