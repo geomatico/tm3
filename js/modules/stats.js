@@ -29,6 +29,9 @@ define(['i18n', 'c3js', 'd3', 'cartodb'], function(i18n, c3, d3) {
     
     function drawPie(div, q) {
         
+        //loading
+        $(div).html('<div id="loading" class="text-center"><img src="img/load.svg" /></div>');
+        
         //JSON call
         var jsonData = $.ajax({
             url: q,
@@ -80,6 +83,7 @@ define(['i18n', 'c3js', 'd3', 'cartodb'], function(i18n, c3, d3) {
                 "class": "charts",
                 width: "100%"
             }).appendTo(div);
+            
        		drawPie("#chart", getQuery(taxon, "subtaxa"));
             
             //chart dècades

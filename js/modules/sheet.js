@@ -4,36 +4,35 @@
 define(['jquery', 'stats', 'i18n', 'mustache'], function($, stats, i18n) {
     "use strict";
 	
-	var divWiki;
     var localeWiki = 'en';
     var wikiApi = "wikipedia.org/wiki/";
     
     var drawWikiSheet = function(div, data){
 	     
+         // for common name
          var title = data.parse.title;
-         div.find("#title").html(title);
          
          var moreinfo = i18n.t("More info");
          var here = i18n.t("here");
          
-         div.find("#subtitle").html(moreinfo + " <a href='http://" + localeWiki + '.' + wikiApi + title + "' target='_blank'>" + here + "</a>").show();
+         $("#tabWiki").html("<div id='subtitle'>" + moreinfo + " <a href='http://" + localeWiki + '.' + wikiApi + title + "' target='_blank'>" + here + "</a></div>");
 
          // get raw HTML text ... but we need to do a few hacks
-         $("#tabWiki").html(data.parse.text["*"]);
+         $("#tabWiki").append("<div id='wikiDesc'>" + data.parse.text["*"] + "</div>");
          
          //HACKS
          //remove links
-         $('#tabWiki a').replaceWith(function() {
+         $('#wikiDesc a').replaceWith(function() {
              return this.childNodes;
          });
          //remove areas (with links)
-         $('#tabWiki area').remove();         
+         $('#wikiDesc area').remove();         
          //remove references
-         $('#tabWiki .reference ').remove();
+         $('#wikiDesc .reference ').remove();
          //remove references errors
-         $('#tabWiki .mw-ext-cite-error').remove();
+         $('#wikiDesc .mw-ext-cite-error').remove();
          //remove disambiguations 
-         $('#tabWiki .noprint').remove();
+         $('#wikiDesc .noprint').remove();
      };
      
      var drawLinksSheet = function(title){
@@ -51,7 +50,24 @@ define(['jquery', 'stats', 'i18n', 'mustache'], function($, stats, i18n) {
          $("#tabLinks").html(links);
      };
      
-     var createTabs = function(){
+     var createTabs = function(div){
+        drawTabsHTML(div);
+        //tabs
+        $("#tabStats").show();
+        $("#tabWiki").hide();
+        $("#tabLinks").hide();
+        $('#sheetTabs a').click(function (e) {
+            e.preventDefault();
+            $(this).tab("show");
+            $("#tabWiki").hide();
+            $("#tabStats").hide();
+            $("#tabLinks").hide();
+            var div = $(this).attr("data");
+            $("#" + div).show();
+        });
+     };
+     
+     var drawTabsHTML = function(div) {
         
         var html= ['<div id="divSheetModal">',
                     '<div id="content">',
@@ -62,25 +78,18 @@ define(['jquery', 'stats', 'i18n', 'mustache'], function($, stats, i18n) {
                     '       <li><a href="#" data="tabWiki">{{wikipedia}}</a></li>',
                     '       <li><a href="#" data="tabLinks">{{links}}</a></li>',
         			'   </ul>',
-                    '   <div id="loading" class="text-center">',
-                    '       <img src="img/load.svg" />',
-                    '       {{loadingtext}}',
-                    //'       <br/>',
-                    //'       <img alt="Wikipedia Logo" src="img/logos/wiki.png" />',
-                    '   </div>',
-                    '   <div id="tabStats"></div>',
-                    '   <div id="tabWiki"></div>',
-                    '   <div id="tabLinks"></div>',
+                    '   <div id="tabStats" class="tabContent"></div>',
+                    '   <div id="tabWiki" class="tabContent"></div>',
+                    '   <div id="tabLinks" class="tabContent"></div>',
                     ' </div>'].join("\n");
         
         var data = {
-            loadingtext: i18n.t('Loading from Wikipedia'),
             stats: i18n.t('Stats'),
             wikipedia: i18n.t('Wikipedia'),
             links: i18n.t('Links')
         };
         
-        return Mustache.render(html, data);
+        $(div).html(Mustache.render(html, data));
      };
      
      var getWikiInfo = function(div, taxon){
@@ -102,33 +111,19 @@ define(['jquery', 'stats', 'i18n', 'mustache'], function($, stats, i18n) {
                     div.find("#subtitle").html("No results found for " + " " + taxon + " " + " at Wikipedia");
                     div.find("#sheetTabs").hide();
                 }
-                //tab to show
-                div.find("#tabStats").show();
-                div.find("#loading").hide();
         });
              
      };
     
 	return {
        showSheet: function(div, taxon, locale) {
-            divWiki = div;
             if(locale) localeWiki = locale;
-            $(div).html(createTabs());
-            //tabs
-            $("#tabStats").hide();
-            $("#tabWiki").hide();
-            $("#tabLinks").hide();
-            $('#sheetTabs a').click(function (e) {
-                e.preventDefault();
-                $(this).tab("show");
-                $("#tabWiki").hide();
-                $("#tabStats").hide();
-                $("#tabLinks").hide();
-                var div = $(this).attr("data");
-                $("#" + div).show();
-            });
+            createTabs(div);
+            var latinName = taxon.getChild()['name'];
+            
+            div.find("#title").html(latinName);
             stats.createPie("#tabStats", taxon);
-			return getWikiInfo(div, taxon.getChild()['name']);
+			return getWikiInfo(div, latinName);
        }
 	};
 	

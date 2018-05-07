@@ -453,9 +453,12 @@ div.cartodb-popup div.cartodb-popup-content-wrapper {
     padding-bottom: 10px;
 }
 
-#divSheetModal #desc {
+#tabWiki {
     text-align: justify;
-    padding: 10px;
+}
+
+.tabContent {
+	padding: 20px;
 }
 
 #links img {
