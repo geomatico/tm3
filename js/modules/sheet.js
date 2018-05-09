@@ -104,13 +104,11 @@ define(['jquery', 'stats', 'i18n', 'mustache'], function($, stats, i18n) {
             function(data){
             // parse JSON data
                 if(data.parse) {
-                    drawWikiSheet(div, data);
-                    drawLinksSheet(taxon);                    
+                    drawWikiSheet(div, data);             
                 } else {
-                    div.find("#title").html("No results");
-                    div.find("#subtitle").html("No results found for " + " " + taxon + " " + " at Wikipedia");
-                    div.find("#sheetTabs").hide();
+                    div.find("#tabWiki").html("No results found for " + " " + taxon + " " + " on Wikipedia");
                 }
+                drawLinksSheet(taxon); 
         });
              
      };

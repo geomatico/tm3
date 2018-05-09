@@ -65,7 +65,8 @@ define(['i18n', 'c3js', 'd3', 'cartodb'], function(i18n, c3, d3) {
                      }
                  });
             } else {
-                console.log("No data for " + q)
+                $(div).html("No data");
+                //console.log("Query " + q + " brought no results")
             }
         });
     };
