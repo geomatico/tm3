@@ -7,7 +7,7 @@ define(['i18n', 'c3js', 'd3', 'cartodb'], function(i18n, c3, d3) {
     var cartoDBTable = 'mcnb_prod';
 	var cartoDBApi = 'http://mcnb.cartodb.com/api/v2/sql?';
         
-    function getQuery(taxon, type) {
+    function getQuery(taxon, type, filters) {
         
         var level = taxon.level;
         var childrenLevel = (taxon.levels[level+1]) ? level + 1 : level;
@@ -16,16 +16,53 @@ define(['i18n', 'c3js', 'd3', 'cartodb'], function(i18n, c3, d3) {
        
         // by subtaxon
         var q = cartoDBApi + "q=select count(*)," + taxon.levelsId[childrenLevel] + " as id," + taxon.levels[childrenLevel] + " as name" + parent + " from " + cartoDBTable +
-        " WHERE " + taxon.levelsId[level] + "='"+ taxon.getChild()['id'] +"' group by id, name " + parent2 + " order by count(*) desc";
+        " WHERE " + taxon.levelsId[level] + "='"+ taxon.getChild()['id'] +"'" + getFiltersSQL(filters, ["circle", "fieldvalue"]) + " group by id, name " + parent2 + " order by count(*) desc";
         
         if (type == "decade") {
             //by decade
             q = cartoDBApi + "q=select count(*), cast(cast(year AS integer)/10 as varchar)||'0' AS name " + " from " + cartoDBTable +
-            " WHERE " + taxon.levelsId[level] + "='"+ taxon.getChild()['id'] + "' AND year IS NOT NULL group by cast(year AS integer)/10 order by cast(year AS integer)/10";
+            " WHERE " + taxon.levelsId[level] + "='"+ taxon.getChild()['id'] + "' AND year IS NOT NULL" + getFiltersSQL(filters, ["circle", "fieldvalue"]) + " group by cast(year AS integer)/10 order by cast(year AS integer)/10";
         }
         
         return q;
     };
+    
+    var getCircleSQL = function(circle) {
+        return "ST_DWithin(the_geom::geography, ST_SetSRID(ST_MakePoint("+circle.lon+","+circle.lat+"),4326)::geography," + circle.radius + ")";
+    };    
+    
+    var getFiltersSQL = function(filters, filterArray) {
+        var query = "";
+        for (var property in filters) {
+            if (filters.hasOwnProperty(property)) {
+                var filter = filters[property].data;
+                if (filters[property].active) {
+                    switch (filter.type) {
+                        case "circle":
+                            if (filterArray.indexOf("circle") != -1) {
+                                //circle query
+                                query += " AND "+ getCircleSQL(filter);
+                            }
+                            break;
+                        case "rectangle":
+                            if (filterArray.indexOf("rectangle") != -1) {
+                                //rectangle query
+                                //query += " AND (the_geom && ST_SetSRID(ST_MakeBox2D(ST_Point("+activeFilter.lon+","+activeFilter.lat+"),ST_Point("+(activeFilter.lon+1)+","+(activeFilter.lat + 1)+")),4326))";
+                            }
+                            break;
+                        case "fieldvalue":
+                            if (filterArray.indexOf("fieldvalue") != -1) {
+                                if (filter.value) {
+                                    query += " AND "+ filter.field + "='" + filter.value.replace('\x27', '\x27\x27') + "'";
+                                }
+                            }
+                            break;    
+                    }
+                }
+            }
+        }
+        return query;
+    };    
     
     function drawPie(div, q) {
         
@@ -110,7 +147,10 @@ define(['i18n', 'c3js', 'd3', 'cartodb'], function(i18n, c3, d3) {
                     drawPie("#chart"+k, getQuery(taxon, k, activeFilters));
                 }
             } 
-       }
+       },
+       getFiltersSQL: function(filters, filterArray) {
+            return getFiltersSQL(filters, filterArray)
+       },
 	};
 	
 });

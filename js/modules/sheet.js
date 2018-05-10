@@ -131,7 +131,10 @@ define(['jquery', 'stats', 'i18n', 'mustache'], function($, stats, i18n) {
             
             //create links
             drawLinksSheet(latinName); 
-       }
+       },
+       getFiltersSQL: function(filters, filterArray) {
+            return stats.getFiltersSQL(filters, filterArray)
+       },       
 	};
 	
 });

@@ -54,43 +54,6 @@ define(['maplayers', 'mapfilters', 'legend', 'cartodb'], function(layers, mapfil
         L.control.layers(base, overlays).addTo(map);
     };
     
-    var getCircleSQL = function(circle) {
-        return "ST_DWithin(the_geom::geography, ST_SetSRID(ST_MakePoint("+circle.lon+","+circle.lat+"),4326)::geography," + circle.radius + ")";
-    };
-    
-    var getFiltersSQL = function(filters, filterArray) {
-        var query = "";
-        for (var property in filters) {
-            if (filters.hasOwnProperty(property)) {
-                var filter = filters[property].data;
-                if (filters[property].active) {
-                    switch (filter.type) {
-                        case "circle":
-                            if (filterArray.indexOf("circle") != -1) {
-                                //circle query
-                                query += " AND "+ getCircleSQL(filter);
-                            }
-                            break;
-                        case "rectangle":
-                            if (filterArray.indexOf("rectangle") != -1) {
-                                //rectangle query
-                                //query += " AND (the_geom && ST_SetSRID(ST_MakeBox2D(ST_Point("+activeFilter.lon+","+activeFilter.lat+"),ST_Point("+(activeFilter.lon+1)+","+(activeFilter.lat + 1)+")),4326))";
-                            }
-                            break;
-                        case "fieldvalue":
-                            if (filterArray.indexOf("fieldvalue") != -1) {
-                                if (filter.value) {
-                                    query += " AND "+ filter.field + "='" + filter.value.replace('\x27', '\x27\x27') + "'";
-                                }
-                            }
-                            break;    
-                    }
-                }
-            }
-        }
-        return query;
-    };
-    
     var getQuotes = function(taxon, filters, format) {
  		if(!format) format = "csv";
         
@@ -132,9 +95,6 @@ define(['maplayers', 'mapfilters', 'legend', 'cartodb'], function(layers, mapfil
        },
        createComboFilter: function(div, cb) {
        		return createComboFilter(div, cb);
-       },
-       getFiltersSQL: function(filters, filterArray) {
-            return getFiltersSQL(filters, filterArray)
        },
        createMap: function(options) {
        		return createMap(options);

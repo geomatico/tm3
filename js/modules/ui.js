@@ -56,7 +56,7 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
     
     var updateUI = function(newTaxon, filters) {
         //change the cartoDB taxon layer
-        var query = newTaxon.getSqlWhere() + map.getFiltersSQL(filters, ["fieldvalue"]);
+        var query = newTaxon.getSqlWhere() + sheet.getFiltersSQL(filters, ["fieldvalue"]);
         map.setSql(query);
 
         //updateMenus
@@ -272,7 +272,7 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
         var fields = taxon.getSqlFields('child');
         if (!children) fields = taxon.getSqlFields('parent');
         var query = "SELECT COUNT(*), "+ fields +" FROM " + map.getCartoDBTable() + " " + taxon.getSqlWhere();
-        if(filters) query += map.getFiltersSQL(filters, ["circle", "fieldvalue"]);
+        if(filters) query += sheet.getFiltersSQL(filters, ["circle", "fieldvalue"]);
         //group bys and orders
     	query += "  group by " + fields + " order by count(*) desc";
         return query;
