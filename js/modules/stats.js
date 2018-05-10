@@ -64,8 +64,10 @@ define(['i18n', 'c3js', 'd3', 'cartodb'], function(i18n, c3, d3) {
                          }*/
                      }
                  });
+                 
+            $(div).css("max-width", 550).css("max-height", 450);
             } else {
-                $(div).html("No data");
+                $(div).html("No results");
                 //console.log("Query " + q + " brought no results")
             }
         });
@@ -77,7 +79,7 @@ define(['i18n', 'c3js', 'd3', 'cartodb'], function(i18n, c3, d3) {
             //draw the charts
             //chart subtaxa
             $("<h4/>", {
-                html: "per subtàxon"
+                html: "by subtaxon"
             }).appendTo(div);
             $("<div/>", {
                 id: 'chart',
@@ -87,8 +89,32 @@ define(['i18n', 'c3js', 'd3', 'cartodb'], function(i18n, c3, d3) {
             
        		drawPie("#chart", getQuery(taxon, "subtaxa"));
             
-            //chart dècades
+            //chart institution
             $("<h4/>", {
+                html: "by institution"
+            }).appendTo(div);
+            $("<div/>", {
+                id: 'chart2',
+                "class": "charts",
+                width: "100%"
+            }).appendTo(div);
+
+       		drawPie("#chart2", getQuery(taxon, "institution"));
+            
+            //chart basis of record
+            $("<h4/>", {
+                html: "by basis of record"
+            }).appendTo(div);
+            $("<div/>", {
+                id: 'chart3',
+                "class": "charts",
+                width: "100%"
+            }).appendTo(div);
+
+       		drawPie("#chart3", getQuery(taxon, "basis"));   
+            
+            //chart dècades
+            /*$("<h4/>", {
                 html: "per dècada"
             }).appendTo(div);
             $("<div/>", {
@@ -97,7 +123,7 @@ define(['i18n', 'c3js', 'd3', 'cartodb'], function(i18n, c3, d3) {
                 width: "100%"
             }).appendTo(div);
 
-       		drawPie("#chart2", getQuery(taxon, "decade"));
+       		drawPie("#chart2", getQuery(taxon, "decade"));*/
        }
 	};
 	

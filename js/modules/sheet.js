@@ -9,14 +9,6 @@ define(['jquery', 'stats', 'i18n', 'mustache'], function($, stats, i18n) {
     
     var drawWikiSheet = function(div, data){
 	     
-         // for common name
-         var title = data.parse.title;
-         
-         var moreinfo = i18n.t("More info");
-         var here = i18n.t("here");
-         
-         $("#tabWiki").html("<div id='subtitle'>" + moreinfo + " <a href='http://" + localeWiki + '.' + wikiApi + title + "' target='_blank'>" + here + "</a></div>");
-
          // get raw HTML text ... but we need to do a few hacks
          $("#tabWiki").append("<div id='wikiDesc'>" + data.parse.text["*"] + "</div>");
          
@@ -33,6 +25,15 @@ define(['jquery', 'stats', 'i18n', 'mustache'], function($, stats, i18n) {
          $('#wikiDesc .mw-ext-cite-error').remove();
          //remove disambiguations 
          $('#wikiDesc .noprint').remove();
+         
+         //add link to Wikipedia
+         // for common name
+         var title = data.parse.title;
+         
+         var moreinfo = i18n.t("See the Wikipedia full article");
+         var here = i18n.t("here");
+         
+         $("#tabWiki").append("<div id='subtitle'>... " + moreinfo + " <a href='http://" + localeWiki + '.' + wikiApi + title + "' target='_blank'>" + here + "</a></div>");
      };
      
      var drawLinksSheet = function(title){
@@ -106,9 +107,8 @@ define(['jquery', 'stats', 'i18n', 'mustache'], function($, stats, i18n) {
                 if(data.parse) {
                     drawWikiSheet(div, data);             
                 } else {
-                    div.find("#tabWiki").html("No results found for " + " " + taxon + " " + " on Wikipedia");
+                    div.find("#tabWiki").html(i18n.t("No results found for") + " " + taxon);
                 }
-                drawLinksSheet(taxon); 
         });
              
      };
@@ -117,11 +117,20 @@ define(['jquery', 'stats', 'i18n', 'mustache'], function($, stats, i18n) {
        showSheet: function(div, taxon, locale) {
             if(locale) localeWiki = locale;
             createTabs(div);
-            var latinName = taxon.getChild()['name'];
             
+            //set title
+            var latinName = taxon.getChild()['name'];
             div.find("#title").html(latinName);
+            
+            //create stats and translate titles
             stats.createPie("#tabStats", taxon);
-			return getWikiInfo(div, latinName);
+            i18n.translateDocTree($("#tabStats")[0]);
+            
+            //create wikipedia 
+			getWikiInfo(div, latinName);
+            
+            //create links
+            drawLinksSheet(latinName); 
        }
 	};
 	

@@ -151,9 +151,13 @@
 		"es": "Geometría (GeoJSON)",
 		"ca": "Geometria (GeoJSON)"
 	},
-	"More info": {
-		"es": "Más información",
-		"ca": "Més informació"
+	"See the Wikipedia full article": {
+		"es": "Ver el artículo completo de Wikipedia",
+		"ca": "Veure l'article complet de Wikipedia"
+	},
+	"No results found for": {
+		"es": "No se han encontrado resultados para",
+		"ca": "No s'han trobat resultats per a"		
 	},
 	"here": {
 		"es": "aquí",
@@ -167,8 +171,16 @@
 		"es": "Descargar selección",
 		"ca": "Descarregar selecció"
 	},
-	"Loading from Wikipedia": {
-		"es": "Cargando desde Wikipedia",
-		"ca": "Carregant des de la Wikipèdia"
+	"by subtaxon": {
+		"es": "por subtaxón",
+		"ca": "per subtàxon"
+	},
+	"by institution": {
+		"es": "por institución",
+		"ca": "per institució"
+	},
+	"by basis of record": {
+		"es": "por tipo de registro",
+		"ca": "per tipus de registre"
 	}
 }
