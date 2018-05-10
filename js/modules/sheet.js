@@ -114,7 +114,7 @@ define(['jquery', 'stats', 'i18n', 'mustache'], function($, stats, i18n) {
      };
     
 	return {
-       showSheet: function(div, taxon, locale) {
+       showSheet: function(div, taxon, locale, activeFilters) {
             if(locale) localeWiki = locale;
             createTabs(div);
             
@@ -123,7 +123,7 @@ define(['jquery', 'stats', 'i18n', 'mustache'], function($, stats, i18n) {
             div.find("#title").html(latinName);
             
             //create stats and translate titles
-            stats.createPie("#tabStats", taxon);
+            stats.create("#tabStats", taxon, activeFilters);
             i18n.translateDocTree($("#tabStats")[0]);
             
             //create wikipedia 

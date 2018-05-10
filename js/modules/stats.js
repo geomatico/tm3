@@ -25,7 +25,7 @@ define(['i18n', 'c3js', 'd3', 'cartodb'], function(i18n, c3, d3) {
         }
         
         return q;
-    }
+    };
     
     function drawPie(div, q) {
         
@@ -73,57 +73,43 @@ define(['i18n', 'c3js', 'd3', 'cartodb'], function(i18n, c3, d3) {
         });
     };
     
+    function isUselessStat(activeFilters, k) {
+        
+        // we don't want to show a stat if we filter by it: the graphic would be 100%
+        if (jQuery.isEmptyObject(activeFilters)) return false;
+        var filters = activeFilters["#fvFilter"];
+        var isUseless = false;
+        
+        if (filters && filters.active && filters.data && filters.data.value) {
+            return (filters.data.field == k);
+        }
+        
+        return false;
+    };
     
 	return {
-       createPie: function(div, taxon) {                
-            //draw the charts
-            //chart subtaxa
-            $("<h4/>", {
-                html: "by subtaxon"
-            }).appendTo(div);
-            $("<div/>", {
-                id: 'chart',
-                "class": "charts",
-                width: "100%"
-            }).appendTo(div);
+       create: function(div, taxon, activeFilters) {
+            //all stats (key:label)
+            var stats = {
+                "subtaxa": "by subtaxon",
+                "institutioncode": "by institution",
+                "basisofrecord": "by basis of record"
+            }
             
-       		drawPie("#chart", getQuery(taxon, "subtaxa"));
-            
-            //chart institution
-            $("<h4/>", {
-                html: "by institution"
-            }).appendTo(div);
-            $("<div/>", {
-                id: 'chart2',
-                "class": "charts",
-                width: "100%"
-            }).appendTo(div);
-
-       		drawPie("#chart2", getQuery(taxon, "institution"));
-            
-            //chart basis of record
-            $("<h4/>", {
-                html: "by basis of record"
-            }).appendTo(div);
-            $("<div/>", {
-                id: 'chart3',
-                "class": "charts",
-                width: "100%"
-            }).appendTo(div);
-
-       		drawPie("#chart3", getQuery(taxon, "basis"));   
-            
-            //chart dècades
-            /*$("<h4/>", {
-                html: "per dècada"
-            }).appendTo(div);
-            $("<div/>", {
-                id: 'chart2',
-                "class": "charts",
-                width: "100%"
-            }).appendTo(div);
-
-       		drawPie("#chart2", getQuery(taxon, "decade"));*/
+            for (var k in stats) {
+                if (stats.hasOwnProperty(k) && !isUselessStat(activeFilters, k)) {
+                    $("<h4/>", {
+                        html: stats[k]
+                    }).appendTo(div);
+                    $("<div/>", {
+                        id: 'chart'+k,
+                        "class": "charts",
+                        width: "100%"
+                    }).appendTo(div);
+                    
+                    drawPie("#chart"+k, getQuery(taxon, k, activeFilters));
+                }
+            } 
        }
 	};
 	

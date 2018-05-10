@@ -110,7 +110,7 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
             "data-toggle": "modal",
             "data-target": "#textModal"
         }).on('click', function() {
-            sheet.showSheet($('#textModal .modal-body'), taxon, i18n.getLang());
+            sheet.showSheet($('#textModal .modal-body'), taxon, i18n.getLang(), activeFilters);
         }).appendTo(li);
         
         link.tooltip({"title": i18n.t("Statistics and info")});
