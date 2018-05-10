@@ -14,14 +14,17 @@ define(['i18n', 'c3js', 'd3', 'cartodb'], function(i18n, c3, d3) {
         var parent = level ? "," + taxon.levelsId[level-1] + " as parent " : "";
         var parent2 = parent ? ", parent " : "";
        
-        // by subtaxon
-        var q = cartoDBApi + "q=select count(*)," + taxon.levelsId[childrenLevel] + " as id," + taxon.levels[childrenLevel] + " as name" + parent + " from " + cartoDBTable +
-        " WHERE " + taxon.levelsId[level] + "='"+ taxon.getChild()['id'] +"'" + getFiltersSQL(filters, ["circle", "fieldvalue"]) + " group by id, name " + parent2 + " order by count(*) desc";
-        
-        if (type == "decade") {
+        if (type == "subtaxa") {
+            var q = cartoDBApi + "q=select count(*)," + taxon.levelsId[childrenLevel] + " as id," + taxon.levels[childrenLevel] + " as name" + parent + " from " + cartoDBTable +
+            " WHERE " + taxon.levelsId[level] + "='"+ taxon.getChild()['id'] +"'" + getFiltersSQL(filters, ["circle", "fieldvalue"]) + " group by id, name " + parent2 + " order by count(*) desc";
+        } else if (type == "decade") {
             //by decade
             q = cartoDBApi + "q=select count(*), cast(cast(year AS integer)/10 as varchar)||'0' AS name " + " from " + cartoDBTable +
             " WHERE " + taxon.levelsId[level] + "='"+ taxon.getChild()['id'] + "' AND year IS NOT NULL" + getFiltersSQL(filters, ["circle", "fieldvalue"]) + " group by cast(year AS integer)/10 order by cast(year AS integer)/10";
+        } else {
+            // any "normal" field that doesn't require transformation
+            q = cartoDBApi + "q=select count(*), " + type + " as name from " + cartoDBTable +
+            " WHERE " + taxon.levelsId[level] + "='"+ taxon.getChild()['id'] +"'" + getFiltersSQL(filters, ["circle", "fieldvalue"]) + " group by name order by count(*) desc";            
         }
         
         return q;
