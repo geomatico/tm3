@@ -71,9 +71,9 @@
 		"es": "Cubiertas del suelo (",
 		"ca": "Cobertes del sòl ("
 	},
-	"< Parent taxon": {
-		"es": "< Taxón superior",
-		"ca": "< Tàxon superior"	
+	"Parent taxon": {
+		"es": "Taxón superior",
+		"ca": "Tàxon superior"	
 	},
 	"Filters": {
 		"es": "Filtros",

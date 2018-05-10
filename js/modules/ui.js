@@ -207,9 +207,11 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
         var link =  $( "<a/>", {
 		    html: title,
             href: "#",
-    		"class": item.className }).appendTo(li);
+    		"class": item.className
+        }).appendTo(li);
         
         link = setLink(link, item);
+        if(item.tooltip) link.tooltip({"title": i18n.t(item.tooltip)});
         
 		return li;
     };   
@@ -225,7 +227,7 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
     };
     
     var drawMenuParent = function(parent, level) {
-        return drawMenuItem({"name": "↩", "id": parent.id, "level": level-1, "className": "parent"});
+        return drawMenuItem({"name": "↩", "id": parent.id, "level": level-1, "className": "parent links", "tooltip": "Parent taxon"});
     };
     
     var updateBreadcrumb = function(div, taxon) {
