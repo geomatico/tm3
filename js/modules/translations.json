@@ -131,6 +131,14 @@
 		"es": "Estadísticas",
 		"ca": "Estadístiques"
 	},
+	"Wikipedia": {
+		"es": "Wikipedia",
+		"ca": "Viquipèdia"
+	},
+	"Links": {
+		"es": "Enlaces",
+		"ca": "Enllaços"
+	},	
 	"Data": {
 		"es": "Datos",
 		"ca": "Dades"
@@ -153,7 +161,7 @@
 	},
 	"See the Wikipedia full article": {
 		"es": "Ver el artículo completo de Wikipedia",
-		"ca": "Veure l'article complet de Wikipedia"
+		"ca": "Veure l'article complet de Viquipèdia"
 	},
 	"No results found for": {
 		"es": "No se han encontrado resultados para",
