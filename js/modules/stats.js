@@ -105,7 +105,6 @@ define(['i18n', 'c3js', 'd3', 'cartodb'], function(i18n, c3, d3) {
                      }
                  });
                  
-            $(div).css("max-width", 550).css("max-height", 450);
             } else {
                 $(div).html("No results");
                 //console.log("Query " + q + " brought no results")
