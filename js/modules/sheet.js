@@ -123,6 +123,7 @@ define(['jquery', 'stats', 'i18n', 'mustache'], function($, stats, i18n) {
             div.find("#title").html(latinName);
             
             //create stats and translate titles
+            $("#tabStats").html("<p>Els següents gràfics mostren dades provinents de les col·leccions participants. Els filtres que estiguin actius afecten els resultats.</p>");
             stats.create("#tabStats", taxon, activeFilters);
             i18n.translateDocTree($("#tabStats")[0]);
             
