@@ -198,5 +198,9 @@
 	"occurrences": {
 		"es": "ocurrencias",
 		"ca": "ocurrències"
+	},
+	"The following charts show data from the collection sources. The active filters affect the results": {
+		"es": "Los siguientes gráficos muestran datos procedentes de las colecciones participantes. Los filtros que estén activos afectan los resultados",
+		"ca": "Els següents gràfics mostren dades provinents de les col·leccions participants. Els filtres que estiguin actius afecten els resultats"
 	}
 }
