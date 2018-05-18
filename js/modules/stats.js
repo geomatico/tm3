@@ -85,9 +85,9 @@ define(['i18n', 'c3js', 'd3', 'cartodb'], function(i18n, c3, d3) {
             if (results["total_rows"]) {
                  
                  //generate chart
-                 if (type == "area-step") {
+                 if (type == "bar") {
                     // Rearrange data
-                    var data=['q'];
+                    var data=['occurrences'];
                     var x=['x'];
                     results["rows"].forEach(function(row) {
                       data.push(row.count);
@@ -102,16 +102,12 @@ define(['i18n', 'c3js', 'd3', 'cartodb'], function(i18n, c3, d3) {
                                 x, data
                             ],
                             types: {
-                                asd: 'area-step'
+                                occurrences: 'bar'
                             }
                         },
-                    axis: {
-                        x: {
-                            tick: {
-                                values: [1900, 1910, 1920, 1930,1940, 1950, 1960, 1970,1980, 1990, 2000, 2010]
-                            }
+                        bar: {
+                            width: 10 // this makes bar width 100px
                         }
-                    }                        
                     });
                  } else {
                     // Rearrange data
@@ -163,8 +159,8 @@ define(['i18n', 'c3js', 'd3', 'cartodb'], function(i18n, c3, d3) {
                     type: "pie"
                 },
                 "year": {
-                    text: "by year",
-                    type: "area-step"
+                    text: "by year (only time referenced results)",
+                    type: "bar"
                 }
             }
             

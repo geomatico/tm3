@@ -190,5 +190,13 @@
 	"by basis of record": {
 		"es": "por tipo de registro",
 		"ca": "per tipus de registre"
+	},
+	"by year (only time referenced results)": {
+		"es": "por año (sólo registros referenciados temporalmente)",
+		"ca": "per any (només registres referenciats temporalment)"
+	},
+	"occurrences": {
+		"es": "ocurrencias",
+		"ca": "ocurrències"
 	}
 }
