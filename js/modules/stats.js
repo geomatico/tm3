@@ -17,7 +17,11 @@ define(['i18n', 'c3js', 'd3', 'cartodb'], function(i18n, c3, d3) {
         if (type == "subtaxa") {
             var q = cartoDBApi + "q=select count(*)," + taxon.levelsId[childrenLevel] + " as id," + taxon.levels[childrenLevel] + " as name" + parent + " from " + cartoDBTable +
             " WHERE " + taxon.levelsId[level] + "='"+ taxon.getChild()['id'] +"'" + getFiltersSQL(filters, ["circle", "fieldvalue"]) + " group by id, name " + parent2 + " order by count(*) desc";
-        } else if (type == "decade") {
+        } else if (type == "year") {
+            // any "normal" field that doesn't require transformation
+            q = cartoDBApi + "q=select count(*), " + type + " as name from " + cartoDBTable +
+            " WHERE " + taxon.levelsId[level] + "='"+ taxon.getChild()['id'] +"'" + getFiltersSQL(filters, ["circle", "fieldvalue"]) + "AND year IS NOT NULL group by name order by year";
+        } else if (type == "decade") {
             //by decade
             q = cartoDBApi + "q=select count(*), cast(cast(year AS integer)/10 as varchar)||'0' AS name " + " from " + cartoDBTable +
             " WHERE " + taxon.levelsId[level] + "='"+ taxon.getChild()['id'] + "' AND year IS NOT NULL" + getFiltersSQL(filters, ["circle", "fieldvalue"]) + " group by cast(year AS integer)/10 order by cast(year AS integer)/10";
@@ -67,7 +71,7 @@ define(['i18n', 'c3js', 'd3', 'cartodb'], function(i18n, c3, d3) {
         return query;
     };    
     
-    function drawPie(div, q) {
+    function drawPie(div, q, type) {
         
         //loading
         $(div).html('<div id="loading" class="text-center"><img src="img/load.svg" /></div>');
@@ -79,31 +83,51 @@ define(['i18n', 'c3js', 'd3', 'cartodb'], function(i18n, c3, d3) {
           }).done(function (results) {
         
             if (results["total_rows"]) {
-                
-                 // Rearrange data
-                 var data=[];
-                 results["rows"].forEach(function(row) {
-                   data.push([row.name, row.count]);
-                 });
                  
                  //generate chart
-                 var chart = c3.generate({
-                     bindto: div,
-                     data: {
-                         // iris data from R
-                         columns: data,
-                         labels: false,
-                         type : 'pie',
-                     },
-                     pie: {
-                         /*label: {
-                             format: function (value, ratio, id) {
-                                 var formatPercent = d3.format(",.0%");
-                                 return (id + ": "+ formatPercent(ratio));
-                             }
-                         }*/
-                     }
-                 });
+                 if (type == "area-step") {
+                    // Rearrange data
+                    var data=['q'];
+                    var x=['x'];
+                    results["rows"].forEach(function(row) {
+                      data.push(row.count);
+                      x.push(row.name);
+                    });
+                    
+                    var chart = c3.generate({
+                        bindto: div,
+                        data: {
+                            x: 'x',
+                            columns: [
+                                x, data
+                            ],
+                            types: {
+                                asd: 'area-step'
+                            }
+                        },
+                    axis: {
+                        x: {
+                            tick: {
+                                values: [1900, 1910, 1920, 1930,1940, 1950, 1960, 1970,1980, 1990, 2000, 2010]
+                            }
+                        }
+                    }                        
+                    });
+                 } else {
+                    // Rearrange data
+                    var data=[];
+                    results["rows"].forEach(function(row) {
+                      data.push([row.name, row.count]);
+                    });
+                    var chart = c3.generate({
+                        bindto: div,
+                        data: {
+                            columns: data,
+                            labels: false,
+                            type : type,
+                        }
+                    });
+                 }
                  
             } else {
                 $(div).html("No results");
@@ -128,17 +152,26 @@ define(['i18n', 'c3js', 'd3', 'cartodb'], function(i18n, c3, d3) {
     
 	return {
        create: function(div, taxon, activeFilters) {
-            //all stats (key:label)
+            // create here all stats
             var stats = {
-                "subtaxa": "by subtaxon",
-                "institutioncode": "by institution",
-                "basisofrecord": "by basis of record"
+                "subtaxa": {
+                    text: "by subtaxon",
+                    type: "pie"
+                },
+                "institutioncode": {
+                    text: "by institution",
+                    type: "pie"
+                },
+                "year": {
+                    text: "by year",
+                    type: "area-step"
+                }
             }
             
             for (var k in stats) {
                 if (stats.hasOwnProperty(k) && !isUselessStat(activeFilters, k)) {
                     $("<h4/>", {
-                        html: stats[k]
+                        html: stats[k].text
                     }).appendTo(div);
                     $("<div/>", {
                         id: 'chart'+k,
@@ -146,7 +179,7 @@ define(['i18n', 'c3js', 'd3', 'cartodb'], function(i18n, c3, d3) {
                         width: "100%"
                     }).appendTo(div);
                     
-                    drawPie("#chart"+k, getQuery(taxon, k, activeFilters));
+                    drawPie("#chart"+k, getQuery(taxon, k, activeFilters), stats[k].type);
                 }
             } 
        },
