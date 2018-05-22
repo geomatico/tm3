@@ -54,13 +54,13 @@ define(['maplayers', 'mapfilters', 'legend', 'cartodb'], function(layers, mapfil
         L.control.layers(base, overlays).addTo(map);
     };
     
-    var getQuotes = function(taxon, filters, format) {
+    var getQuotes = function(taxon, getFiltersSQL, format) {
  		if(!format) format = "csv";
         
         var query = "select " + taxon.getSqlDownload(format) + " from " + cartoDBTable + " where " + taxon.levelsId[taxon.level] + "='"+taxon.id+"'";
         if(Object.getOwnPropertyNames(filters).length > 0) {
             //circular filter
-            query += getFiltersSQL(filters, ["circle", "fieldvalue"]);
+            query += getFiltersSQL;
         }
         var service = cartoDBApi + "q=" + encodeURIComponent(query) + "&format=" + format;
         //if(locale) service += "&LANG=" + locale;

@@ -158,7 +158,7 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
         
         var attachEvent = function(item, num) {
             item.on("click", function() {
-                map.getQuotes(taxon, filters, downloadFormats[num].format);
+                map.getQuotes(taxon, sheet.getFiltersSQL(filters, ["circle", "fieldvalue"]), downloadFormats[num].format);
             });
         };
         
