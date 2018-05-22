@@ -167,11 +167,11 @@ define(['i18n', 'c3js', 'd3', 'cartodb'], function(i18n, c3, d3) {
             for (var k in stats) {
                 if (stats.hasOwnProperty(k) && !isUselessStat(activeFilters, k)) {
                     $("<h4/>", {
-                        html: stats[k].text
+                        html: stats[k].text,
+                        "class": "chartTitle"
                     }).appendTo(div);
                     $("<div/>", {
                         id: 'chart'+k,
-                        "class": "charts",
                         width: "100%"
                     }).appendTo(div);
                     
