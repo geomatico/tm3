@@ -466,7 +466,9 @@ div.cartodb-popup div.cartodb-popup-content-wrapper {
     padding: 20px;
 }
 
-
+.chartTitle {
+	margin-top: 25px;
+}
 
 /**** Auupa 01.11.2016 ****/
 
