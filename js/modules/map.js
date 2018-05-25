@@ -1,11 +1,9 @@
 /**
  * @author Martí Pericay <marti@pericay.com>
  */
-define(['maplayers', 'mapfilters', 'legend', 'cartodb'], function(layers, mapfilters, legend) {
+define(['maplayers', 'mapfilters', 'legend', 'conf', 'cartodb'], function(layers, mapfilters, legend, conf) {
     "use strict";
-	
-	var cartoDBTable = 'mcnb_prod';
-	var cartoDBApi = 'http://mcnb.cartodb.com/api/v2/sql?';
+
 	var cartoDBSubLayer;
     var map;
     
@@ -20,12 +18,12 @@ define(['maplayers', 'mapfilters', 'legend', 'cartodb'], function(layers, mapfil
         
         // create a layer with 1 sublayer
         cartodb.createLayer(map, {
-          user_name: 'mcnb',
+          user_name: conf.getUser(),
           type: 'cartodb',
           cartodb_logo:false,
           attribution: "MCNB",
           sublayers: [{
-            sql: "SELECT * FROM " + cartoDBTable + sqlWhere,
+            sql: "SELECT * FROM " + conf.getTable() + sqlWhere,
             cartocss: '#herbari_cartodb{marker-fill: #FFCC00;marker-width: 10;marker-line-color: #FFF;marker-line-width: 1.5;marker-line-opacity: 1;marker-opacity: 0.9;marker-comp-op: multiply;marker-type: ellipse;marker-placement: point;marker-allow-overlap: true;marker-clip: false;marker-multi-policy: largest; }',
             interactivity: 'cartodb_id'
           }]
@@ -57,12 +55,12 @@ define(['maplayers', 'mapfilters', 'legend', 'cartodb'], function(layers, mapfil
     var getQuotes = function(taxon, getFiltersSQL, format) {
  		if(!format) format = "csv";
         
-        var query = "select " + taxon.getSqlDownload(format) + " from " + cartoDBTable + " where " + taxon.levelsId[taxon.level] + "='"+taxon.id+"'";
+        var query = "select " + taxon.getSqlDownload(format) + " from " + conf.getTable() + " where " + taxon.levelsId[taxon.level] + "='"+taxon.id+"'";
         if(Object.getOwnPropertyNames(filters).length > 0) {
             //circular filter
             query += getFiltersSQL;
         }
-        var service = cartoDBApi + "q=" + encodeURIComponent(query) + "&format=" + format;
+        var service = conf.getApi() + "q=" + encodeURIComponent(query) + "&format=" + format;
         //if(locale) service += "&LANG=" + locale;
         location.href = service; 
     };
@@ -75,20 +73,20 @@ define(['maplayers', 'mapfilters', 'legend', 'cartodb'], function(layers, mapfil
     };
     
     var createComboFilter = function(div, callback) {
-        var query = "select distinct __field__ AS value from " + cartoDBTable + " order by __field__";
-        var service = cartoDBApi + "q=" + encodeURIComponent(query);
+        var query = "select distinct __field__ AS value from " + conf.getTable() + " order by __field__";
+        var service = conf.getApi() + "q=" + encodeURIComponent(query);
         mapfilters.createFieldValue(div, service, callback);
     };
     
 	return {
 	   setSql: function(sqlWhere) {
-			return cartoDBSubLayer.setSQL("select * from " + cartoDBTable + sqlWhere);
+			return cartoDBSubLayer.setSQL("select * from " + conf.getTable() + sqlWhere);
        },
        getCartoDBTable: function() {
-       		return cartoDBTable;
+       		return conf.getTable();
        },
        getCartoDBApi: function() {
-       		return cartoDBApi;
+       		return conf.getApi();
        },
        createGeoFilter: function(div, cb) {
        		return createGeoFilter(div, cb);
