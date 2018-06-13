@@ -4,8 +4,8 @@
 define([], function() {
     "use strict";
     
-    var cartoTable = 'mcnb_prod_data';
-	var cartoUser = 'marti';
+    var cartoTable = 'mcnb_prod';
+	var cartoUser = 'mcnb';
     
     return {
        getTable: function() {
