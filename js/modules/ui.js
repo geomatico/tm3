@@ -341,6 +341,7 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
     map.createMap(options);
 	map.createGeoFilter("#circleFilter", updateMenus);
     map.createComboFilter("#fvFilter", setTaxon);
+    map.createTimeSlider("#sliderContainer", setTaxon);
     
     $("#toggleButton").click(function(e) {
 	    e.preventDefault();

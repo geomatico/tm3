@@ -470,6 +470,49 @@ div.cartodb-popup div.cartodb-popup-content-wrapper {
 	margin-top: 25px;
 }
 
+#sliderContainer {
+    background-color: #fff;
+    border-radius: 4px;
+    bottom: 20px;
+    left: 0;
+    margin-left: 20px;
+    padding: 15px 30px;
+    position: absolute;
+	width: 80%;
+	max-width: 700px;
+	z-index: 1001;
+}
+
+.slider {
+	margin: 0 !important;
+	width: 100% !important;
+}
+
+.slider-track{
+	background: #dfdfdf !important;
+	height: 2px !important;
+}
+
+.slider-selection{ 
+	background: #008080 !important;
+	transition: width 0.3s ease 0s !important; 
+}
+
+.slider-handle {
+    background: #008080 !important;
+    height: 12px !important;
+    position: absolute;
+    transition: transform 0.4s ease 0s !important;
+    width: 12px !important;
+}
+
+.slider.slider-horizontal .slider-tick-label-container {
+    color: #b9b9b9;
+    font-size: 8.5pt;
+    margin-top: 10px !important;
+    white-space: nowrap;
+}
+
 /**** Auupa 01.11.2016 ****/
 
 #subbar {top: 83px;}

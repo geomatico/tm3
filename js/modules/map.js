@@ -1,7 +1,7 @@
 /**
  * @author Martí Pericay <marti@pericay.com>
  */
-define(['maplayers', 'mapfilters', 'legend', 'conf', 'cartodb'], function(layers, mapfilters, legend, conf) {
+define(['maplayers', 'mapfilters', 'legend', 'timeslider', 'conf', 'cartodb'], function(layers, mapfilters, legend, timeslider, conf) {
     "use strict";
 
 	var cartoDBSubLayer;
@@ -90,6 +90,9 @@ define(['maplayers', 'mapfilters', 'legend', 'conf', 'cartodb'], function(layers
        },
        createGeoFilter: function(div, cb) {
        		return createGeoFilter(div, cb);
+       },
+       createTimeSlider: function(div, cb) {
+       		return timeslider.create(div, map, cb);
        },
        createComboFilter: function(div, cb) {
        		return createComboFilter(div, cb);
