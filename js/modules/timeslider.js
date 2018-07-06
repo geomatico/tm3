@@ -18,9 +18,7 @@ define(['slider'], function() {
 		
 		disableDragging($(div)[0], map);
 		
-		slider.change(function() {
-			callback(this.value);
-		});
+		return slider;
 	};
 	
     var disableDragging = function(element, map) {

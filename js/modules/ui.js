@@ -56,7 +56,7 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
     
     var updateUI = function(newTaxon, filters) {
         //change the cartoDB taxon layer
-        var query = newTaxon.getSqlWhere() + sheet.getFiltersSQL(filters, ["fieldvalue"]);
+        var query = newTaxon.getSqlWhere() + sheet.getFiltersSQL(filters, ["fieldvalue", "minmax"]);
         map.setSql(query);
 
         //updateMenus
@@ -158,7 +158,7 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
         
         var attachEvent = function(item, num) {
             item.on("click", function() {
-                map.getQuotes(taxon, sheet.getFiltersSQL(filters, ["circle", "fieldvalue"]), downloadFormats[num].format);
+                map.getQuotes(taxon, sheet.getFiltersSQL(filters, ["circle", "fieldvalue", "minmax"]), downloadFormats[num].format);
             });
         };
         
@@ -274,7 +274,7 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
         var fields = taxon.getSqlFields('child');
         if (!children) fields = taxon.getSqlFields('parent');
         var query = "SELECT COUNT(*), "+ fields +" FROM " + map.getCartoDBTable() + " " + taxon.getSqlWhere();
-        if(filters) query += sheet.getFiltersSQL(filters, ["circle", "fieldvalue"]);
+        if(filters) query += sheet.getFiltersSQL(filters, ["circle", "fieldvalue", "minmax"]);
         //group bys and orders
     	query += "  group by " + fields + " order by count(*) desc";
         return query;

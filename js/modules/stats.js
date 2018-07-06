@@ -13,19 +13,19 @@ define(['i18n', 'c3js', 'd3', 'conf', 'cartodb'], function(i18n, c3, d3, conf) {
        
         if (type == "subtaxa") {
             var q = conf.getApi() + "q=select count(*)," + taxon.levelsId[childrenLevel] + " as id," + taxon.levels[childrenLevel] + " as name" + parent + " from " + conf.getTable() +
-            " WHERE " + taxon.levelsId[level] + "='"+ taxon.getChild()['id'] +"'" + getFiltersSQL(filters, ["circle", "fieldvalue"]) + " group by id, name " + parent2 + " order by count(*) desc";
+            " WHERE " + taxon.levelsId[level] + "='"+ taxon.getChild()['id'] +"'" + getFiltersSQL(filters, ["circle", "fieldvalue", "minmax"]) + " group by id, name " + parent2 + " order by count(*) desc";
         } else if (type == "year") {
             // any "normal" field that doesn't require transformation
             q = conf.getApi() + "q=select count(*), " + type + " as name from " + conf.getTable() +
-            " WHERE " + taxon.levelsId[level] + "='"+ taxon.getChild()['id'] +"'" + getFiltersSQL(filters, ["circle", "fieldvalue"]) + "AND year IS NOT NULL group by name order by year";
+            " WHERE " + taxon.levelsId[level] + "='"+ taxon.getChild()['id'] +"'" + getFiltersSQL(filters, ["circle", "fieldvalue", "minmax"]) + "AND year IS NOT NULL group by name order by year";
         } else if (type == "decade") {
             //by decade
             q = conf.getApi() + "q=select count(*), cast(cast(year AS integer)/10 as varchar)||'0' AS name " + " from " + conf.getTable() +
-            " WHERE " + taxon.levelsId[level] + "='"+ taxon.getChild()['id'] + "' AND year IS NOT NULL" + getFiltersSQL(filters, ["circle", "fieldvalue"]) + " group by cast(year AS integer)/10 order by cast(year AS integer)/10";
+            " WHERE " + taxon.levelsId[level] + "='"+ taxon.getChild()['id'] + "' AND year IS NOT NULL" + getFiltersSQL(filters, ["circle", "fieldvalue", "minmax"]) + " group by cast(year AS integer)/10 order by cast(year AS integer)/10";
         } else {
             // any "normal" field that doesn't require transformation
             q = conf.getApi() + "q=select count(*), " + type + " as name from " + conf.getTable() +
-            " WHERE " + taxon.levelsId[level] + "='"+ taxon.getChild()['id'] +"'" + getFiltersSQL(filters, ["circle", "fieldvalue"]) + " group by name order by count(*) desc";            
+            " WHERE " + taxon.levelsId[level] + "='"+ taxon.getChild()['id'] +"'" + getFiltersSQL(filters, ["circle", "fieldvalue", "minmax"]) + " group by name order by count(*) desc";            
         }
         
         return q;
@@ -60,7 +60,17 @@ define(['i18n', 'c3js', 'd3', 'conf', 'cartodb'], function(i18n, c3, d3, conf) {
                                     query += " AND "+ filter.field + "='" + filter.value.replace('\x27', '\x27\x27') + "'";
                                 }
                             }
-                            break;    
+                            break;
+                        case "minmax":
+                            if (filterArray.indexOf("minmax") != -1) {
+                                if (filter.min) {
+                                    query += " AND "+ filter.field + ">" + filter.min;
+                                }
+                                if (filter.max) {
+                                    query += " AND "+ filter.field + "<" + filter.max;
+                                }
+                            }
+                            break; 
                     }
                 }
             }

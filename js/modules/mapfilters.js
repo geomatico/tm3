@@ -2,7 +2,7 @@
  * @author Martí Pericay <marti@pericay.com>
  */
 
-define(['cartodb', 'leaflet-draw'], function() {
+define(['timeslider', 'cartodb', 'leaflet-draw'], function(timeslider) {
     "use strict";
     
     // we store filters here
@@ -36,6 +36,22 @@ define(['cartodb', 'leaflet-draw'], function() {
     var addCircleFilter = function(div, drawnItems, map, callback) {
 		$(div + " input").on("click", function() {
 			toggleFilter(div, map, drawnItems, callback);
+		});
+    };
+
+    var addSliderEvents = function(div, slider, callback) {
+		
+        filters[div] = {"active": false, "data": ""};
+        slider.change(function() {
+            var values = this.value.split(",");
+            filters[div].data = {
+    			type: 'minmax',
+	    		field: 'year',
+	    		min: values[0],
+                max: values[1]
+	    	};
+            filters[div].active = true; 
+            callback(null, filters);
 		});
     };
     
@@ -134,6 +150,10 @@ define(['cartodb', 'leaflet-draw'], function() {
         createFieldValue: function(div, service, callback) {
     		draw(div, 'fieldvalue');
     		addFVEvents(div, service, callback);
+    	},
+        createSlider: function(div, map, callback) {
+    		var slider = timeslider.create(div, map, callback);
+            addSliderEvents(div, slider, callback);
     	}
     };
     		

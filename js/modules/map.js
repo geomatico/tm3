@@ -1,7 +1,7 @@
 /**
  * @author Martí Pericay <marti@pericay.com>
  */
-define(['maplayers', 'mapfilters', 'legend', 'timeslider', 'conf', 'cartodb'], function(layers, mapfilters, legend, timeslider, conf) {
+define(['maplayers', 'mapfilters', 'legend', 'conf', 'cartodb'], function(layers, mapfilters, legend, conf) {
     "use strict";
 
 	var cartoDBSubLayer;
@@ -72,6 +72,10 @@ define(['maplayers', 'mapfilters', 'legend', 'timeslider', 'conf', 'cartodb'], f
         mapfilters.createCircle(div, drawnItems, map, callback);
     };
     
+    var createSliderFilter = function(div, callback) {
+        mapfilters.createSlider(div, map, callback);
+    };
+    
     var createComboFilter = function(div, callback) {
         var query = "select distinct __field__ AS value from " + conf.getTable() + " order by __field__";
         var service = conf.getApi() + "q=" + encodeURIComponent(query);
@@ -92,7 +96,7 @@ define(['maplayers', 'mapfilters', 'legend', 'timeslider', 'conf', 'cartodb'], f
        		return createGeoFilter(div, cb);
        },
        createTimeSlider: function(div, cb) {
-       		return timeslider.create(div, map, cb);
+       		return createSliderFilter(div, cb);
        },
        createComboFilter: function(div, cb) {
        		return createComboFilter(div, cb);
