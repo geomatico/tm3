@@ -64,10 +64,10 @@ define(['i18n', 'c3js', 'd3', 'conf', 'cartodb'], function(i18n, c3, d3, conf) {
                         case "minmax":
                             if (filterArray.indexOf("minmax") != -1) {
                                 if (filter.min) {
-                                    query += " AND "+ filter.field + ">" + filter.min;
+                                    query += " AND "+ filter.field + ">=" + filter.min;
                                 }
                                 if (filter.max) {
-                                    query += " AND "+ filter.field + "<" + filter.max;
+                                    query += " AND "+ filter.field + "<=" + filter.max;
                                 }
                             }
                             break; 
