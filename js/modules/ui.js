@@ -14,9 +14,9 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
     // for API
     var taxonId = (params.hasOwnProperty('id') ? params.id : 'Animalia');
     var level = ((params.hasOwnProperty('level') && parseInt(params.level)) ? params.level : '1');
-    var zoom = (params.hasOwnProperty('zoom') ? params.zoom : '3');
-    var lat = (params.hasOwnProperty('lat') ? params.lat : '29.085599');
-    var lon = (params.hasOwnProperty('lon') ? params.lon : '0.966797');
+    var zoom = (params.hasOwnProperty('zoom') ? params.zoom : '6');
+    var lat = (params.hasOwnProperty('lat') ? params.lat : '41');
+    var lon = (params.hasOwnProperty('lon') ? params.lon : '5');
     var currentTaxon;
     // store filters
     var activeFilters = [];
