@@ -165,8 +165,8 @@ define(['timeslider', 'cartodb', 'leaflet-draw'], function(timeslider) {
     		draw(div, 'fieldvalue');
     		addFVEvents(div, service, callback);
     	},
-        createSlider: function(div, map, callback) {
-    		var slider = timeslider.create(div, map, callback);
+        createSlider: function(div, map, callback, minmax) {
+    		var slider = timeslider.create(div, map, minmax);
             addSliderEvents(div, slider, callback);
     	}
     };

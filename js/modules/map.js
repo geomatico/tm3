@@ -73,7 +73,20 @@ define(['maplayers', 'mapfilters', 'legend', 'conf', 'cartodb'], function(layers
     };
     
     var createSliderFilter = function(div, callback) {
-        mapfilters.createSlider(div, map, callback);
+        var q = "select max(year) as maxyear, min(year) as minyear from " + conf.getTable();
+        $.getJSON(conf.getApi() + "callback=?", //for JSONP
+            {
+              q: q
+            },
+            function(data){
+                //got results
+                if(data && data.total_rows) {
+                    var minmax = [data.rows[0].minyear, data.rows[0].maxyear];
+                } else {
+                    var minmax = [1800, 2018];
+                }
+                mapfilters.createSlider(div, map, callback, minmax);
+            });        
     };
     
     var createComboFilter = function(div, callback) {

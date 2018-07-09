@@ -5,14 +5,16 @@
 
 define(['slider'], function() {
 	
-	var create = function(div, map, callback) {
+	var create = function(div, map, minmax) {
 			
+		if (!minmax) {
+            minmax = [1900, 2000];
+        }
 		var slider = $("#slider").slider({
 			tooltip: 'always',
-			min: 1900,
-			max: 2018,
-			value: [1900, 2018],
-			//value: moments.length - 1,
+			min: minmax[0],
+			max: minmax[1],
+			value: minmax,
 			step: 1,
 		});
 		
@@ -34,8 +36,8 @@ define(['slider'], function() {
     }
 	
 	return {
-       create: function(div, map, callback) {
-       		return create(div, map, callback);
+       create: function(div, map, minmax) {
+       		return create(div, map, minmax);
        }
 	};
 	
