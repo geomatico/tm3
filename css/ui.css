@@ -495,7 +495,7 @@ div.cartodb-popup div.cartodb-popup-content-wrapper {
 
 .slider-selection{ 
 	background: #ddb043 !important;
-	transition: width 0.3s ease 0s !important; 
+	transition: width 0.1s ease 0s !important; 
 }
 
 .slider-handle {
@@ -506,12 +506,6 @@ div.cartodb-popup div.cartodb-popup-content-wrapper {
     width: 12px !important;
 }
 
-.slider.slider-horizontal .slider-tick-label-container {
-    color: #b9b9b9;
-    font-size: 8.5pt;
-    margin-top: 10px !important;
-    white-space: nowrap;
-}
 
 /**** Auupa 01.11.2016 ****/
 
