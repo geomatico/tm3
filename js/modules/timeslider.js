@@ -3,7 +3,7 @@
  */
 
 
-define(['slider'], function() {
+define(['i18n', 'slider'], function(i18n) {
 	
 	var create = function(div, map, minmax) {
 			
@@ -12,6 +12,9 @@ define(['slider'], function() {
         }
 		var slider = $("#slider").slider({
 			tooltip: 'always',
+			formatter: function(value) {
+				return i18n.t('Years') + ': ' + value[0] + ' - ' + value[1];
+			},
 			min: minmax[0],
 			max: minmax[1],
 			value: minmax,
