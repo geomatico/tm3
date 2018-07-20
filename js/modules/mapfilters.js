@@ -64,7 +64,13 @@ define(['timeslider', 'cartodb', 'leaflet-draw'], function(timeslider) {
 	    		min: values[0],
                 max: values[1]
 	    	};
-            filters[div].active = true; 
+            
+            //check if the slider is at full range
+            var min = $(this).data("slider").options.value[0];
+            var max = $(this).data("slider").options.value[1];
+            if(min != values[0] || max != values[1]) filters[div].active = true;
+            //if it's at full range (max and min values) we show all data (include data without time)
+            else filters[div].active = false;
             callback(null, filters);
 		}, 500));
     };
