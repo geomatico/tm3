@@ -19,8 +19,9 @@ define(['i18n', 'cartodb', 'select'], function(i18n) {
         title: "Legend",
         data: [
           { name: "IBB",  value: "#58A062" },
-          { name: "MVHN", value: "#545FDE" },
+          { name: "MVHN", value: "#343FCE" },
           { name: "IMEDEA", value: "#F02921" },
+          { name: "UB", value: "#5A9DDA" },
           { name: "MCNB", value: "#FABB5C" }
         ]
     });   
@@ -57,7 +58,7 @@ define(['i18n', 'cartodb', 'select'], function(i18n) {
         },
         'institution': {
             cdbLegend: institutionLegend,
-            cartoCSS: '#mcnb_dev { marker-fill-opacity: 0.9; marker-line-color: #FFF; marker-line-width: 1; marker-line-opacity: 1; marker-placement: point; marker-type: ellipse; marker-width: 10; marker-allow-overlap: true; #mcnb_dev[institutioncode="Institut Botànic de Barcelona"] { marker-fill: #58A062;} #mcnb_dev[institutioncode="Museu Valencià d\'Història Natural"] { marker-fill: #545FDE;}#mcnb_dev[institutioncode="Institut Mediterrani d\'Estudis Avançats"] { marker-fill: #F02921;}#mcnb_dev[institutioncode="Museu Ciències Naturals Barcelona"] { marker-fill: #FABB5C;}#mcnb_dev { marker-fill: #FABB5C;} }',
+            cartoCSS: '#mcnb_dev { marker-fill-opacity: 0.9; marker-line-color: #FFF; marker-line-width: 1; marker-line-opacity: 1; marker-placement: point; marker-type: ellipse; marker-width: 10; marker-allow-overlap: true; #mcnb_dev[institutioncode="Institut Botànic de Barcelona"] { marker-fill: #58A062;} #mcnb_dev[institutioncode="Museu Valencià d\'Història Natural"] { marker-fill: #343FCE;}#mcnb_dev[institutioncode="Institut Mediterrani d\'Estudis Avançats"] { marker-fill: #F02921;}#mcnb_dev[institutioncode="Universitat de Barcelona"] { marker-fill: #5A9DDA;}#mcnb_dev[institutioncode="Museu Ciències Naturals Barcelona"] { marker-fill: #FABB5C;}#mcnb_dev { marker-fill: #FABB5C;} }',
             name: "Institution"
         },
        
