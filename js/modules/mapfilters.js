@@ -2,7 +2,7 @@
  * @author Martí Pericay <marti@pericay.com>
  */
 
-define(['timeslider', 'cartodb', 'leaflet-draw'], function(timeslider) {
+define(['i18n', 'timeslider', 'cartodb', 'leaflet-draw'], function(i18n, timeslider) {
     "use strict";
     
     // we store filters here
@@ -88,7 +88,7 @@ define(['timeslider', 'cartodb', 'leaflet-draw'], function(timeslider) {
                         // "All" value
                         $(div + " #valueFilter").append($('<option>', {
                                 value: "",
-                                text: "All"
+                                text: i18n.t("All")
                             }));
                         for(var i = 0; i < data.rows.length; i++) {
                             if (data.rows[i].value) {
