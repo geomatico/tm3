@@ -14,6 +14,7 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
     // for API
     var taxonId = (params.hasOwnProperty('id') ? params.id : 'Animalia');
     var level = ((params.hasOwnProperty('level') && parseInt(params.level)) ? params.level : '1');
+    var taxonSearch = (params.hasOwnProperty('taxon') ? params.taxon : '');
     var zoom = (params.hasOwnProperty('zoom') ? params.zoom : '6');
     var lat = (params.hasOwnProperty('lat') ? params.lat : '41');
     var lon = (params.hasOwnProperty('lon') ? params.lon : '5');
@@ -329,19 +330,39 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
             }
         });
 	};
-	
-	currentTaxon = new taxon(taxonId, level);
-	setTaxon(currentTaxon);
-    var options = {
-        where: currentTaxon.getSqlWhere(),
-        lat: lat,
-        lon: lon,
-        zoom: zoom
+
+    var doTaxonStuff = function(taxon) {
+        setTaxon(taxon);
+        var options = {
+            where: taxon.getSqlWhere(),
+            lat: lat,
+            lon: lon,
+            zoom: zoom
+        }
+        map.createMap(options);
+        map.createGeoFilter("#circleFilter", updateMenus);
+        map.createComboFilter("#fvFilter", setTaxon);
+        map.createTimeSlider("#sliderContainer", setTaxon);
+        return taxon;
     }
-    map.createMap(options);
-	map.createGeoFilter("#circleFilter", updateMenus);
-    map.createComboFilter("#fvFilter", setTaxon);
-    map.createTimeSlider("#sliderContainer", setTaxon);
+    
+	//if looking for a generic taxon name
+    if (taxonSearch) {
+        $.get(map.getCartoDBApi() + 'q=' + encodeURIComponent(new taxon().getSqlSearch(taxonSearch, map.getCartoDBTable())), function (data) {
+            //if something found
+            if(data.rows.length) {
+                // activate first taxon found
+                currentTaxon = doTaxonStuff(new taxon(data.rows[0].id, data.rows[0].level));
+            }
+            else {
+                //if nothing found, show message and load defaults
+                currentTaxon = doTaxonStuff(new taxon(taxonId, level));
+                alert("Couldn't find any taxon when searching for " + taxonSearch);
+            }
+        });
+    } else {
+        currentTaxon = doTaxonStuff(new taxon(taxonId, level));
+    }
     
     $("#toggleButton").click(function(e) {
 	    e.preventDefault();
