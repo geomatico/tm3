@@ -160,7 +160,8 @@ define(function () {
 	        sqlSelect += i + " AS level";
 	        sqlSelect += " FROM " + table + " WHERE UPPER(" + this.levels[i] + ") LIKE UPPER('" + term + "%')";       
 	    }
-	    sqlSelect += " ORDER BY label"
+	    sqlSelect += " ORDER BY label";
+		sqlSelect += " LIMIT 100";
 	    
 	    return sqlSelect;
 	};
