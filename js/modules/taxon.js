@@ -151,7 +151,7 @@ define(function () {
 	Taxon.prototype.getSqlSearch = function(term, table) {
 	    var sqlSelect = "";
 	    // we select all levels except last
-	    var maxLevel = this.levels.length - 1;
+	    var maxLevel = this.levels.length;
 	    for(var i = 0; i < maxLevel; i++) {
 	        if(sqlSelect) sqlSelect += " UNION ";
 	        //both levels and levels id

@@ -351,7 +351,7 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
     //default
     var taxonAjax = [{ rows: [{ id: taxonId, level: level}] }];
     //search Carto
-    if (taxonSearch) taxonAjax = $.get(map.getCartoDBApi() + 'q=' + encodeURIComponent(new taxon().getSqlSearch(taxonSearch, map.getCartoDBTable())));
+    if (taxonSearch) taxonAjax = $.get(map.getCartoDBApi() + 'q=' + encodeURIComponent(new taxon().getSqlSearch(decodeURIComponent(taxonSearch), map.getCartoDBTable())));
     
     //if looking for a place name
     //default
