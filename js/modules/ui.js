@@ -15,6 +15,7 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
     var taxonId = (params.hasOwnProperty('id') ? params.id : 'Animalia');
     var level = ((params.hasOwnProperty('level') && parseInt(params.level)) ? params.level : '1');
     var taxonSearch = (params.hasOwnProperty('taxon') ? params.taxon : '');
+    var placenameSearch = (params.hasOwnProperty('placename') ? params.placename : '');
     var zoom = (params.hasOwnProperty('zoom') ? params.zoom : '6');
     var lat = (params.hasOwnProperty('lat') ? params.lat : '41');
     var lon = (params.hasOwnProperty('lon') ? params.lon : '5');
@@ -331,12 +332,12 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
         });
 	};
 
-    var doTaxonStuff = function(taxon) {
+    var loadTaxoMap = function(taxon, latlon) {
         setTaxon(taxon);
         var options = {
             where: taxon.getSqlWhere(),
-            lat: lat,
-            lon: lon,
+            lat: latlon.lat,
+            lon: latlon.lon,
             zoom: zoom
         }
         map.createMap(options);
@@ -346,23 +347,24 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
         return taxon;
     }
     
-	//if looking for a generic taxon name
-    if (taxonSearch) {
-        $.get(map.getCartoDBApi() + 'q=' + encodeURIComponent(new taxon().getSqlSearch(taxonSearch, map.getCartoDBTable())), function (data) {
-            //if something found
-            if(data.rows.length) {
-                // activate first taxon found
-                currentTaxon = doTaxonStuff(new taxon(data.rows[0].id, data.rows[0].level));
-            }
-            else {
-                //if nothing found, show message and load defaults
-                currentTaxon = doTaxonStuff(new taxon(taxonId, level));
-                alert("Couldn't find any taxon when searching for " + taxonSearch);
-            }
-        });
-    } else {
-        currentTaxon = doTaxonStuff(new taxon(taxonId, level));
+	//if looking for a generic taxon name: Ajax query to Carto
+    //default
+    var taxonAjax = [{ rows: [{ id: taxonId, level: level}] }];
+    //search Carto
+    if (taxonSearch) taxonAjax = $.get(map.getCartoDBApi() + 'q=' + encodeURIComponent(new taxon().getSqlSearch(taxonSearch, map.getCartoDBTable())));
+    
+    //if looking for a place name
+    //default
+    var placeAjax = [{ results: [{geometry: {lat: lat, lon: lon}}] }];
+    //search Opencage
+    if (placenameSearch) {
+        placeAjax = $.get('http://develtaxomap.bioexplora.cat/proxy/jsonproxy.php?endpoint=opencage&q=' + encodeURIComponent(placenameSearch));
     }
+
+    $.when(taxonAjax, placeAjax).done(function(taxonData, placeData) {
+        currentTaxon = loadTaxoMap(new taxon(taxonData[0].rows[0].id, taxonData[0].rows[0].level), {lat: placeData[0].results[0].geometry.lat, lon: placeData[0].results[0].geometry.lng});
+      });
+
     
     $("#toggleButton").click(function(e) {
 	    e.preventDefault();
