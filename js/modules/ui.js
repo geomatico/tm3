@@ -349,19 +349,31 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
     
 	//if looking for a generic taxon name: Ajax query to Carto
     //default
-    var taxonAjax = [{ rows: [{ id: taxonId, level: level}] }];
+    var taxonAjax, taxonAjaxDefault;
+    taxonAjax = taxonAjaxDefault = [{ rows: [{ id: taxonId, level: level}] }];
     //search Carto
     if (taxonSearch) taxonAjax = $.get(map.getCartoDBApi() + 'q=' + encodeURIComponent(new taxon().getSqlSearch(decodeURIComponent(taxonSearch), map.getCartoDBTable())));
     
     //if looking for a place name
     //default
-    var placeAjax = [{ results: [{geometry: {lat: lat, lon: lon}}] }];
+    var placeAjax, placeAjaxDefault;
+    placeAjax = placeAjaxDefault = [{ results: [{geometry: {lat: lat, lon: lon}}] }];
     //search Opencage
     if (placenameSearch) {
-        placeAjax = $.get('http://develtaxomap.bioexplora.cat/proxy/jsonproxy.php?endpoint=opencage&q=' + encodeURIComponent(placenameSearch));
+        placeAjax = $.get('http://develtaxomap.bioexplora.cat/proxy/jsonproxy.php?endpoint=opencage&q=' + placenameSearch);
     }
 
     $.when(taxonAjax, placeAjax).done(function(taxonData, placeData) {
+        //check taxon not found
+        if (!taxonData[0].rows[0]) {
+            taxonData = taxonAjaxDefault;
+            console.log("Couldn't find a taxon named " + decodeURIComponent(taxonSearch));
+        }
+        //check placename not found
+        if (!placeData[0].results[0]) {
+            placeData = placeAjaxDefault;
+            console.log("Couldn't find a place named " + decodeURIComponent(placenameSearch));
+        }
         currentTaxon = loadTaxoMap(new taxon(taxonData[0].rows[0].id, taxonData[0].rows[0].level), {lat: placeData[0].results[0].geometry.lat, lon: placeData[0].results[0].geometry.lng});
       });
 
