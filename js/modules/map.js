@@ -14,7 +14,7 @@ define(['maplayers', 'mapfilters', 'legend', 'conf', 'cartodb'], function(layers
         var zoom = parseInt(options.zoom) ? parseInt(options.zoom) : 2;
         var sqlWhere = options.where ? options.where : "";
         
-        map = L.map('map', {maxZoom: 13,minZoom: 1}).setView([lat, lon], zoom);
+        map = L.map('map', {maxZoom: 11,minZoom: 1}).setView([lat, lon], zoom);
         
         // create a layer with 1 sublayer
         cartodb.createLayer(map, {
@@ -50,6 +50,8 @@ define(['maplayers', 'mapfilters', 'legend', 'conf', 'cartodb'], function(layers
         var base = layers.getBaseLayers();
         base['Terrain'].addTo(map);
         L.control.layers(base, overlays).addTo(map);
+        
+        return map;
     };
     
     var getQuotes = function(taxon, getFiltersSQL, format) {

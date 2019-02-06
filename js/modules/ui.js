@@ -334,13 +334,23 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
 
     var loadTaxoMap = function(taxon, latlon) {
         setTaxon(taxon);
+
+        // center + zoom mode
         var options = {
             where: taxon.getSqlWhere(),
             lat: latlon.lat,
             lon: latlon.lon,
             zoom: zoom
         }
-        map.createMap(options);
+        //bounds mode (don't set center to avoid navigation)
+        if (latlon.northeast) {
+            options = {
+                where: taxon.getSqlWhere()
+            }
+        }
+        
+        var leafletMap = map.createMap(options);
+        if (latlon.northeast) leafletMap.fitBounds(L.latLngBounds(latlon.northeast, latlon.southwest));
         map.createGeoFilter("#circleFilter", updateMenus);
         map.createComboFilter("#fvFilter", setTaxon);
         map.createTimeSlider("#sliderContainer", setTaxon);
@@ -374,7 +384,16 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
             placeData = placeAjaxDefault;
             console.log("Couldn't find a place named " + decodeURIComponent(placenameSearch));
         }
-        currentTaxon = loadTaxoMap(new taxon(taxonData[0].rows[0].id, taxonData[0].rows[0].level), {lat: placeData[0].results[0].geometry.lat, lon: placeData[0].results[0].geometry.lng});
+        
+        //center or bounds?
+        var latlon;
+        if (placeData[0].results[0].bounds) {
+            latlon =  placeData[0].results[0].bounds;
+        } else {
+            latlon = placeData[0].results[0].geometry;
+        }
+        currentTaxon = loadTaxoMap(new taxon(taxonData[0].rows[0].id, taxonData[0].rows[0].level), latlon);
+                                   
       });
 
     
