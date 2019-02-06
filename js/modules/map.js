@@ -68,8 +68,8 @@ define(['maplayers', 'mapfilters', 'legend', 'conf', 'cartodb'], function(layers
     // Initialise the FeatureGroup to store editable layers
     var drawnItems = new L.FeatureGroup();
     
-    var createGeoFilter = function(div, callback) {
-        mapfilters.createCircle(div, drawnItems, map, callback);
+    var createGeoFilter = function(div, callback, bounds) {
+        mapfilters.createCircle(div, drawnItems, map, callback, bounds);
     };
     
     var createSliderFilter = function(div, callback) {
@@ -105,8 +105,8 @@ define(['maplayers', 'mapfilters', 'legend', 'conf', 'cartodb'], function(layers
        getCartoDBApi: function() {
        		return conf.getApi();
        },
-       createGeoFilter: function(div, cb) {
-       		return createGeoFilter(div, cb);
+       createGeoFilter: function(div, cb, bounds) {
+       		return createGeoFilter(div, cb, bounds);
        },
        createTimeSlider: function(div, cb) {
        		return createSliderFilter(div, cb);

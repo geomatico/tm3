@@ -332,7 +332,7 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
         });
 	};
 
-    var loadTaxoMap = function(taxon, latlon) {
+    var loadTaxoMap = function(taxon, latlon, activatedFilter) {
         setTaxon(taxon);
         var options = {
             where: taxon.getSqlWhere(),
@@ -341,7 +341,7 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
             zoom: zoom
         }
         map.createMap(options);
-        map.createGeoFilter("#circleFilter", updateMenus);
+        map.createGeoFilter("#circleFilter", updateMenus, activatedFilter.bounds);
         map.createComboFilter("#fvFilter", setTaxon);
         map.createTimeSlider("#sliderContainer", setTaxon);
         return taxon;
@@ -364,6 +364,7 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
     }
 
     $.when(taxonAjax, placeAjax).done(function(taxonData, placeData) {
+        var activatedFilter = {};
         //check taxon not found
         if (!taxonData[0].rows[0]) {
             taxonData = taxonAjaxDefault;
@@ -374,7 +375,10 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
             placeData = placeAjaxDefault;
             console.log("Couldn't find a place named " + decodeURIComponent(placenameSearch));
         }
-        currentTaxon = loadTaxoMap(new taxon(taxonData[0].rows[0].id, taxonData[0].rows[0].level), {lat: placeData[0].results[0].geometry.lat, lon: placeData[0].results[0].geometry.lng});
+        if (placeData[0].results[0].bounds) {
+            activatedFilter['bounds'] = placeData[0].results[0].bounds;
+        }
+        currentTaxon = loadTaxoMap(new taxon(taxonData[0].rows[0].id, taxonData[0].rows[0].level), {lat: placeData[0].results[0].geometry.lat, lon: placeData[0].results[0].geometry.lng}, activatedFilter);
       });
 
     

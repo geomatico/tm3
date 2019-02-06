@@ -127,13 +127,12 @@ define(['i18n', 'timeslider', 'cartodb', 'leaflet-draw'], function(i18n, timesli
         return newFilter;
     };
     
-    var getSuitableRadius = function(map) {
-        var bounds = map.getBounds();
+    var getSuitableRadius = function(bounds) {
         var height = bounds._northEast.lat - bounds._southWest.lat;
         return height * 20000;
     };
     
-    var toggleFilter = function(div, map, drawnItems, callback) {
+    var toggleFilter = function(div, map, drawnItems, callback, bounds) {
     	var active = filters[div].active;
         drawnItems.clearLayers();
     	if(active) {
@@ -143,9 +142,16 @@ define(['i18n', 'timeslider', 'cartodb', 'leaflet-draw'], function(i18n, timesli
     		var filter = filters[div].data;
     		map.addLayer(drawnItems);
             
-            filters[div].data.lat = map.getCenter().lat; //we ignore default values
-            filters[div].data.lon = map.getCenter().lng;
-            filters[div].data.radius =  getSuitableRadius(map);
+            if(bounds) {
+                var boundsLatLng = L.latLngBounds([bounds.northeast.lat, bounds.northeast.lng], [bounds.southwest.lat, bounds.southwest.lng]);
+                filters[div].data.lat = boundsLatLng.getCenter().lat;
+                filters[div].data.lon = boundsLatLng.getCenter().lng;
+                filters[div].data.radius =  getSuitableRadius(boundsLatLng);
+            } else {
+                filters[div].data.lat = map.getCenter().lat; //we ignore default values
+                filters[div].data.lon = map.getCenter().lng;
+                filters[div].data.radius =  getSuitableRadius(map.getBounds());                
+            }
             //draw circle
             var circleCenter = [filters[div].data.lat, filters[div].data.lon];
             var circle = new L.circle(circleCenter, filters[div].data.radius, { clickable: false }).addTo(drawnItems);
@@ -163,9 +169,11 @@ define(['i18n', 'timeslider', 'cartodb', 'leaflet-draw'], function(i18n, timesli
     };
     
     return {
-    	createCircle: function(div, layer, map, callback) {
+    	createCircle: function(div, layer, map, callback, bounds) {
     		draw(div, 'circle');
     		addCircleFilter(div, layer, map, callback);
+            //if bounds of selection are set, we activate the geo filter
+            if(bounds) setTimeout(toggleFilter(div, map, layer, callback, bounds), 3000);
     	},
         createFieldValue: function(div, service, callback) {
     		draw(div, 'fieldvalue');
