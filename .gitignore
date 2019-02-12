@@ -51,6 +51,3 @@ Temporary Items
 
 #bower
 js/lib
-
-#proxy (contains API key!)
-proxy/jsonproxy.php
