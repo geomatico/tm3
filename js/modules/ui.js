@@ -370,7 +370,7 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
     placeAjax = placeAjaxDefault = [{ results: [{geometry: {lat: lat, lon: lon}}] }];
     //search Opencage
     if (placenameSearch) {
-        placeAjax = $.get('http://develtaxomap.bioexplora.cat/proxy/jsonproxy.php?endpoint=opencage&q=' + placenameSearch);
+        placeAjax = $.get('proxy/jsonproxy.php?endpoint=opencage&q=' + placenameSearch);
     }
 
     $.when(taxonAjax, placeAjax).done(function(taxonData, placeData) {

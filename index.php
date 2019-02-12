@@ -16,6 +16,11 @@
     <link href="css/sidebar.css" rel="stylesheet" />
     <link href="css/ui.css" rel="stylesheet" />
 	<link href="css/breadcrumbs.css" rel="stylesheet" />
+<?php 
+	session_start();
+	/*session is started */
+	$_SESSION["tm3"]=microtime(true);
+?>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -24,12 +29,12 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <link href="http://bioexplora.auupa.com/navigation/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
-    <link href="http://bioexplora.auupa.com/navigation/css/custom.css" rel="stylesheet">
-    <link href="http://bioexplora.auupa.com/navigation/css/fonts.css" rel="stylesheet">
-    <link href="http://bioexplora.auupa.com/navigation/css/font-awesome.min.css" rel="stylesheet">
+    <!--link href="http://bioexplora.auupa.com/navigation/css/ie10-viewport-bug-workaround.css" rel="stylesheet"-->
+    <!--link href="http://bioexplora.auupa.com/navigation/css/custom.css" rel="stylesheet"-->
+    <!--link href="http://bioexplora.auupa.com/navigation/css/fonts.css" rel="stylesheet"-->
+    <!--link href="http://bioexplora.auupa.com/navigation/css/font-awesome.min.css" rel="stylesheet"-->
     <!--[if lt IE 9]><script src="js/ie8-responsive-file-warning.js"></script><![endif]-->
-    <script src="http://bioexplora.auupa.com/navigation/js/ie-emulation-modes-warning.js"></script>
+    <!--<script src="http://bioexplora.auupa.com/navigation/js/ie-emulation-modes-warning.js"></script-->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
