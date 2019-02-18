@@ -20,8 +20,57 @@
 	session_start();
 	/*session is started */
 	$_SESSION["tm3"]=microtime(true);
-?>
+	
+#######################################################
+    /*   bioexplora new, includes */
+#######################################################   
+$navigationCOLOR="WHITE";
+$NOLANGUAGE=false;
 
+$showheader = ($_SERVER['SERVER_NAME'] == "develtaxomap.bioexplora.cat") || ($_SERVER['SERVER_NAME'] == "taxomap.bioexplora.cat");
+
+if($showheader) {
+	
+	include("/var/www/swpre.bioexplora.cat/datos/web/navigation/base.php"); 
+
+    $bioexplora_web="TAXOMAP";
+    $bioexplora_menu_activo="TAXOMAP";
+    $bioexplora_submenu_activo="";
+    $menu_clases["TAXOMAP"]="active";
+    $mdb_lang_id= $_GET['lang'];
+    
+	switch ($mdb_lang_id){
+		case "ca":
+		  $bioexplora_idioma="CA";
+		  $traduccions=$translate_CA;
+		  break;
+		case "es":
+		  $bioexplora_idioma="ES";
+		  $traduccions=$translate_ES;
+		  break;
+		case "en":
+		  $bioexplora_idioma="EN";
+		  $traduccions=$translate_EN;
+		  break;
+	   default:
+		 $bioexplora_idioma="CA";
+		 $traduccions=$translate_CA;
+		 break;
+	}
+	
+      $bioexplora_enlace["ES"]="?lang=es";
+      $bioexplora_enlace["CA"]="?lang=ca";
+      $bioexplora_enlace["EN"]="?lang=en";
+
+    
+
+	include($rutalocal."navigation/js_css.php"); 
+}
+
+#######################################################
+    /*   bioexplora new, includes */
+#######################################################   
+?>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -29,7 +78,6 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <!--[if lt IE 9]><script src="js/ie8-responsive-file-warning.js"></script><![endif]-->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -41,96 +89,18 @@
 </head>
 
 <body>
-     <!-- HEADER -->
-<div class="personlalize-header personlalize-header-white noprint">
-    <div class="navbar navbar-default navbar-fixed-top" role="navigation"><!-- navbar-static-top -->
-      <div class="container"> <!-- container-fluid -->
+<?php
+#######################################################
+    /*   bioexplora new, includes */
+#######################################################   
 
-        <!--
-        <div class="logo pull-right">
-          <a href="http://museuciencies.cat" title="Museu de Ciències Naturals de Barcelona"><img src="http://bioexplora.auupa.com/navigation/images/logo-general-bottom.png" width="100" alt="Museu de Ciències Naturals de Barcelona"></a>
-        </div>
-        -->
-      
-
-        <div class="navbar-header">
-        
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-
-          <div class="logo">
-            <a href="http://museuciencies.cat" title="Museu de Ciències Naturals de Barcelona"><img src="http://bioexplora.auupa.com/navigation/images/logo-nat2.png" alt="Museu de Ciències Naturals de Barcelona"></a>
-          </div>
-
-          <a class="navbar-brand" href="http://bioexplora.auupa.com/">
-            <span class="bio">BIO</span><span class="explora">EXPLORA</span>
-            <div class="slogan">Explora la natura, explora el museu</div>
-          </a>
-
-          <div class="menu-languages">
-            <ul class="nav">
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">CA <b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                  <li><a href="?lang=es">ES</a></li>
-                  <li><a href="?lang=ca">CA</a></li>
-                  <li><a href="?lang=en">EN</a></li>
-                </ul>
-              </li>            
-            </ul>
-          </div>
-
-        </div>
-
-        <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li class="dropdown">
-                 <a href="http://bioexplora.auupa.com/ca/colleccions" class="dropdown-toggle" >Col·leccions <b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                  <li  class=""><a href="http://bioexplora.auupa.com/ca/colleccions-obertes">Col·leccions obertes</a></li>
-                  <li  class=""><a href="http://taxomap.auupa.com/">Taxo&map</a></li>
-                  <li  class=""><a href="http://bioexplora.auupa.com/ncd/">Guia de fons i col·leccions</a></li>
-                </ul>
-              </li>            
-              <li class="dropdown">
-                <a href="http://bioexplora.auupa.com/ca/projectes" class="dropdown-toggle" >Projectes <b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                  <li  class=""><a href="http://bioexplora.auupa.com/ca/models3d/">Atlas 3D</a></li>
-                  <li  class=""><a href="http://bioexplora.auupa.com/WIKICOLLECTA/index.php/ca/projectes/especimens-tipus">Espèciments tipus</a></li>
-                  <li  class=""><a href="#">Mol·luscs continentals de Catalunya</a></li>
-                  <li  class=""><a href="#">Briozous</a></li>
-                  <li  class=""><a href="http://bioexplora.auupa.com/WIKICOLLECTA/index.php/ca/projectes/protagonistes">Protagonistes</a></li>
-                  <li  class=""><a href="http://bioexplora.auupa.com/georeferenciacio">GEOREFERENCIACIÓ</a></li>
-                 
-                </ul>
-              </li>         
-              <li class="dropdown">
-                <a href="http://museucienciesjournals.auupa.com/?lang=ca" class="dropdown-toggle" >Publicacions científiques<b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                  <li  class=""><a href="http://abc.museucienciesjournals.auupa.com/?lang=ca">Animal Biodiversity and Conservation</a></li>
-                  <li  class=""><a href="http://amz.museucienciesjournals.auupa.com/?lang=ca">Arxius de Miscel·lània Zoològica</a></li>
-                  <li  class=""><a href="http://monografies.museucienciesjournals.auupa.com/?lang=ca">Monografies del MCNB</a></li>
-                  <li  class=""><a href="http://tmgb.museucienciesjournals.auupa.com/?lang=ca">Treballs del Museu de Geologia de Barcelona</a></li>
-                  <li  class=""><a href="http://other.museucienciesjournals.auupa.com/?lang=ca">Publicacions anteriors</a></li>
-                </ul>
-              </li>         
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Recursos <b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                  <li  class=""><a href="http://bioexplora.auupa.com/ca/panoramics">Panoràmiques</a></li>
-                </ul>
-              </li>  
-          </ul>
-        </div><!--/.nav-collapse -->
-        
-      </div>
-    </div>
-    <!-- HEADER -->
-</div>
+if($showheader) {
+	include($rutalocal."navigation/header.php");
+}
+#######################################################
+    /*   bioexplora new, includes */
+#######################################################   
+?>
 <div class="personlalize-header-fix noprint"></div>
 
 <!-- Modal -->
