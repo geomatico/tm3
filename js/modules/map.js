@@ -1,10 +1,10 @@
 /**
  * @author Martí Pericay <marti@pericay.com>
  */
-define(['maplayers', 'mapfilters', 'legend', 'conf', 'cartodb'], function(layers, mapfilters, legend, conf) {
+define(['maplayers', 'mapfilters', 'conf'], function(layers, mapfilters, conf) {
     "use strict";
 
-	var cartoDBSubLayer;
+	var wmsLayer;
     var map;
     
     var createMap = function(options) {
@@ -16,8 +16,17 @@ define(['maplayers', 'mapfilters', 'legend', 'conf', 'cartodb'], function(layers
         
         map = L.map('map', {maxZoom: 11,minZoom: 1}).setView([lat, lon], zoom);
         
+        wmsLayer = L.tileLayer.wms('http://localhost:8080/geoserver/ows?', {
+            layers: 'taxomap:mcnb_prod',
+            attribution: "MCNB",
+            format: 'image/png',
+            //cql_filter: "phylum='Annelida'",
+            cql_filter: sqlWhere,
+            transparent: true
+        });        
+        
         // create a layer with 1 sublayer
-        cartodb.createLayer(map, {
+        /*cartodb.createLayer(map, {
           user_name: conf.getUser(),
           type: 'cartodb',
           cartodb_logo:false,
@@ -44,12 +53,13 @@ define(['maplayers', 'mapfilters', 'legend', 'conf', 'cartodb'], function(layers
              
          }).on('error', function(err) {
                 console.log('cartoDBerror: ' + err);
-         });
+         });*/
     
         var overlays = layers.getOverlayLayers();
         var base = layers.getBaseLayers();
         base['Terrain'].addTo(map);
         L.control.layers(base, overlays).addTo(map);
+        wmsLayer.addTo(map).bringToFront();
         
         return map;
     };
@@ -99,7 +109,7 @@ define(['maplayers', 'mapfilters', 'legend', 'conf', 'cartodb'], function(layers
     
 	return {
 	   setSql: function(sqlWhere) {
-			return cartoDBSubLayer.setSQL("select * from " + conf.getTable() + sqlWhere);
+			return wmsLayer.setParams({'cql_filter': sqlWhere});
        },
        getCartoDBTable: function() {
        		return conf.getTable();

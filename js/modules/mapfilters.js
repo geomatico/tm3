@@ -2,7 +2,7 @@
  * @author Martí Pericay <marti@pericay.com>
  */
 
-define(['i18n', 'timeslider', 'cartodb', 'leaflet-draw'], function(i18n, timeslider) {
+define(['i18n', 'timeslider', 'leafletjs', 'leaflet-draw'], function(i18n, timeslider) {
     "use strict";
     
     // we store filters here

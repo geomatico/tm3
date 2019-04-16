@@ -1,7 +1,7 @@
 /**
  * @author Martí Pericay <marti@pericay.com>
  */
-define(['i18n', 'c3js', 'd3', 'conf', 'cartodb'], function(i18n, c3, d3, conf) {
+define(['i18n', 'c3js', 'd3', 'conf', 'leafletjs'], function(i18n, c3, d3, conf) {
     "use strict";
         
     function getQuery(taxon, type, filters) {
