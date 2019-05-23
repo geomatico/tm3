@@ -29,7 +29,7 @@ define(['i18n', 'cartodb', 'select'], function(i18n) {
    var basisLegend = new cdb.geo.ui.Legend.Custom({
         title: "Legend",
         data: [
-          { name: "No fossil",  value: "#58A062" },
+          { name: "Non-fossil",  value: "#58A062" },
           { name: "Fossil",       value: "#F07971" }
         ]
     });

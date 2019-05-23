@@ -1,19 +1,19 @@
 {
 	"Languages": {
 		"es": "Idiomas",
-		"ca": "Idiomes"	
+		"ca": "Idiomes"
 	},
 	"About": {
 		"es": "¿Qué es?",
-		"ca": "Què és?"	
+		"ca": "Què és?"
 	},
 	"Help": {
 		"es": "Ayuda",
-		"ca": "Ajuda"	
+		"ca": "Ajuda"
 	},
 	"Disclaimer": {
 		"es": "Nota legal",
-		"ca": "Nota legal"	
+		"ca": "Nota legal"
 	},
 	"Loading...": {
 		"es": "Cargando...",
@@ -73,47 +73,55 @@
 	},
 	"Parent taxon": {
 		"es": "Taxón superior",
-		"ca": "Tàxon superior"	
+		"ca": "Tàxon superior"
 	},
 	"Filters": {
 		"es": "Filtros",
-		"ca": "Filtres"	
+		"ca": "Filtres"
 	},
 	"Institution": {
 		"es": "Institución",
-		"ca": "Institució"	
+		"ca": "Institució"
 	},
 	"Basis of record": {
 		"es": "Tipo de registro",
-		"ca": "Tipus de registre"	
+		"ca": "Tipus de registre"
 	},
 	"-- select filter --": {
 		"es": "-- seleccionar filtro --",
-		"ca": "-- seleccionar filtre --"	
+		"ca": "-- seleccionar filtre --"
 	},
 	"Round filter": {
 		"es": "Filtro circular",
-		"ca": "Filtre circular"	
+		"ca": "Filtre circular"
 	},
 	"Intensity": {
 		"es": "Intensidad",
-		"ca": "Intensitat"	
+		"ca": "Intensitat"
 	},
 	"Phylum": {
 		"es": "Fílum",
-		"ca": "Fílum"	
+		"ca": "Fílum"
 	},
 	"Legend": {
 		"es": "Leyenda",
-		"ca": "Llegenda"	
+		"ca": "Llegenda"
 	},
 	"No results": {
 		"es": "No hay resultados",
-		"ca": "No s'han trobat resultats"	
+		"ca": "No s'han trobat resultats"
 	},
 	"Others": {
 		"es": "Otros",
 		"ca": "Altres"
+	},
+	"Fossil": {
+		"es": "Fósil",
+		"ca": "Fòssil"
+	},
+	"Non-fossil": {
+		"es": "No fósil",
+		"ca": "No fòssil"
 	},
 	"All": {
 		"es": "Todos",
@@ -138,7 +146,7 @@
 	"Links": {
 		"es": "Enlaces",
 		"ca": "Enllaços"
-	},	
+	},
 	"Data": {
 		"es": "Datos",
 		"ca": "Dades"
@@ -165,7 +173,7 @@
 	},
 	"No results found for": {
 		"es": "No se han encontrado resultados para",
-		"ca": "No s'han trobat resultats per a"		
+		"ca": "No s'han trobat resultats per a"
 	},
 	"here": {
 		"es": "aquí",
