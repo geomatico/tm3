@@ -3,14 +3,14 @@
  */
 define(['i18n', 'c3js', 'd3', 'conf', 'leafletjs'], function(i18n, c3, d3, conf) {
     "use strict";
-        
+
     function getQuery(taxon, type, filters) {
-        
+
         var level = taxon.level;
         var childrenLevel = (taxon.levels[level+1]) ? level + 1 : level;
         var parent = level ? "," + taxon.levelsId[level-1] + " as parent " : "";
         var parent2 = parent ? ", parent " : "";
-       
+
         if (type == "subtaxa") {
             var q = conf.getApi() + "q=select count(*)," + taxon.levelsId[childrenLevel] + " as id," + taxon.levels[childrenLevel] + " as name" + parent + " from " + conf.getTable() +
             " WHERE " + taxon.levelsId[level] + "='"+ taxon.getChild()['id'] +"'" + getFiltersSQL(filters, ["circle", "fieldvalue", "minmax"]) + " group by id, name " + parent2 + " order by count(*) desc";
@@ -25,16 +25,16 @@ define(['i18n', 'c3js', 'd3', 'conf', 'leafletjs'], function(i18n, c3, d3, conf)
         } else {
             // any "normal" field that doesn't require transformation
             q = conf.getApi() + "q=select count(*), " + type + " as name from " + conf.getTable() +
-            " WHERE " + taxon.levelsId[level] + "='"+ taxon.getChild()['id'] +"'" + getFiltersSQL(filters, ["circle", "fieldvalue", "minmax"]) + " group by name order by count(*) desc";            
+            " WHERE " + taxon.levelsId[level] + "='"+ taxon.getChild()['id'] +"'" + getFiltersSQL(filters, ["circle", "fieldvalue", "minmax"]) + " group by name order by count(*) desc";
         }
-        
+
         return q;
     };
-    
+
     var getCircleSQL = function(circle) {
         return "ST_DWithin(the_geom::geography, ST_SetSRID(ST_MakePoint("+circle.lon+","+circle.lat+"),4326)::geography," + circle.radius + ")";
-    };    
-    
+    };
+
     var getFiltersSQL = function(filters, filterArray) {
         var query = "";
         for (var property in filters) {
@@ -70,27 +70,27 @@ define(['i18n', 'c3js', 'd3', 'conf', 'leafletjs'], function(i18n, c3, d3, conf)
                                     query += " AND "+ filter.field + "<=" + filter.max;
                                 }
                             }
-                            break; 
+                            break;
                     }
                 }
             }
         }
         return query;
-    };    
-    
+    };
+
     function drawPie(div, q, type) {
-        
+
         //loading
         $(div).html('<div id="loading" class="text-center"><img src="img/load.svg" /></div>');
-        
+
         //JSON call
         var jsonData = $.ajax({
             url: q,
             dataType: 'json',
           }).done(function (results) {
-        
+
             if (results["total_rows"]) {
-                 
+
                  //generate chart
                  if (type == "bar") {
                     // Rearrange data
@@ -100,7 +100,7 @@ define(['i18n', 'c3js', 'd3', 'conf', 'leafletjs'], function(i18n, c3, d3, conf)
                       data.push(row.count);
                       x.push(row.name);
                     });
-                    
+
                     var chart = c3.generate({
                         bindto: div,
                         data: {
@@ -131,28 +131,28 @@ define(['i18n', 'c3js', 'd3', 'conf', 'leafletjs'], function(i18n, c3, d3, conf)
                         }
                     });
                  }
-                 
+
             } else {
                 $(div).html("No results");
                 //console.log("Query " + q + " brought no results")
             }
         });
     };
-    
+
     function isUselessStat(activeFilters, k) {
-        
+
         // we don't want to show a stat if we filter by it: the graphic would be 100%
         if (jQuery.isEmptyObject(activeFilters)) return false;
         var filters = activeFilters["#fvFilter"];
         var isUseless = false;
-        
+
         if (filters && filters.active && filters.data && filters.data.value) {
             return (filters.data.field == k);
         }
-        
+
         return false;
     };
-    
+
 	return {
        create: function(div, taxon, activeFilters) {
             // create here all stats
@@ -170,7 +170,7 @@ define(['i18n', 'c3js', 'd3', 'conf', 'leafletjs'], function(i18n, c3, d3, conf)
                     type: "bar"
                 }
             }
-            
+
             for (var k in stats) {
                 if (stats.hasOwnProperty(k) && !isUselessStat(activeFilters, k)) {
                     $("<h4/>", {
@@ -181,14 +181,14 @@ define(['i18n', 'c3js', 'd3', 'conf', 'leafletjs'], function(i18n, c3, d3, conf)
                         id: 'chart'+k,
                         width: "100%"
                     }).appendTo(div);
-                    
+
                     drawPie("#chart"+k, getQuery(taxon, k, activeFilters), stats[k].type);
                 }
-            } 
+            }
        },
        getFiltersSQL: function(filters, filterArray) {
             return getFiltersSQL(filters, filterArray)
        },
 	};
-	
+
 });

@@ -3,19 +3,10 @@
  */
 define([], function() {
     "use strict";
-    
-    var cartoTable = 'mcnb_prod';
-	var cartoUser = 'mcnb';
-    
+
     return {
-       getTable: function() {
-            return cartoTable;
-       },
-       getUser: function() {
-            return cartoUser;
-       },
        getApi: function() {
-            return 'http://' + cartoUser + '.carto.com/api/v2/sql?';
+            return 'http://127.0.0.1:9999/api/v1/taxon/';
        }
     }
 });

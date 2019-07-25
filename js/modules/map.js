@@ -6,16 +6,16 @@ define(['maplayers', 'mapfilters', 'conf'], function(layers, mapfilters, conf) {
 
 	var wmsLayer;
     var map;
-    
+
     var createMap = function(options) {
-        
+
         var lat = parseInt(options.lat) ? options.lat : 0;
         var lon = parseInt(options.lon) ? options.lon : 0;
         var zoom = parseInt(options.zoom) ? parseInt(options.zoom) : 2;
         var sqlWhere = options.where ? options.where : "";
-        
+
         map = L.map('map', {maxZoom: 11,minZoom: 1}).setView([lat, lon], zoom);
-        
+
         wmsLayer = L.tileLayer.wms('http://localhost:8080/geoserver/ows?', {
             layers: 'taxomap:mcnb_prod',
             attribution: "MCNB",
@@ -23,8 +23,8 @@ define(['maplayers', 'mapfilters', 'conf'], function(layers, mapfilters, conf) {
             //cql_filter: "phylum='Annelida'",
             cql_filter: sqlWhere,
             transparent: true
-        });        
-        
+        });
+
         // create a layer with 1 sublayer
         /*cartodb.createLayer(map, {
           user_name: conf.getUser(),
@@ -37,7 +37,7 @@ define(['maplayers', 'mapfilters', 'conf'], function(layers, mapfilters, conf) {
             interactivity: 'cartodb_id'
           }]
         }).addTo(map)
-        
+
         .done(function(layer) {
              cartoDBSubLayer = layer.getSubLayer(0);
              layer.setZIndex(20);
@@ -50,23 +50,23 @@ define(['maplayers', 'mapfilters', 'conf'], function(layers, mapfilters, conf) {
              });
              // info window
              cdb.vis.Vis.addInfowindow(map, layer.getSubLayer(0), ['kingdom', 'class', 'family', 'scientificname', 'catalognumber']);
-             
+
          }).on('error', function(err) {
                 console.log('cartoDBerror: ' + err);
          });*/
-    
+
         var overlays = layers.getOverlayLayers();
         var base = layers.getBaseLayers();
         base['Terrain'].addTo(map);
         L.control.layers(base, overlays).addTo(map);
         wmsLayer.addTo(map).bringToFront();
-        
+
         return map;
     };
-    
+
     var getQuotes = function(taxon, getFiltersSQL, format) {
  		if(!format) format = "csv";
-        
+
         var query = "select " + taxon.getSqlDownload(format) + " from " + conf.getTable() + " where " + taxon.levelsId[taxon.level] + "='"+taxon.id+"'";
         if(Object.getOwnPropertyNames(filters).length > 0) {
             //circular filter
@@ -74,47 +74,32 @@ define(['maplayers', 'mapfilters', 'conf'], function(layers, mapfilters, conf) {
         }
         var service = conf.getApi() + "q=" + encodeURIComponent(query) + "&format=" + format;
         //if(locale) service += "&LANG=" + locale;
-        location.href = service; 
+        location.href = service;
     };
-    
+
     // Initialise the FeatureGroup to store editable layers
     var drawnItems = new L.FeatureGroup();
-    
+
     var createGeoFilter = function(div, callback) {
         mapfilters.createCircle(div, drawnItems, map, callback);
     };
-    
+
     var createSliderFilter = function(div, callback) {
-        var q = "select max(year) as maxyear, min(year) as minyear from " + conf.getTable();
-        $.getJSON(conf.getApi() + "callback=?", //for JSONP
-            {
-              q: q
-            },
-            function(data){
-                //got results
-                if(data && data.total_rows) {
-                    var minmax = [data.rows[0].minyear, data.rows[0].maxyear];
-                } else {
-                    var minmax = [1800, 2018];
-                }
-                mapfilters.createSlider(div, map, callback, minmax);
-            });        
+        var minmax = [1800, 2018];
+        mapfilters.createSlider(div, map, callback, minmax);
     };
-    
+
     var createComboFilter = function(div, callback) {
-        var query = "select distinct __field__ AS value from " + conf.getTable() + " order by __field__";
+        /*var query = "select distinct __field__ AS value from " + conf.getTable() + " order by __field__";
         var service = conf.getApi() + "q=" + encodeURIComponent(query);
-        mapfilters.createFieldValue(div, service, callback);
+        mapfilters.createFieldValue(div, service, callback);*/
     };
-    
+
 	return {
 	   setSql: function(sqlWhere) {
 			return wmsLayer.setParams({'cql_filter': sqlWhere});
        },
-       getCartoDBTable: function() {
-       		return conf.getTable();
-       },
-       getCartoDBApi: function() {
+       getApi: function() {
        		return conf.getApi();
        },
        createGeoFilter: function(div, cb) {
@@ -133,5 +118,5 @@ define(['maplayers', 'mapfilters', 'conf'], function(layers, mapfilters, conf) {
             return getQuotes(taxon, filters, format);
        }
 	};
-	
+
 });
