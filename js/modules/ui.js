@@ -280,8 +280,8 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
         //group bys and orders
     	query += "  group by " + fields + " order by count(*) desc";*/
         var query = taxon.id + "/" + taxon.level + "/?";
+        if(filters) query += sheet.getFiltersREST(filters, ["circle", "fieldvalue", "minmax"]);
 
-        // filters yet to be added
         return map.getApi() + query;
     };
 

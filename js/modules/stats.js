@@ -78,6 +78,45 @@ define(['i18n', 'c3js', 'd3', 'conf', 'leafletjs'], function(i18n, c3, d3, conf)
         return query;
     };
 
+    var getFiltersREST = function(filters, filterArray) {
+        var query = "";
+        for (var property in filters) {
+            if (filters.hasOwnProperty(property)) {
+                var filter = filters[property].data;
+                if (filters[property].active) {
+                    if(query) query += "&";
+                    switch (filter.type) {
+                        case "circle":
+                            if (filterArray.indexOf("circle") != -1) {
+                                //circle query
+                                query += "circle=" +  circle.lon + "," + circle.lat + "," + circle.radius;
+                            }
+                            break;
+                        case "rectangle":
+                            if (filterArray.indexOf("rectangle") != -1) {
+                                //rectangle query
+                                //query += " AND (the_geom && ST_SetSRID(ST_MakeBox2D(ST_Point("+activeFilter.lon+","+activeFilter.lat+"),ST_Point("+(activeFilter.lon+1)+","+(activeFilter.lat + 1)+")),4326))";
+                            }
+                            break;
+                        case "fieldvalue":
+                            if (filterArray.indexOf("fieldvalue") != -1) {
+                                if (filter.value) {
+                                    query += filter.field + "=" + filter.value.replace('\x27', '\x27\x27');
+                                }
+                            }
+                            break;
+                        case "minmax":
+                            if (filterArray.indexOf("minmax") != -1) {
+                                query += "minmax="+ filter.field + "," + filter.min + "," + filter.max;
+                            }
+                            break;
+                    }
+                }
+            }
+        }
+        return query;
+    };
+
     function drawPie(div, q, type) {
 
         //loading
@@ -189,6 +228,9 @@ define(['i18n', 'c3js', 'd3', 'conf', 'leafletjs'], function(i18n, c3, d3, conf)
        getFiltersSQL: function(filters, filterArray) {
             return getFiltersSQL(filters, filterArray)
        },
+       getFiltersREST: function(filters, filterArray) {
+            return getFiltersREST(filters, filterArray)
+       }
 	};
 
 });
