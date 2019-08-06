@@ -67,22 +67,21 @@ define(function () {
 	    return " where " + this.levelsId[this.level] + "='" + this.id + "'";
 	};
 
-	Taxon.prototype.convertFromApi = function(cartoResult) {
-	    var rows = cartoResult;
+	Taxon.prototype.convertFromApi = function(result) {
 	    var children = new Array();
 
 	    //add children
-	    for(var i = 0; i < rows.length; i++) {
-	        children[i] = this.convertElement(rows[i], this.level + 1);
+	    for(var i = 0; i < result.length; i++) {
+	        children[i] = this.convertElement(result[i], this.level + 1);
 	    }
 
 	    //add active taxon
-	    var taxon = this.convertElement(rows[0], this.level);
+	    var taxon = this.convertElement(result[0], this.level);
 	    taxon.children = children;
 
 	    //add parents recursively
 	    for(var j = this.level -1; j >= 0 ; j--) {
-	        taxon = this.addParent(taxon, j, rows);
+	        taxon = this.addParent(taxon, j, result);
 	    }
 	    this.tree = taxon;
 	};

@@ -292,7 +292,7 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
             },
             function(data){
                 //got results
-                if(data) {
+                if(data && data.length) {
                     callback(data);
                 } else {
                     callback({ error: "empty" });
