@@ -90,9 +90,8 @@ define(['maplayers', 'mapfilters', 'conf'], function(layers, mapfilters, conf) {
     };
 
     var createComboFilter = function(div, callback) {
-        /*var query = "select distinct __field__ AS value from " + conf.getTable() + " order by __field__";
-        var service = conf.getApi() + "q=" + encodeURIComponent(query);
-        mapfilters.createFieldValue(div, service, callback);*/
+        var service = conf.getApi() + "unique/";
+        mapfilters.createFieldValue(div, service, callback);
     };
 
 	return {

@@ -4,17 +4,17 @@
 
 define(['i18n', 'timeslider', 'leafletjs', 'leaflet-draw'], function(i18n, timeslider) {
     "use strict";
-    
+
     // we store filters here
-    var filters = []; 
-    
+    var filters = [];
+
     var defaultData = {
 		type: 'circle',
 		lat: 33.977646,
 		lon: 4.067001,
-		radius: 500000		
+		radius: 500000
     };
-    
+
     var draw = function(div, type) {
     	switch(type) {
             case "circle":
@@ -30,9 +30,9 @@ define(['i18n', 'timeslider', 'leafletjs', 'leaflet-draw'], function(i18n, times
                 $('.selectpicker').selectpicker();
                 break;
         }
-        
+
     };
-    
+
     var addCircleFilter = function(div, drawnItems, map, callback) {
 		$(div + " input").on("click", function() {
 			toggleFilter(div, map, drawnItems, callback);
@@ -64,7 +64,7 @@ define(['i18n', 'timeslider', 'leafletjs', 'leaflet-draw'], function(i18n, times
 	    		min: values[0],
                 max: values[1]
 	    	};
-            
+
             //check if the slider is at full range
             var min = $(this).data("slider").options.value[0];
             var max = $(this).data("slider").options.value[1];
@@ -74,27 +74,30 @@ define(['i18n', 'timeslider', 'leafletjs', 'leaflet-draw'], function(i18n, times
             callback(null, filters);
 		}, 500));
     };
-    
+
     var addFVEvents = function(div, service, callback) {
 		$(div + " #fieldFilter").on("change", function() {
             var field = $(div + " #fieldFilter").val();
-            var realService = service.replace(/__field__/g, field);
+            var realService = service + field + "/";
 
-			$.getJSON(realService + "&callback=?", //for JSONP,
+			$.getJSON(realService,
+        {
+          //format: "json"
+        },
                 function(data){
                     //got results
-                    if(data && data.total_rows) {
+                    if(data) {
                         $(div + " #valueFilter").empty();
                         // "All" value
                         $(div + " #valueFilter").append($('<option>', {
                                 value: "",
                                 text: i18n.t("All")
                             }));
-                        for(var i = 0; i < data.rows.length; i++) {
-                            if (data.rows[i].value) {
+                        for(var i = 0; i < data.length; i++) {
+                            if (data[i].value) {
                                 $(div + " #valueFilter").append($('<option>', {
-                                    value: data.rows[i].value,
-                                    text: data.rows[i].value
+                                    value: data[i].value,
+                                    text: data[i].value
                                 }));
                             }
                         }
@@ -102,18 +105,18 @@ define(['i18n', 'timeslider', 'leafletjs', 'leaflet-draw'], function(i18n, times
                     }
                 });
 		});
-        
+
         $(div + " #valueFilter").on("change", function() {
             filters[div].data = {
     			type: 'fieldvalue',
 	    		field: $(div + " #fieldFilter").val(),
 	    		value: $(div + " #valueFilter").val()
 	    	};
-            filters[div].active = true; 
+            filters[div].active = true;
             callback(null, filters);
         });
     };
-    
+
     var getFilter = function(type, layer){
     	var newFilter;
     	if(type == 'circle') {
@@ -126,30 +129,30 @@ define(['i18n', 'timeslider', 'leafletjs', 'leaflet-draw'], function(i18n, times
 	    }
         return newFilter;
     };
-    
+
     var getSuitableRadius = function(map) {
         var bounds = map.getBounds();
         var height = bounds._northEast.lat - bounds._southWest.lat;
         return height * 20000;
     };
-    
+
     var toggleFilter = function(div, map, drawnItems, callback) {
     	var active = filters[div].active;
         drawnItems.clearLayers();
     	if(active) {
     		var filter = {}; //empty filter
-            
+
     	} else {
     		var filter = filters[div].data;
     		map.addLayer(drawnItems);
-            
+
             filters[div].data.lat = map.getCenter().lat; //we ignore default values
             filters[div].data.lon = map.getCenter().lng;
             filters[div].data.radius =  getSuitableRadius(map);
             //draw circle
             var circleCenter = [filters[div].data.lat, filters[div].data.lon];
             var circle = new L.circle(circleCenter, filters[div].data.radius, { clickable: false }).addTo(drawnItems);
-            
+
             drawnItems.eachLayer(function (layer) {
                 layer.editing.enable();
                 layer.on('edit', function(e) {
@@ -158,10 +161,10 @@ define(['i18n', 'timeslider', 'leafletjs', 'leaflet-draw'], function(i18n, times
                 });
             });
     	}
-        filters[div].active = !active; 
+        filters[div].active = !active;
     	callback(null, filters);
     };
-    
+
     return {
     	createCircle: function(div, layer, map, callback) {
     		draw(div, 'circle');
@@ -176,5 +179,5 @@ define(['i18n', 'timeslider', 'leafletjs', 'leaflet-draw'], function(i18n, times
             addSliderEvents(div, slider, callback);
     	}
     };
-    		
+
 });
