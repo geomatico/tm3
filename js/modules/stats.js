@@ -89,7 +89,7 @@ define(['i18n', 'c3js', 'd3', 'conf', 'leafletjs'], function(i18n, c3, d3, conf)
                         case "circle":
                             if (filterArray.indexOf("circle") != -1) {
                                 //circle query
-                                query += "circle=" +  circle.lon + "," + circle.lat + "," + circle.radius;
+                                query += "circle=" +  filter.lon + "," + filter.lat + "," + filter.radius;
                             }
                             break;
                         case "rectangle":
