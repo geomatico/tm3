@@ -85,8 +85,19 @@ define(['maplayers', 'mapfilters', 'conf'], function(layers, mapfilters, conf) {
     };
 
     var createSliderFilter = function(div, callback) {
-        var minmax = [1800, 2018];
-        mapfilters.createSlider(div, map, callback, minmax);
+      $.getJSON(conf.getApi() + "years/",
+          {
+
+          },
+          function(data){
+              //got results
+              if(data) {
+                  var minmax = [data[0].minyear, data[0].maxyear];
+              } else {
+                  var minmax = [1800, 2018];
+              }
+              mapfilters.createSlider(div, map, callback, minmax);
+          });
     };
 
     var createComboFilter = function(div, callback) {
