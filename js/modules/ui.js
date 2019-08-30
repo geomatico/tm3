@@ -364,7 +364,7 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
     var taxonAjax, taxonAjaxDefault;
     taxonAjax = taxonAjaxDefault = [{ rows: [{ id: taxonId, level: level}] }];
     //search Carto
-    if (taxonSearch) taxonAjax = $.get(map.getCartoDBApi() + 'q=' + encodeURIComponent(new taxon().getSqlSearch(decodeURIComponent(taxonSearch), map.getCartoDBTable())));
+    if (taxonSearch) taxonAjax = $.get(map.getApi() + 'search/' + encodeURIComponent(taxonSearch) + '/');
 
     //if looking for a place name
     //default
@@ -377,7 +377,7 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
 
     $.when(taxonAjax, placeAjax).done(function(taxonData, placeData) {
         //check taxon not found
-        if (!taxonData[0].rows[0]) {
+        if (!taxonData[0]) {
             taxonData = taxonAjaxDefault;
             console.log("Couldn't find a taxon named " + decodeURIComponent(taxonSearch));
         }
@@ -394,7 +394,7 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
         } else {
             latlon = placeData[0].results[0].geometry;
         }
-        currentTaxon = loadTaxoMap(new taxon(taxonData[0].rows[0].id, taxonData[0].rows[0].level), latlon);
+        currentTaxon = loadTaxoMap(new taxon(taxonData[0][0].id, taxonData[0][0].level), latlon);
 
       });
 

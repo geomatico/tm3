@@ -147,24 +147,6 @@ define(function () {
 	    }
 	};
 
-	Taxon.prototype.getSqlSearch = function(term, table) {
-	    var sqlSelect = "";
-	    // we select all levels except last
-	    var maxLevel = this.levels.length;
-	    for(var i = 0; i < maxLevel; i++) {
-	        if(sqlSelect) sqlSelect += " UNION ";
-	        //both levels and levels id
-	        sqlSelect += "SELECT DISTINCT " + this.levels[i] + " AS label";
-	        sqlSelect += "," + this.levelsId[i] + " AS id,";
-	        sqlSelect += i + " AS level";
-	        sqlSelect += " FROM " + table + " WHERE UPPER(" + this.levels[i] + ") LIKE UPPER('" + term + "%')";
-	    }
-	    sqlSelect += " ORDER BY level,label";
-		sqlSelect += " LIMIT 100";
-
-	    return sqlSelect;
-	};
-
 	Taxon.prototype.getSqlDownload = function(format) {
 	    var sqlSelect = "";
 	    for (var prop in this.downloadFields) {
