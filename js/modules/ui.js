@@ -362,7 +362,7 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
 	//if looking for a generic taxon name: Ajax query to Carto
     //default
     var taxonAjax, taxonAjaxDefault;
-    taxonAjax = taxonAjaxDefault = [{ rows: [{ id: taxonId, level: level}] }];
+    taxonAjax = taxonAjaxDefault = [ [{ id: taxonId, level: level}] ];
     //search Carto
     if (taxonSearch) taxonAjax = $.get(map.getApi() + 'search/' + encodeURIComponent(taxonSearch) + '/');
 
