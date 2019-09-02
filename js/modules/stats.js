@@ -32,7 +32,9 @@ define(['i18n', 'c3js', 'd3', 'conf', 'leafletjs'], function(i18n, c3, d3, conf)
     };
 
     var getCircleSQL = function(circle) {
-        return "ST_DWithin(the_geom::geography, ST_SetSRID(ST_MakePoint("+circle.lon+","+circle.lat+"),4326)::geography," + circle.radius + ")";
+        // for some reason WFS flips the coordinates (lat lon)
+        return "DWITHIN(geom,Point("+circle.lat+" "+circle.lon+")," + circle.radius + ",meters)";
+        //return "ST_DWithin(the_geom::geography, ST_SetSRID(ST_MakePoint("+circle.lon+","+circle.lat+"),4326)::geography," + circle.radius + ")";
     };
 
     var getFiltersSQL = function(filters, filterArray) {

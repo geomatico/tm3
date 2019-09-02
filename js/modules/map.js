@@ -33,15 +33,15 @@ define(['maplayers', 'mapfilters', 'conf'], function(layers, mapfilters, conf) {
         return map;
     };
 
-    var getQuotes = function(taxon, getFiltersSQL, format) {
+    var getQuotes = function(taxon, filters, format) {
  		if(!format) format = "csv";
 
         var query = taxon.levelsId[taxon.level] + "='"+taxon.id+"'";
         if(Object.getOwnPropertyNames(filters).length > 0) {
             //circular filter
-            query += getFiltersSQL;
+            query += filters;
         }
-        var service = conf.getWFSServer() + "request=GetFeature&typeName=taxomap:mcnb_prod&version=1.1.0" + "cqlfilter=" + encodeURIComponent(query) + "&outputFormat=" + format;
+        var service = conf.getWFSServer() + "request=GetFeature&typeName=taxomap:mcnb_prod&version=1.1.0" + "&cql_filter=" + encodeURIComponent(query) + "&outputFormat=" + format;
         //if(locale) service += "&LANG=" + locale;
         location.href = service;
     };
