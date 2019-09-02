@@ -16,44 +16,13 @@ define(['maplayers', 'mapfilters', 'conf'], function(layers, mapfilters, conf) {
 
         map = L.map('map', {maxZoom: 11,minZoom: 1}).setView([lat, lon], zoom);
 
-        wmsLayer = L.tileLayer.wms('http://localhost:8080/geoserver/ows?', {
+        wmsLayer = L.tileLayer.wms(conf.getWMSServer(), {
             layers: 'taxomap:mcnb_prod',
             attribution: "MCNB",
             format: 'image/png',
-            //cql_filter: "phylum='Annelida'",
             cql_filter: sqlWhere,
             transparent: true
         });
-
-        // create a layer with 1 sublayer
-        /*cartodb.createLayer(map, {
-          user_name: conf.getUser(),
-          type: 'cartodb',
-          cartodb_logo:false,
-          attribution: "MCNB",
-          sublayers: [{
-            sql: "SELECT * FROM " + conf.getTable() + sqlWhere,
-            cartocss: '#herbari_cartodb{marker-fill: #FFCC00;marker-width: 10;marker-line-color: #FFF;marker-line-width: 1.5;marker-line-opacity: 1;marker-opacity: 0.9;marker-comp-op: multiply;marker-type: ellipse;marker-placement: point;marker-allow-overlap: true;marker-clip: false;marker-multi-policy: largest; }',
-            interactivity: 'cartodb_id'
-          }]
-        }).addTo(map)
-
-        .done(function(layer) {
-             cartoDBSubLayer = layer.getSubLayer(0);
-             layer.setZIndex(20);
-             legend.createSwitcher(map, cartoDBSubLayer, true);
-             layer.bind('loading', function() {
-                 $(".mapLoading").show()
-             });
-             layer.bind('load',  function() {
-                 $(".mapLoading").hide();
-             });
-             // info window
-             cdb.vis.Vis.addInfowindow(map, layer.getSubLayer(0), ['kingdom', 'class', 'family', 'scientificname', 'catalognumber']);
-
-         }).on('error', function(err) {
-                console.log('cartoDBerror: ' + err);
-         });*/
 
         var overlays = layers.getOverlayLayers();
         var base = layers.getBaseLayers();
@@ -67,12 +36,12 @@ define(['maplayers', 'mapfilters', 'conf'], function(layers, mapfilters, conf) {
     var getQuotes = function(taxon, getFiltersSQL, format) {
  		if(!format) format = "csv";
 
-        var query = "select " + taxon.getSqlDownload(format) + " from " + conf.getTable() + " where " + taxon.levelsId[taxon.level] + "='"+taxon.id+"'";
+        var query = taxon.levelsId[taxon.level] + "='"+taxon.id+"'";
         if(Object.getOwnPropertyNames(filters).length > 0) {
             //circular filter
             query += getFiltersSQL;
         }
-        var service = conf.getApi() + "q=" + encodeURIComponent(query) + "&format=" + format;
+        var service = conf.getWFSServer() + "request=GetFeature&typeName=taxomap:mcnb_prod&version=1.1.0" + "cqlfilter=" + encodeURIComponent(query) + "&outputFormat=" + format;
         //if(locale) service += "&LANG=" + locale;
         location.href = service;
     };

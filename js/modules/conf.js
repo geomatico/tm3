@@ -6,7 +6,13 @@ define([], function() {
 
     return {
        getApi: function() {
-            return 'http://127.0.0.1:9999/api/v1/';
+         return 'http://127.0.0.1:9999/api/v1/';
+       },
+       getWMSServer: function() {
+         return 'http://localhost:8080/geoserver/ows?';
+       },
+       getWFSServer: function() {
+         return 'http://localhost:8080/geoserver/wfs?';
        }
     }
 });

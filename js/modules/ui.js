@@ -41,7 +41,7 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
                     updateMenu("#menuTaxon", taxon, data.error);
                 // we need to update info for new taxon
                 } else {
-                    // we must convert from cartodb JSON format (rows) to TaxoMap JSON format (children objects)
+                    // we must convert from lineal object obtained in API to nested TaxoMap JSON format (children objects)
                     newTaxon.convertFromApi(data);
                     updateBreadcrumb("#breadcrumbTaxon", newTaxon);
                     updateUI(newTaxon, filters);
@@ -148,10 +148,9 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
     var drawDownloadPopover = function(taxon, filters) {
         var downloadFormats = [
             { name: "Spreadsheet (CSV)", format: "csv"},
-            { name: "Google Earth (KML)", format: "kml"},
-            { name: "GIS software (SHP)", format: "shp"},
-            { name: "Vectorial graphic (SVG)", format: "svg"},
-            { name: "Geometry (GeoJSON)", format: "geoJSON"}
+            { name: "Google Earth (KML)", format: "GML3"},
+            { name: "GIS software (SHP)", format: "shape-zip"},
+            { name: "Geometry (GeoJSON)", format: "application/json"}
         ];
 
         var pop = $( "<div/>", {
