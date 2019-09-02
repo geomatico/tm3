@@ -148,7 +148,7 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
     var drawDownloadPopover = function(taxon, filters) {
         var downloadFormats = [
             { name: "Spreadsheet (CSV)", format: "csv"},
-            { name: "Google Earth (KML)", format: "GML3"},
+            { name: "Google Earth (KML)", format: "kml"},
             { name: "GIS software (SHP)", format: "shape-zip"},
             { name: "Geometry (GeoJSON)", format: "application/json"}
         ];
