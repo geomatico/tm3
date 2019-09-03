@@ -12,8 +12,8 @@ define(['i18n', 'c3js', 'd3', 'conf', 'leafletjs'], function(i18n, c3, d3, conf)
         var parent2 = parent ? ", parent " : "";
 
         if (type == "subtaxa") {
-            var q = conf.getApi() + "q=select count(*)," + taxon.levelsId[childrenLevel] + " as id," + taxon.levels[childrenLevel] + " as name" + parent + " from " + conf.getTable() +
-            " WHERE " + taxon.levelsId[level] + "='"+ taxon.getChild()['id'] +"'" + getFiltersSQL(filters, ["circle", "fieldvalue", "minmax"]) + " group by id, name " + parent2 + " order by count(*) desc";
+          var q = conf.getApi() + "stats/taxon/" + taxon.id + "/" + taxon.level + "/?";
+          if(filters) q += getFiltersREST(filters, ["circle", "fieldvalue", "minmax"]);
         } else if (type == "year") {
             // any "normal" field that doesn't require transformation
             q = conf.getApi() + "q=select count(*), " + type + " as name from " + conf.getTable() +
@@ -130,14 +130,14 @@ define(['i18n', 'c3js', 'd3', 'conf', 'leafletjs'], function(i18n, c3, d3, conf)
             dataType: 'json',
           }).done(function (results) {
 
-            if (results["total_rows"]) {
+            if (results) {
 
                  //generate chart
                  if (type == "bar") {
                     // Rearrange data
                     var data=['occurrences'];
                     var x=['x'];
-                    results["rows"].forEach(function(row) {
+                    results.forEach(function(row) {
                       data.push(row.count);
                       x.push(row.name);
                     });
@@ -160,7 +160,7 @@ define(['i18n', 'c3js', 'd3', 'conf', 'leafletjs'], function(i18n, c3, d3, conf)
                  } else {
                     // Rearrange data
                     var data=[];
-                    results["rows"].forEach(function(row) {
+                    results.forEach(function(row) {
                       data.push([row.name, row.count]);
                     });
                     var chart = c3.generate({
@@ -201,7 +201,7 @@ define(['i18n', 'c3js', 'd3', 'conf', 'leafletjs'], function(i18n, c3, d3, conf)
                 "subtaxa": {
                     text: "by subtaxon",
                     type: "pie"
-                },
+                }/*,
                 "institutioncode": {
                     text: "by institution",
                     type: "pie"
@@ -209,7 +209,7 @@ define(['i18n', 'c3js', 'd3', 'conf', 'leafletjs'], function(i18n, c3, d3, conf)
                 "year": {
                     text: "by year (only time referenced results)",
                     type: "bar"
-                }
+                }*/
             }
 
             for (var k in stats) {

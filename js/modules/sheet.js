@@ -1,7 +1,7 @@
 /**
  * @author Martí Pericay <marti@pericay.com>
  */
-define(['jquery', 'stats', 'i18n', 'mustache'], function($, stats, i18n) {
+define(['jquery', 'stats', 'i18n', 'mustache'], function($, stats, i18n, Mustache) {
     "use strict";
 
     var localeWiki = 'en';
