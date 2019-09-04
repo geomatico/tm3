@@ -14,15 +14,7 @@ define(['i18n', 'c3js', 'd3', 'conf', 'leafletjs'], function(i18n, c3, d3, conf)
         if (type == "subtaxa") {
           var q = conf.getApi() + "stats/taxon/" + taxon.id + "/" + taxon.level + "/?";
           if(filters) q += getFiltersREST(filters, ["circle", "fieldvalue", "minmax"]);
-        } else if (type == "year") {
-            // any "normal" field that doesn't require transformation
-            q = conf.getApi() + "q=select count(*), " + type + " as name from " + conf.getTable() +
-            " WHERE " + taxon.levelsId[level] + "='"+ taxon.getChild()['id'] +"'" + getFiltersSQL(filters, ["circle", "fieldvalue", "minmax"]) + "AND year IS NOT NULL group by name order by year";
-        } else if (type == "decade") {
-            //by decade
-            q = conf.getApi() + "q=select count(*), cast(cast(year AS integer)/10 as varchar)||'0' AS name " + " from " + conf.getTable() +
-            " WHERE " + taxon.levelsId[level] + "='"+ taxon.getChild()['id'] + "' AND year IS NOT NULL" + getFiltersSQL(filters, ["circle", "fieldvalue", "minmax"]) + " group by cast(year AS integer)/10 order by cast(year AS integer)/10";
-        } else {
+        }  else {
             // any "normal" field that doesn't require transformation
             var q = conf.getApi() + "stats/" + type + "/" + taxon.id + "/" + taxon.level + "/?";
             if(filters) q += getFiltersREST(filters, ["circle", "fieldvalue", "minmax"]);
@@ -209,11 +201,11 @@ define(['i18n', 'c3js', 'd3', 'conf', 'leafletjs'], function(i18n, c3, d3, conf)
                 "basisofrecord": {
                     text: "by basis of record",
                     type: "pie"
-                }/*,
+                },
                 "year": {
                     text: "by year (only time referenced results)",
                     type: "bar"
-                }*/
+                }
             }
 
             for (var k in stats) {
