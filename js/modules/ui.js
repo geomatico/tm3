@@ -272,12 +272,6 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
     };
 
     var buildQuery = function(taxon, children, filters) {
-        /*var fields = taxon.getSqlFields('child');
-        if (!children) fields = taxon.getSqlFields('parent');
-        var query = "SELECT COUNT(*), "+ fields +" FROM " + map.getCartoDBTable() + " " + taxon.getSqlWhere();
-        if(filters) query += sheet.getFiltersSQL(filters, ["circle", "fieldvalue", "minmax"]);
-        //group bys and orders
-    	query += "  group by " + fields + " order by count(*) desc";*/
         var query = taxon.id + "/" + taxon.level + "/?";
         if(filters) query += sheet.getFiltersREST(filters, ["circle", "fieldvalue", "minmax"]);
 

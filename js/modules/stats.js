@@ -24,8 +24,8 @@ define(['i18n', 'c3js', 'd3', 'conf', 'leafletjs'], function(i18n, c3, d3, conf)
             " WHERE " + taxon.levelsId[level] + "='"+ taxon.getChild()['id'] + "' AND year IS NOT NULL" + getFiltersSQL(filters, ["circle", "fieldvalue", "minmax"]) + " group by cast(year AS integer)/10 order by cast(year AS integer)/10";
         } else {
             // any "normal" field that doesn't require transformation
-            q = conf.getApi() + "q=select count(*), " + type + " as name from " + conf.getTable() +
-            " WHERE " + taxon.levelsId[level] + "='"+ taxon.getChild()['id'] +"'" + getFiltersSQL(filters, ["circle", "fieldvalue", "minmax"]) + " group by name order by count(*) desc";
+            var q = conf.getApi() + "stats/" + type + "/" + taxon.id + "/" + taxon.level + "/?";
+            if(filters) q += getFiltersREST(filters, ["circle", "fieldvalue", "minmax"]);
         }
 
         return q;
@@ -201,11 +201,15 @@ define(['i18n', 'c3js', 'd3', 'conf', 'leafletjs'], function(i18n, c3, d3, conf)
                 "subtaxa": {
                     text: "by subtaxon",
                     type: "pie"
-                }/*,
+                },
                 "institutioncode": {
                     text: "by institution",
                     type: "pie"
                 },
+                "basisofrecord": {
+                    text: "by basis of record",
+                    type: "pie"
+                }/*,
                 "year": {
                     text: "by year (only time referenced results)",
                     type: "bar"
