@@ -21,14 +21,16 @@ define(['maplayers', 'mapfilters', 'conf'], function(layers, mapfilters, conf) {
             attribution: "MCNB",
             format: 'image/png',
             cql_filter: sqlWhere,
-            transparent: true
+            transparent: true,
+            zIndex: 100 //must always be on front
         });
 
         var overlays = layers.getOverlayLayers();
         var base = layers.getBaseLayers();
         base['Terrain'].addTo(map);
         L.control.layers(base, overlays).addTo(map);
-        wmsLayer.addTo(map).bringToFront();
+
+        wmsLayer.addTo(map);
 
         return map;
     };
