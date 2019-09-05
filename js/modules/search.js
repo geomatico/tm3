@@ -4,18 +4,18 @@
 
 define(['jquery', 'map', 'taxon', 'i18n'], function($, map, taxon, i18n) {
     "use strict";
-    
+
     // we store filters here
-    var results; 
-    
+    var results;
+
     var create = function(searchDiv, noresultsDiv, callback) {
         $(noresultsDiv).hide();
         $(searchDiv).typeahead({
             delay: 500,
             dynamic: true,
-            source: function (query, process) {            
-                $.get(map.getCartoDBApi() + 'q=' + encodeURIComponent(new taxon().getSqlSearch(query, map.getCartoDBTable())), function (data) {
-                    results = data.rows;
+            source: function (query, process) {
+                $.get(map.getApi() + 'search/' + encodeURIComponent(query) + '/', function (data) {
+                    results = data;
                     var array = $.map(results, function(value, index) {
                         return [value.id]
                     });
@@ -39,11 +39,11 @@ define(['jquery', 'map', 'taxon', 'i18n'], function($, map, taxon, i18n) {
             }
         });
     };
-    
+
     return {
     	create: function(searchDiv, noresultsDiv, callback) {
     		create(searchDiv, noresultsDiv, callback);
     	}
     };
-    		
+
 });

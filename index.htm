@@ -16,61 +16,6 @@
     <link href="css/sidebar.css" rel="stylesheet" />
     <link href="css/ui.css" rel="stylesheet" />
 	<link href="css/breadcrumbs.css" rel="stylesheet" />
-<?php 
-	session_start();
-	/*session is started */
-	$_SESSION["tm3"]=microtime(true);
-	
-#######################################################
-    /*   bioexplora new, includes */
-#######################################################   
-$navigationCOLOR="WHITE";
-$NOLANGUAGE=false;
-
-$showheader = ($_SERVER['SERVER_NAME'] == "develtaxomap.bioexplora.cat") || ($_SERVER['SERVER_NAME'] == "taxomap.bioexplora.cat");
-
-if($showheader) {
-	
-	include("/var/www/swpre.bioexplora.cat/datos/web/navigation/base.php"); 
-
-    $bioexplora_web="TAXOMAP";
-    $bioexplora_menu_activo="TAXOMAP";
-    $bioexplora_submenu_activo="";
-    $menu_clases["TAXOMAP"]="active";
-    $mdb_lang_id= $_GET['lang'];
-    
-	switch ($mdb_lang_id){
-		case "ca":
-		  $bioexplora_idioma="CA";
-		  $traduccions=$translate_CA;
-		  break;
-		case "es":
-		  $bioexplora_idioma="ES";
-		  $traduccions=$translate_ES;
-		  break;
-		case "en":
-		  $bioexplora_idioma="EN";
-		  $traduccions=$translate_EN;
-		  break;
-	   default:
-		 $bioexplora_idioma="CA";
-		 $traduccions=$translate_CA;
-		 break;
-	}
-	
-      $bioexplora_enlace["ES"]="?lang=es";
-      $bioexplora_enlace["CA"]="?lang=ca";
-      $bioexplora_enlace["EN"]="?lang=en";
-
-    
-
-	include($rutalocal."navigation/js_css.php"); 
-}
-
-#######################################################
-    /*   bioexplora new, includes */
-#######################################################   
-?>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -89,18 +34,6 @@ if($showheader) {
 </head>
 
 <body>
-<?php
-#######################################################
-    /*   bioexplora new, includes */
-#######################################################   
-
-if($showheader) {
-	include($rutalocal."navigation/header.php");
-}
-#######################################################
-    /*   bioexplora new, includes */
-#######################################################   
-?>
 <div class="personlalize-header-fix noprint"></div>
 
 <!-- Modal -->

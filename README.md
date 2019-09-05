@@ -1,12 +1,11 @@
-#Taxo&Map 3
-
+#Taxo&Map 4
 
 ## Install npm, git and bower
 
 https://nodejs.org/en/
 
 https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
-    
+
     npm install -g bower
 
 ## Install tm3
@@ -20,7 +19,23 @@ Clone this project:
 Install bower dependencies:
 
     bower install
-    
+
 Adding dependencies:
 
     bower install --save <bower_package>
+
+## Install and start PostgreSQL and Geoserver
+
+For Mac:
+
+    cd /usr/local/geoserver/bin
+
+    sh startup.sh
+
+## Install and start Django REST Service
+
+Download from https://github.com/northings/restmuseum
+
+    source .env
+
+    python3 manage.py runserver 0.0.0.0:9999
