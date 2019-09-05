@@ -6,7 +6,7 @@ var require = (function() {
 		baseUrl: HERE + "modules/",
 		paths: {
 			"bootstrap": "//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min",
-            "leaflet-draw": "//cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.2.3/leaflet.draw",
+            "leaflet-draw": "//cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw",
             "css": LIB_PATH + "require-css/css",
 			"leafletjs": "//cdnjs.cloudflare.com/ajax/libs/leaflet/1.4.0/leaflet",
             "jquery": "//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min",
@@ -24,11 +24,11 @@ var require = (function() {
 				deps: ["jquery", "css!https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"]
 			},
 			"leaflet-draw" : {
-				deps: ["leafletjs", "css!//cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.2.3/leaflet.draw.css"]
+				deps: ["leafletjs", "css!//cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css"]
 			},
 			"leafletjs" : {
 				deps: ["css!//cdnjs.cloudflare.com/ajax/libs/leaflet/1.4.0/leaflet.css"]
-			},			
+			},
 			"i18n" : {
 				deps: ["text"]
 			},
@@ -44,8 +44,7 @@ var require = (function() {
 			"slider" : {
 				deps: ["bootstrap", "css!//cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.2/css/bootstrap-slider.min.css"]
 			}
-            
+
 		}
 	};
 })();
-
