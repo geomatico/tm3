@@ -272,10 +272,12 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
     };
 
     var buildQuery = function(taxon, children, filters) {
-        var query = taxon.id + "/" + taxon.level + "/?";
+        var query = "taxon/";
+        if(children) query = "subtaxa/";
+        query += taxon.id + "/" + taxon.level + "/?";
         if(filters) query += sheet.getFiltersREST(filters, ["circle", "fieldvalue", "minmax"]);
 
-        return map.getApi() + "taxon/" + query;
+        return map.getApi() + query;
     };
 
     var makeQuery = function(query, callback) {
