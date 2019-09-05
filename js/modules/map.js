@@ -1,7 +1,7 @@
 /**
  * @author Martí Pericay <marti@pericay.com>
  */
-define(['maplayers', 'mapfilters', 'conf'], function(layers, mapfilters, conf) {
+define(['maplayers', 'mapfilters', 'conf', 'legend'], function(layers, mapfilters, conf, legend) {
     "use strict";
 
 	var wmsLayer;
@@ -24,6 +24,8 @@ define(['maplayers', 'mapfilters', 'conf'], function(layers, mapfilters, conf) {
             transparent: true,
             zIndex: 100 //must always be on front
         });
+
+        legend.createSwitcher(map, wmsLayer, true);
 
         var overlays = layers.getOverlayLayers();
         var base = layers.getBaseLayers();

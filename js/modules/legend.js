@@ -4,7 +4,7 @@
 define(['i18n', 'leafletjs', 'select'], function(i18n) {
     "use strict";
 
-   var phylumLegend = new cdb.geo.ui.Legend.Custom({
+   /*var phylumLegend = new cdb.geo.ui.Legend.Custom({
         title: "Legend",
         data: [
           { name: "Tracheophyta",  value: "#58A062" },
@@ -37,34 +37,23 @@ define(['i18n', 'leafletjs', 'select'], function(i18n) {
     var intensityLegend = new cdb.geo.ui.Legend.Intensity({
         title: "Legend",
         left: "1", right: "10+", color: "#FFCC00"
-    });
+    });*/
 
     var legends = {
         'intensity': {
-            cdbLegend: intensityLegend,
-            cartoCSS: "#mcnb_dev{marker-fill: #FFCC00;marker-width: 10;marker-line-color: #FFF;marker-line-width: 1.5;marker-line-opacity: 1;marker-opacity: 0.9;marker-comp-op: multiply;marker-type: ellipse;marker-placement: point;marker-allow-overlap: true;marker-clip: false;marker-multi-policy: largest; }",
+            style: "point",
             name: "Intensity",
             active: true
         },
         'phylum': {
-            cdbLegend: phylumLegend,
-            cartoCSS: '#mcnb_dev { marker-fill-opacity: 0.9; marker-line-color: #FFF; marker-line-width: 1; marker-line-opacity: 1; marker-placement: point; marker-type: ellipse; marker-width: 10; marker-allow-overlap: true; #mcnb_dev[phylum="Tracheophyta"] { marker-fill: #58A062;} #mcnb_dev[phylum="Chordata"] { marker-fill: #F07971;}#mcnb_dev[phylum="Mollusca"] { marker-fill: #54BFDE;}#mcnb_dev[phylum="Arthropoda"] { marker-fill: #AAAAAA;}#mcnb_dev { marker-fill: #FABB5C;} }',
+            style: "point_green",
             name: "Phylum"
-        },
-        'basis': {
-            cdbLegend: basisLegend,
-            cartoCSS: '#mcnb_dev { marker-fill-opacity: 0.9; marker-line-color: #FFF; marker-line-width: 1; marker-line-opacity: 1; marker-placement: point; marker-type: ellipse; marker-width: 10; marker-allow-overlap: true; #mcnb_dev[basisofrecord="Non-fossil/No fòssil/No fósil"] { marker-fill: #58A062;} #mcnb_dev[basisofrecord="Fossil/Fòssil/Fósil"] { marker-fill: #F07971;} }',
-            name: "Basis of record"
-        },
-        'institution': {
-            cdbLegend: institutionLegend,
-            cartoCSS: '#mcnb_dev { marker-fill-opacity: 0.9; marker-line-color: #FFF; marker-line-width: 1; marker-line-opacity: 1; marker-placement: point; marker-type: ellipse; marker-width: 10; marker-allow-overlap: true; #mcnb_dev[institutioncode="Institut Botànic de Barcelona"] { marker-fill: #58A062;} #mcnb_dev[institutioncode="Museu Valencià d\'Història Natural"] { marker-fill: #343FCE;}#mcnb_dev[institutioncode="Institut Mediterrani d\'Estudis Avançats"] { marker-fill: #F02921;}#mcnb_dev[institutioncode="Universitat de Barcelona"] { marker-fill: #5A9DDA;}#mcnb_dev[institutioncode="Museu Ciències Naturals Barcelona"] { marker-fill: #FABB5C;}#mcnb_dev { marker-fill: #FABB5C;} }',
-            name: "Institution"
-        },
+        }
 
     };
 
     var legendDiv;
+    var wmsLayer;
 
     var createLegend = function(sym, parent){
         if (typeof sym === "undefined") {
@@ -90,7 +79,11 @@ define(['i18n', 'leafletjs', 'select'], function(i18n) {
     var setLegend = function(sym) {
         if (!legendDiv) return;
         $(legendDiv).empty();
-        $(legendDiv).append(legends[sym].cdbLegend.render().el);
+        $(legendDiv).append("<img src='"+getLegendWMS(sym)+"'/>'");
+    }
+
+    var getLegendWMS = function(sym) {
+      return wmsLayer._url + "REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=" + wmsLayer.wmsParams.layers + "&STYLE=" + legends[sym].style;
     }
 
     var disableDragging = function(element, map) {
@@ -107,6 +100,8 @@ define(['i18n', 'leafletjs', 'select'], function(i18n) {
 
     var createSwitcher = function(map, sublayer, withLegend) {
         var switcher = L.control({position: "bottomright"});
+        wmsLayer = sublayer;
+
         switcher.onAdd = function(map) {
             var combolegend = L.DomUtil.create( "div", "combolegend");
             disableEvent(combolegend, 'mousewheel DOMMouseScroll MozMousePixelScroll');
@@ -127,7 +122,7 @@ define(['i18n', 'leafletjs', 'select'], function(i18n) {
 
             $(sel).change(function() {
                 if(withLegend) setLegend(this.value);
-                sublayer.setCartoCSS(legends[this.value].cartoCSS);
+                sublayer.setParams({'styles' : legends[this.value].style});
 
                 // translate legend
                 // should be refactored: this onchange function better be a callback in ui module
