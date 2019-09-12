@@ -4,41 +4,6 @@
 define(['i18n', 'leafletjs', 'select'], function(i18n) {
     "use strict";
 
-   /*var phylumLegend = new cdb.geo.ui.Legend.Custom({
-        title: "Legend",
-        data: [
-          { name: "Tracheophyta",  value: "#58A062" },
-          { name: "Chordata",       value: "#F07971" },
-          { name: "Mollusca",         value: "#54BFDE" },
-          { name: "Arthropoda",         value: "#AAAAAA" },
-          { name: "Others",          value: "#FABB5C" }
-        ]
-    });
-
-   var institutionLegend = new cdb.geo.ui.Legend.Custom({
-        title: "Legend",
-        data: [
-          { name: "IBB",  value: "#58A062" },
-          { name: "MVHN", value: "#343FCE" },
-          { name: "IMEDEA", value: "#F02921" },
-          { name: "UB", value: "#5A9DDA" },
-          { name: "MCNB", value: "#FABB5C" }
-        ]
-    });
-
-   var basisLegend = new cdb.geo.ui.Legend.Custom({
-        title: "Legend",
-        data: [
-          { name: "Non-fossil",  value: "#58A062" },
-          { name: "Fossil",       value: "#F07971" }
-        ]
-    });
-
-    var intensityLegend = new cdb.geo.ui.Legend.Intensity({
-        title: "Legend",
-        left: "1", right: "10+", color: "#FFCC00"
-    });*/
-
     var legends = {
         'intensity': {
             style: "point",
@@ -46,8 +11,16 @@ define(['i18n', 'leafletjs', 'select'], function(i18n) {
             active: true
         },
         'phylum': {
-            style: "point_green",
+            style: "point_phylum",
             name: "Phylum"
+        },
+        'basisofrecord': {
+            style: "point_fossil",
+            name: "Basis of Record"
+        },
+        'institutioncode': {
+            style: "point_institution",
+            name: "Institution"
         }
 
     };
@@ -79,11 +52,11 @@ define(['i18n', 'leafletjs', 'select'], function(i18n) {
     var setLegend = function(sym) {
         if (!legendDiv) return;
         $(legendDiv).empty();
-        $(legendDiv).append("<img src='"+getLegendWMS(sym)+"'/>'");
+        $(legendDiv).append("<div class='image-legend'><img src='"+getLegendWMS(sym)+"'/></div>");
     }
 
     var getLegendWMS = function(sym) {
-      return wmsLayer._url + "REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=" + wmsLayer.wmsParams.layers + "&STYLE=" + legends[sym].style;
+      return wmsLayer._url + "REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LEGEND_OPTIONS=fontName:Arial;fontAntiAliasing:true&LAYER=" + wmsLayer.wmsParams.layers + "&STYLE=" + legends[sym].style;
     }
 
     var disableDragging = function(element, map) {
