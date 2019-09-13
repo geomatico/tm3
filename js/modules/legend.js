@@ -6,7 +6,7 @@ define(['i18n', 'leafletjs', 'select'], function(i18n) {
 
     var legends = {
         'intensity': {
-            style: "point",
+            style: "point_intensity",
             name: "Intensity",
             active: true
         },
