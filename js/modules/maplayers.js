@@ -4,7 +4,7 @@
 define(['text!../../sections/legends/temp.html', 'text!../../sections/legends/rain.html', 'text!../../sections/legends/landcover.html', 'leafletjs'], function(temp_leg, rain_leg, landcover_leg) {
     "use strict";
 
-	var hyddaBase = L.tileLayer('http://{s}.tile.openstreetmap.se/hydda/base/{z}/{x}/{y}.png', {
+	var hyddaBase = L.tileLayer('https://{s}.tile.openstreetmap.se/hydda/base/{z}/{x}/{y}.png', {
 		attribution: 'Tiles courtesy of <a href="http://openstreetmap.se/" target="_blank">OpenStreetMap Sweden</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 	});
     var stamenTerrain = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/terrain-background/{z}/{x}/{y}.{ext}', {
@@ -21,29 +21,22 @@ define(['text!../../sections/legends/temp.html', 'text!../../sections/legends/ra
         maxZoom: 20,
         ext: 'png'
     });
-	var orto = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+	var orto = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
         attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
     });
-    var positron = 	L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+    var positron = 	L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
 		attribution: '&copy; OpenStreetMap contributors, &copy; CartoDB'
 	});
 
-     //create additional overlays
-     var hillshade2 =  L.tileLayer.wms("http://www.opengis.uab.cat/cgi-bin/world/MiraMon.cgi?", {
-		layers: 'glcc-world',
-		format: 'image/png'
-		//opacity: 0.40,
-		//transparent: true
-	});
-
-	var temperature =  L.tileLayer.wms("http://spatial.ala.org.au/geoserver/wms?", {
+  //create additional overlays
+	var temperature =  L.tileLayer.wms("https://spatial.ala.org.au/geoserver/wms?", {
 		layers: 'worldclim_bio_5',
 		format: 'image/png'
 		//opacity: 0.40,
 		//transparent: true
 	});
 
-	var rain =  L.tileLayer.wms("http://spatial.ala.org.au/geoserver/wms?", {
+	var rain =  L.tileLayer.wms("https://spatial.ala.org.au/geoserver/wms?", {
 		layers: 'worldclim_bio_12',
 		format: 'image/png'
 		//opacity: 0.40,
@@ -55,7 +48,7 @@ define(['text!../../sections/legends/temp.html', 'text!../../sections/legends/ra
         attribution: 'Map data: &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
     });
 
-    var euroSpaceAgency =  L.tileLayer.wms("http://maps.elie.ucl.ac.be/cgi-bin/mapserv?map=%2Fmaps_server%2FCCI%2Fmapfiles%2Flc2015_v207.map", {
+    var euroSpaceAgency =  L.tileLayer.wms("https://maps.elie.ucl.ac.be/cgi-bin/mapserv?map=%2Fmaps_server%2FCCI%2Fmapfiles%2Flc2015_v207.map", {
 		layers: 'lc2015_v2',
 		format: 'image/png',
         crs: L.CRS.EPSG900913
@@ -84,7 +77,6 @@ define(['text!../../sections/legends/temp.html', 'text!../../sections/legends/ra
 	    "Ortophoto": orto,
         //"Toner": stamenToner,
 	    "Terrain" : stamenTerrain,
-        //"Hillshade": hillshade2,
         //"Stamen Terrain": stamenTerrain,
         "Temperature (<a id='tempLeg' data-toggle='modal' href='#textModal'>leg</a>)": temperature,
         "Rain (<a id='rainLeg' data-toggle='modal' href='#textModal'>leg</a>)": rain,

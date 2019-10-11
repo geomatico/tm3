@@ -33,13 +33,13 @@ define(['jquery', 'stats', 'i18n', 'mustache'], function($, stats, i18n, Mustach
          var moreinfo = i18n.t("See the Wikipedia full article");
          var here = i18n.t("here");
 
-         $("#tabWiki").append("<div id='subtitle'>... " + moreinfo + " <a href='http://" + localeWiki + '.' + wikiApi + title + "' target='_blank'>" + here + "</a></div>");
+         $("#tabWiki").append("<div id='subtitle'>... " + moreinfo + " <a href='" + location.protocol + "//" + localeWiki + '.' + wikiApi + title + "' target='_blank'>" + here + "</a></div>");
      };
 
      var drawLinksSheet = function(title){
-        var links = ['<a id="wikispecies" href="http://species.wikimedia.org/wiki/{{title}}" target="_blank"><img alt="Wikispecies Logo" title="Wikispecies" src="img/logos/wikispecies.png" /></a>',
-                '<a id="eol" href="http://www.gbif.org/species/search?q={{title}}" target="_blank"><img alt="Encyclopedia Of Life Logo" title="Encyclopedia Of Life" src="img/logos/eol.png" /></a>',
-                '<a id="gbif" href="http://www.eol.org/search?q={{title2}}" target="_blank"><img alt="GBIF Logo" title="GBIF" src="img/logos/gbif.jpg" /></a>'].join("\n");
+        var links = ['<a id="wikispecies" href="' + location.protocol + '//species.wikimedia.org/wiki/{{title}}" target="_blank"><img alt="Wikispecies Logo" title="Wikispecies" src="img/logos/wikispecies.png" /></a>',
+                '<a id="eol" href="' + location.protocol + '//www.gbif.org/species/search?q={{title}}" target="_blank"><img alt="Encyclopedia Of Life Logo" title="Encyclopedia Of Life" src="img/logos/eol.png" /></a>',
+                '<a id="gbif" href="' + location.protocol + '//www.eol.org/search?q={{title2}}" target="_blank"><img alt="GBIF Logo" title="GBIF" src="img/logos/gbif.jpg" /></a>'].join("\n");
 
         var data = {
             "title": title,
@@ -95,7 +95,7 @@ define(['jquery', 'stats', 'i18n', 'mustache'], function($, stats, i18n, Mustach
 
      var getWikiInfo = function(div, taxon){
 
-         var wiki_url = "http://" + localeWiki + ".wikipedia.org/w/api.php?action=parse&prop=text&section=0&format=json&page="+ taxon + "&contentformat=text%2Fx-wiki&redirects=";
+         var wiki_url = location.protocol + "//" + localeWiki + ".wikipedia.org/w/api.php?action=parse&prop=text&section=0&format=json&page="+ taxon + "&contentformat=text%2Fx-wiki&redirects=";
 
          $.getJSON(wiki_url+"&callback=?", //for JSONP
             {
