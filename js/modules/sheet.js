@@ -38,8 +38,8 @@ define(['jquery', 'stats', 'i18n', 'mustache'], function($, stats, i18n, Mustach
 
      var drawLinksSheet = function(title){
         var links = ['<a id="wikispecies" href="' + location.protocol + '//species.wikimedia.org/wiki/{{title}}" target="_blank"><img alt="Wikispecies Logo" title="Wikispecies" src="img/logos/wikispecies.png" /></a>',
-                '<a id="eol" href="' + location.protocol + '//www.gbif.org/species/search?q={{title}}" target="_blank"><img alt="Encyclopedia Of Life Logo" title="Encyclopedia Of Life" src="img/logos/eol.png" /></a>',
-                '<a id="gbif" href="' + location.protocol + '//www.eol.org/search?q={{title2}}" target="_blank"><img alt="GBIF Logo" title="GBIF" src="img/logos/gbif.jpg" /></a>'].join("\n");
+                '<a id="eol" href="' + location.protocol + '//www.eol.org/search?q={{title2}}" target="_blank"><img alt="Encyclopedia Of Life Logo" title="Encyclopedia Of Life" src="img/logos/eol.png" /></a>',
+                '<a id="gbif" href="' + location.protocol + '//www.gbif.org/species/search?q={{title}}" target="_blank"><img alt="GBIF Logo" title="GBIF" src="img/logos/gbif.jpg" /></a>'].join("\n");
 
         var data = {
             "title": title,
