@@ -57,7 +57,7 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
 	};
 
     var updateUI = function(newTaxon, filters) {
-        //change the cartoDB taxon layer
+        //change the taxon layer
         var query = newTaxon.getSqlWhere() + sheet.getFiltersSQL(filters, ["fieldvalue", "minmax"]);
         map.setSql(query);
 
@@ -354,11 +354,11 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
         return taxon;
     }
 
-	//if looking for a generic taxon name: Ajax query to Carto
+	//if looking for a generic taxon name: Ajax query to API
     //default
     var taxonAjax, taxonAjaxDefault;
     taxonAjax = taxonAjaxDefault = [ [{ id: taxonId, level: level}] ];
-    //search Carto
+    //search API
     if (taxonSearch) taxonAjax = $.get(map.getApi() + 'search/' + encodeURIComponent(taxonSearch) + '/');
 
     //if looking for a place name
