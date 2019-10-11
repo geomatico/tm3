@@ -23,10 +23,6 @@
 		"es": "Resultados",
 		"ca": "Resultats"
 		},
-	"Map": {
-		"es": "Mapa",
-		"ca": "Mapa"
-		},
 	"From": {
 		"es": "De",
 		"ca": "De"
@@ -46,10 +42,6 @@
 	"Ortophoto": {
 		"es": "Ortofoto",
 		"ca": "Ortofoto"
-	},
-	"Schematic": {
-		"es": " Esquemático",
-		"ca": " Esquemàtic"
 	},
 	"Map": {
 		"es": "Mapa",
@@ -115,14 +107,6 @@
 		"es": "Otros",
 		"ca": "Altres"
 	},
-	"Fossil": {
-		"es": "Fósil",
-		"ca": "Fòssil"
-	},
-	"Non-fossil": {
-		"es": "No fósil",
-		"ca": "No fòssil"
-	},
 	"All": {
 		"es": "Todos",
 		"ca": "Tots"
@@ -158,10 +142,6 @@
 	"GIS software (SHP)": {
 		"es": "Software SIG (SHP)",
 		"ca": "Software SIG (SHP)"
-	},
-	"Vectorial graphic (SVG)": {
-		"es": "Gráfico vectorial (SVG)",
-		"ca": "Gràfic vectorial (SVG)"
 	},
 	"Geometry (GeoJSON)": {
 		"es": "Geometría (GeoJSON)",

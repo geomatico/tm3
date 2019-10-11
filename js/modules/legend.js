@@ -16,7 +16,7 @@ define(['i18n', 'leafletjs', 'select'], function(i18n) {
         },
         'basisofrecord': {
             style: "point_fossil",
-            name: "Basis of Record"
+            name: "Basis of record"
         },
         'institutioncode': {
             style: "point_institution",
