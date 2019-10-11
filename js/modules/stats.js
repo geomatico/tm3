@@ -24,8 +24,8 @@ define(['i18n', 'c3js', 'd3', 'conf', 'leafletjs'], function(i18n, c3, d3, conf)
     };
 
     var getCircleSQL = function(circle) {
-        // for some reason WFS flips the coordinates (lat lon)
-        return "DWITHIN(geom,Point("+circle.lat+" "+circle.lon+")," + circle.radius + ",meters)";
+        // for some reason WFS 1.0 flips the coordinates (lon lat)
+        return "DWITHIN(geom,Point("+circle.lon+" "+circle.lat+")," + circle.radius + ",meters)";
         //return "ST_DWithin(the_geom::geography, ST_SetSRID(ST_MakePoint("+circle.lon+","+circle.lat+"),4326)::geography," + circle.radius + ")";
     };
 
