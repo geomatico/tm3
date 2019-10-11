@@ -263,7 +263,7 @@ ul.typeahead.dropdown-menu {
     border: 0;
     box-shadow: none;
     height: 100%;
-    top: 64px !important;
+    top: 30px !important;
 }
 
 li.active a {
