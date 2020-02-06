@@ -1,4 +1,4 @@
-#Taxo&Map 4
+#Taxo&Map 3.1
 
 ## Install npm, git and bower
 
@@ -14,7 +14,7 @@ Requires git, npm and bower.
 
 Clone this project:
 
-    git clone https://github.com/mpericay/tm3.git
+    git clone https://github.com/geomatico/tm3.git
 
 Install bower dependencies:
 
@@ -34,7 +34,7 @@ For Mac:
 
 ## Install and start Django REST Service
 
-Download from https://github.com/northings/restmuseum
+Download from https://github.com/geomatico/restmuseum
 
     source .env
 
