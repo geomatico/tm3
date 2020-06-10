@@ -359,7 +359,7 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
     var taxonAjax, taxonAjaxDefault;
     taxonAjax = taxonAjaxDefault = [ [{ id: taxonId, level: level}] ];
     //search API
-    if (taxonSearch) taxonAjax = $.get(map.getApi() + 'search/' + encodeURIComponent(taxonSearch) + '/');
+    if (taxonSearch) taxonAjax = $.get(map.getApi() + 'search/' + taxonSearch + '/');
 
     //if looking for a place name
     //default
