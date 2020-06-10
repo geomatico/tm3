@@ -19,7 +19,7 @@ define(['maplayers', 'mapfilters', 'conf', 'legend'], function(layers, mapfilter
         wmsLayer = L.tileLayer.wms(conf.getWMSServer(), {
             layers: 'taxomap:mcnb_prod',
             attribution: "MCNB",
-            format: 'image/png',
+            format: 'image/png8',
             cql_filter: sqlWhere,
             transparent: true,
             zIndex: 100 //must always be on front
