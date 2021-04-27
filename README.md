@@ -36,6 +36,14 @@ For Mac:
 
 Download from https://github.com/geomatico/restmuseum
 
+Run via runserver
+
     source .env
 
     python3 manage.py runserver 0.0.0.0:9999
+
+Run via gunicorn
+
+    source .env
+
+    gunicorn -b 0.0.0.0:9999 restmuseum.wsgi
