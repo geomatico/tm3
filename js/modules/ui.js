@@ -372,9 +372,9 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
 
     $.when(taxonAjax, placeAjax).done(function(taxonData, placeData) {
         //check taxon not found
-        if (!taxonData[0]) {
+        if (taxonData[0].length == 0) {
             taxonData = taxonAjaxDefault;
-            console.log("Couldn't find a taxon named " + decodeURIComponent(taxonSearch));
+            alert("Couldn't find a taxon named " + decodeURIComponent(taxonSearch));
         }
         //check placename not found
         if (!placeData[0].results[0]) {
@@ -389,6 +389,7 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
         } else {
             latlon = placeData[0].results[0].geometry;
         }
+
         currentTaxon = loadTaxoMap(new taxon(taxonData[0][0].id, taxonData[0][0].level), latlon);
 
       });
