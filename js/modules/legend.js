@@ -61,12 +61,12 @@ define(['i18n', 'leafletjs', 'select'], function(i18n) {
 
     var disableDragging = function(element, map) {
         // Disable dragging when user's cursor enters the element
-        element.addEventListener('mouseover', function () {
+        element.addEventListener('pointerover', function () {
             map.dragging.disable();
         });
 
         // Re-enable dragging when user's cursor leaves the element
-        element.addEventListener('mouseout', function () {
+        element.addEventListener('pointerout', function () {
             map.dragging.enable();
         });
     }

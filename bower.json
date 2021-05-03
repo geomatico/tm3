@@ -1,11 +1,11 @@
 {
   "name": "taxomap3",
-  "version": "0.0.0",
-  "homepage": "https://github.com/mpericay/tm3",
+  "version": "3.2.0",
+  "homepage": "https://github.com/geomatico/tm3",
   "authors": [
     "Marti Pericay <marti@pericay.com>"
   ],
-  "description": "Taxo&Map 3.0",
+  "description": "Taxo&Map 3.2",
   "main": "index.html",
   "moduleType": [
     "amd"
