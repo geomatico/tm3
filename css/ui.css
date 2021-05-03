@@ -485,7 +485,7 @@ div.cartodb-popup div.cartodb-popup-content-wrapper {
     margin-left: 20px;
     padding: 10px 20px 5px 30px;
     position: absolute;
-	width: 80%;
+	width: 60%;
 	max-width: 650px;
 	z-index: 1001;
 }
