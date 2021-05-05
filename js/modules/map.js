@@ -73,9 +73,9 @@ define(['maplayers', 'mapfilters', 'conf', 'legend'], function(layers, mapfilter
           });
     };
 
-    var createComboFilter = function(div, callback) {
+    var createComboFilter = function(div, callback, activeFilters) {
         var service = conf.getApi() + "unique/";
-        mapfilters.createFieldValue(div, service, callback);
+        mapfilters.createFieldValue(div, service, callback, activeFilters);
     };
 
 	return {
@@ -91,8 +91,8 @@ define(['maplayers', 'mapfilters', 'conf', 'legend'], function(layers, mapfilter
        createTimeSlider: function(div, cb) {
        		return createSliderFilter(div, cb);
        },
-       createComboFilter: function(div, cb) {
-       		return createComboFilter(div, cb);
+       createComboFilter: function(div, cb, activeFilters) {
+       		return createComboFilter(div, cb, activeFilters);
        },
        createMap: function(options) {
        		return createMap(options);

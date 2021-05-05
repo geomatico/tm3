@@ -15,7 +15,7 @@ define(['i18n', 'timeslider', 'leafletjs', 'leaflet-draw'], function(i18n, times
 		radius: 500000
     };
 
-    var draw = function(div, type) {
+    var draw = function(div, type, activeFilters) {
     	switch(type) {
             case "circle":
                 $(div).append('<div class="input-group"><span class="input-group-addon" id="basic-addon3">Round filter</span><span class="input-group-addon"><input type="checkbox" aria-label="Activate taxon"></span></div>');
@@ -27,7 +27,12 @@ define(['i18n', 'timeslider', 'leafletjs', 'leaflet-draw'], function(i18n, times
                               '<option value="basisofrecord">Basis of record</option>'+
                               '</select><select class="selectpicker" id="valueFilter"><option value="">-</option></select>');
                 filters[div] = {"active": false, "data": ""};
+
                 $('.selectpicker').selectpicker();
+                if(activeFilters && activeFilters[div]) {
+                    //$("#fieldFilter").val(activeFilters[div].data.field).change();
+                    filters[div] = {"active": true, "data": activeFilters[div].data};
+                }
                 break;
         }
 
@@ -170,8 +175,8 @@ define(['i18n', 'timeslider', 'leafletjs', 'leaflet-draw'], function(i18n, times
     		draw(div, 'circle');
     		addCircleFilter(div, layer, map, callback);
     	},
-        createFieldValue: function(div, service, callback) {
-    		draw(div, 'fieldvalue');
+        createFieldValue: function(div, service, callback, activeFilters) {
+    		draw(div, 'fieldvalue', activeFilters);
     		addFVEvents(div, service, callback);
     	},
         createSlider: function(div, map, callback, minmax) {
