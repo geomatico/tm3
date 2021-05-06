@@ -19,6 +19,8 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
     var zoom = (params.hasOwnProperty('zoom') ? params.zoom : '6');
     var lat = (params.hasOwnProperty('lat') ? params.lat : '41');
     var lon = (params.hasOwnProperty('lon') ? params.lon : '5');
+    var filterField = (params.hasOwnProperty('field') ? decodeURI(params.field) : '');
+    var filterValue = (params.hasOwnProperty('value') ? decodeURI(params.value) : '');
     var currentTaxon;
     // store filters
     var activeFilters = [];
@@ -346,10 +348,14 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
             }
         }
 
+        if(activeFilters["#fvFilter"]) {
+            options.where = taxon.getSqlWhere() + sheet.getFiltersSQL(activeFilters, ["fieldvalue"])
+        }
+
         var leafletMap = map.createMap(options);
         if (latlon.northeast) leafletMap.fitBounds(L.latLngBounds(latlon.northeast, latlon.southwest));
         map.createGeoFilter("#circleFilter", updateMenus);
-        map.createComboFilter("#fvFilter", setTaxon);
+        map.createComboFilter("#fvFilter", setTaxon, activeFilters);
         map.createTimeSlider("#sliderContainer", setTaxon);
         return taxon;
     }
@@ -368,6 +374,19 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
     //search Opencage
     if (placenameSearch) {
         placeAjax = $.get('proxy/jsonproxy.php?endpoint=opencage&q=' + placenameSearch);
+    }
+
+    if(filterField && filterValue) {
+        var filter = [];
+        filter['#fvFilter'] = {
+            data: {
+                type: 'fieldvalue',
+                field: filterField,
+                value: filterValue
+            },
+            active: true
+        };
+        activeFilters = filter;
     }
 
     $.when(taxonAjax, placeAjax).done(function(taxonData, placeData) {

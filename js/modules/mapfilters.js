@@ -15,7 +15,7 @@ define(['i18n', 'timeslider', 'leafletjs', 'leaflet-draw'], function(i18n, times
 		radius: 500000
     };
 
-    var draw = function(div, type) {
+    var draw = function(div, type, activeFilters, service) {
     	switch(type) {
             case "circle":
                 $(div).append('<div class="input-group"><span class="input-group-addon" id="basic-addon3">Round filter</span><span class="input-group-addon"><input type="checkbox" aria-label="Activate taxon"></span></div>');
@@ -27,7 +27,13 @@ define(['i18n', 'timeslider', 'leafletjs', 'leaflet-draw'], function(i18n, times
                               '<option value="basisofrecord">Basis of record</option>'+
                               '</select><select class="selectpicker" id="valueFilter"><option value="">-</option></select>');
                 filters[div] = {"active": false, "data": ""};
+
                 $('.selectpicker').selectpicker();
+                if(activeFilters && activeFilters[div]) {
+                    $("#fieldFilter").val(activeFilters[div].data.field).change();
+                    filters[div] = {"active": true, "data": activeFilters[div].data};
+                    fillValuesCombo(div + " #valueFilter", service, activeFilters[div].data.field, activeFilters[div].data.value);
+                }
                 break;
         }
 
@@ -75,35 +81,41 @@ define(['i18n', 'timeslider', 'leafletjs', 'leaflet-draw'], function(i18n, times
 		}, 500));
     };
 
-    var addFVEvents = function(div, service, callback) {
-		$(div + " #fieldFilter").on("change", function() {
-            var field = $(div + " #fieldFilter").val();
-            var realService = service + field + "/";
-
-			$.getJSON(realService,
+    var fillValuesCombo = function(div, service, field, value) {
+        var realService = service + field + "/";
+        $.getJSON(realService,
         {
           //format: "json"
         },
                 function(data){
                     //got results
                     if(data) {
-                        $(div + " #valueFilter").empty();
+                        $(div).empty();
                         // "All" value
-                        $(div + " #valueFilter").append($('<option>', {
+                        $(div).append($('<option>', {
                                 value: "",
                                 text: i18n.t("All")
                             }));
                         for(var i = 0; i < data.length; i++) {
                             if (data[i].value) {
-                                $(div + " #valueFilter").append($('<option>', {
+                                $(div).append($('<option>', {
                                     value: data[i].value,
                                     text: data[i].value
                                 }));
                             }
                         }
-                        $(div + " #valueFilter").selectpicker('refresh');
+                        $(div).selectpicker('refresh');
+
+                        if(value) $(div).val(value).change();
                     }
                 });
+    }
+
+    var addFVEvents = function(div, service, callback) {
+		$(div + " #fieldFilter").on("change", function() {
+            var field = $(div + " #fieldFilter").val();
+
+			fillValuesCombo(div + " #valueFilter", service, field);
 		});
 
         $(div + " #valueFilter").on("change", function() {
@@ -170,8 +182,8 @@ define(['i18n', 'timeslider', 'leafletjs', 'leaflet-draw'], function(i18n, times
     		draw(div, 'circle');
     		addCircleFilter(div, layer, map, callback);
     	},
-        createFieldValue: function(div, service, callback) {
-    		draw(div, 'fieldvalue');
+        createFieldValue: function(div, service, callback, activeFilters) {
+    		draw(div, 'fieldvalue', activeFilters, service);
     		addFVEvents(div, service, callback);
     	},
         createSlider: function(div, map, callback, minmax) {
