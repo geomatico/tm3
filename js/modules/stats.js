@@ -13,7 +13,7 @@ define(['i18n', 'c3js', 'd3', 'conf', 'leafletjs'], function(i18n, c3, d3, conf)
 
         if (type == "subtaxa") {
           var limit = 20;
-          var q = conf.getApi() + "stats/taxon/" + taxon.id + "/" + taxon.level + "/" + "?limit=" + limit;
+          var q = conf.getApi() + "stats/taxon/" + taxon.id + "/" + taxon.level + "/" + "?limit=" + limit + "&";
           if(filters) q += getFiltersREST(filters, ["circle", "fieldvalue", "minmax"]);
         } else {
             // any "normal" field that doesn't require transformation
