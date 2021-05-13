@@ -25,6 +25,8 @@ define(['maplayers', 'mapfilters', 'conf', 'legend'], function(layers, mapfilter
             zIndex: 100 //must always be on front
         });
 
+        map.on('click', getFeatureInfo);
+
         legend.createSwitcher(map, wmsLayer, true);
 
         var overlays = layers.getOverlayLayers();
@@ -36,6 +38,60 @@ define(['maplayers', 'mapfilters', 'conf', 'legend'], function(layers, mapfilter
 
         return map;
     };
+
+    var getFeatureInfo = function (evt) {
+        // Make an AJAX request to the server and hope for the best
+        var url = getFeatureInfoUrl(evt.latlng),
+            showResults = L.Util.bind(showGetFeatureInfo);
+        $.ajax({
+          url: url,
+          success: function (data, status, xhr) {
+            var err = typeof data === 'string' ? null : data;
+            showResults(err, evt.latlng, data);
+          },
+          error: function (xhr, status, error) {
+            showResults(error);
+          }
+        });
+      };
+
+     var getFeatureInfoUrl = function (latlng) {
+        // Construct a GetFeatureInfo request URL given a point
+        var point = map.latLngToContainerPoint(latlng, map.getZoom()),
+            size = map.getSize(),
+
+            params = {
+              request: 'GetFeatureInfo',
+              service: 'WMS',
+              srs: 'EPSG:4326',
+              styles: wmsLayer.wmsParams.styles,
+              transparent: wmsLayer.wmsParams.transparent,
+              version: wmsLayer.wmsParams.version,
+              format: wmsLayer.wmsParams.format,
+              bbox: map.getBounds().toBBoxString(),
+              height: size.y,
+              width: size.x,
+              layers: wmsLayer.wmsParams.layers,
+              query_layers: wmsLayer.wmsParams.layers,
+              info_format: 'text/html'
+            };
+
+        params[params.version === '1.3.0' ? 'i' : 'x'] = point.x;
+        params[params.version === '1.3.0' ? 'j' : 'y'] = point.y;
+
+        var url = conf.getWMSServer() + L.Util.getParamString(params, conf.getWMSServer(), true);
+        return url;
+      };
+
+      var showGetFeatureInfo = function (err, latlng, content) {
+        if (err) { console.log(err); return; } // do nothing if there's an error
+
+        // Otherwise show the content in a popup, or something.
+        L.popup({ maxWidth: 800})
+          .setLatLng(latlng)
+          .setContent(content)
+          .openOn(map);
+      };
 
     var getQuotes = function(taxon, filters, format) {
  		   if(!format) format = "csv";
