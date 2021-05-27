@@ -1,13 +1,14 @@
 /**
  * @author Martí Pericay <marti@pericay.com>
  */
-define(['maplayers', 'mapfilters', 'conf', 'legend'], function(layers, mapfilters, conf, legend) {
+define(['maplayers', 'mapfilters', 'conf', 'legend', 'taxon'], function(layers, mapfilters, conf, legend, taxon) {
     "use strict";
 
 	var wmsLayer;
     var map;
+    var infoCallback;
 
-    var createMap = function(options) {
+    var createMap = function(options, callback) {
 
         var lat = parseInt(options.lat) ? options.lat : 0;
         var lon = parseInt(options.lon) ? options.lon : 0;
@@ -26,6 +27,7 @@ define(['maplayers', 'mapfilters', 'conf', 'legend'], function(layers, mapfilter
         });
 
         map.on('click', getFeatureInfo);
+        infoCallback = callback;
 
         legend.createSwitcher(map, wmsLayer, true);
 
@@ -46,7 +48,7 @@ define(['maplayers', 'mapfilters', 'conf', 'legend'], function(layers, mapfilter
         $.ajax({
           url: url,
           success: function (data, status, xhr) {
-            var err = typeof data === 'string' ? null : data;
+            var err = typeof data === 'json' ? null : data;
             showResults(err, evt.latlng, data);
           },
           error: function (xhr, status, error) {
@@ -73,7 +75,8 @@ define(['maplayers', 'mapfilters', 'conf', 'legend'], function(layers, mapfilter
               width: size.x,
               layers: wmsLayer.wmsParams.layers,
               query_layers: wmsLayer.wmsParams.layers,
-              info_format: 'text/html'
+              info_format: 'application/json',
+              feature_count: '25'
             };
 
         params[params.version === '1.3.0' ? 'i' : 'x'] = point.x;
@@ -83,11 +86,42 @@ define(['maplayers', 'mapfilters', 'conf', 'legend'], function(layers, mapfilter
         return url;
       };
 
+     var drawFeatureInfo = function (features) {
+        var html = $( "<ul/>");
+         for(var i=0; i<features.length; i++) {
+            var li = $( "<li/>");
+            var link =  $( "<a/>", {
+                html: features[i].properties.species,
+                href: "#",
+                "class": "info-result"
+            });
+
+            link = setLink(link, features[i].properties);
+            link.appendTo(li);
+            li.appendTo(html);
+        }
+        return html;
+     }
+
+    var setLink = function(el, feature) {
+         var taxonId = feature.speciesid;
+		 el.data("id", taxonId);
+		 el.on("click", function(){
+			infoCallback(new taxon($(this).data("id"), "7"));
+		});
+
+        return el;
+    };
+
       var showGetFeatureInfo = function (err, latlng, content) {
-        if (err) { console.log(err); return; } // do nothing if there's an error
+        //if (err) { console.log(err); return; }
+
+        var features = content.features;
+        if(features.length == 0) content = "No s'ha trobat informació en aquest punt";
+        else content = $(drawFeatureInfo(features))[0];
 
         // Otherwise show the content in a popup, or something.
-        L.popup({ maxWidth: 800})
+        var popup = L.popup({ maxWidth: 800, maxHeight:500})
           .setLatLng(latlng)
           .setContent(content)
           .openOn(map);
@@ -150,8 +184,8 @@ define(['maplayers', 'mapfilters', 'conf', 'legend'], function(layers, mapfilter
        createComboFilter: function(div, cb, activeFilters) {
        		return createComboFilter(div, cb, activeFilters);
        },
-       createMap: function(options) {
-       		return createMap(options);
+       createMap: function(options, cb) {
+       		return createMap(options, cb);
        },
        getQuotes: function(taxon, filters, format) {
             return getQuotes(taxon, filters, format);

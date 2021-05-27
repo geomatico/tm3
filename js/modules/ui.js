@@ -352,7 +352,7 @@ define(['i18n', 'taxon', 'map', 'search', 'text!../../sections/help.html', 'text
             options.where = taxon.getSqlWhere() + sheet.getFiltersSQL(activeFilters, ["fieldvalue"])
         }
 
-        var leafletMap = map.createMap(options);
+        var leafletMap = map.createMap(options, setTaxon);
         if (latlon.northeast) leafletMap.fitBounds(L.latLngBounds(latlon.northeast, latlon.southwest));
         map.createGeoFilter("#circleFilter", updateMenus);
         map.createComboFilter("#fvFilter", setTaxon, activeFilters);
