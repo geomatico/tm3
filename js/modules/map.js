@@ -94,11 +94,10 @@ define(['i18n', 'maplayers', 'mapfilters', 'conf', 'legend', 'taxon'], function(
             var li = $( "<li/>");
             li.append($("<div/>", { html: "<b>" + features[i].properties.catalognumber + "</b>"} ));
             var taxonName = features[i].properties.species;
-            if(!taxonName) taxonName = features[i].properties.genus;
-            if(!taxonName) taxonName = features[i].properties.family;
+            if(!taxonName || taxonName =="") taxonName = features[i].properties.genus;
+            if(!taxonName || taxonName =="") taxonName = features[i].properties.family;
             li.append($("<div/>", { html: taxonName} ));
             var link =  $( "<a/>", {
-                html: i18n.t("-- activate taxon"),
                 href: "#"
             });
 
@@ -117,7 +116,15 @@ define(['i18n', 'maplayers', 'mapfilters', 'conf', 'legend', 'taxon'], function(
              taxonId = feature.genusid;
              level = 6;
          }
+         if(!taxonId) {
+             taxonId = feature.familyid;
+             level = 5;
+         }
+         if(!taxonId) {
+             return el;
+         }
 		 el.data("id", taxonId);
+         el.html(i18n.t("-- activate taxon"));
 		 el.on("click", function(){
 			infoCallback(new taxon($(this).data("id"), level));
 		});
