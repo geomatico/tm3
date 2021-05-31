@@ -517,3 +517,11 @@ div.cartodb-popup div.cartodb-popup-content-wrapper {
 /**** Auupa 01.11.2016 ****/
 
 #subbar {top: 83px;}
+
+.leaflet-popup-content > ul {
+    margin-left: -20px;
+}
+
+.leaflet-popup-content li {
+    padding: 5px;
+}
