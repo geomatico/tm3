@@ -1,12 +1,13 @@
 /**
  * @author Martí Pericay <marti@pericay.com>
  */
-define(['maplayers', 'mapfilters', 'conf', 'legend', 'taxon'], function(layers, mapfilters, conf, legend, taxon) {
+define(['i18n', 'maplayers', 'mapfilters', 'conf', 'legend', 'taxon'], function(i18n, layers, mapfilters, conf, legend, taxon) {
     "use strict";
 
 	var wmsLayer;
     var map;
     var infoCallback;
+    var cql_filter;
 
     var createMap = function(options, callback) {
 
@@ -76,7 +77,8 @@ define(['maplayers', 'mapfilters', 'conf', 'legend', 'taxon'], function(layers, 
               layers: wmsLayer.wmsParams.layers,
               query_layers: wmsLayer.wmsParams.layers,
               info_format: 'application/json',
-              feature_count: '25'
+              feature_count: '25',
+              cql_filter: cql_filter ? cql_filter : ''
             };
 
         params[params.version === '1.3.0' ? 'i' : 'x'] = point.x;
@@ -90,24 +92,34 @@ define(['maplayers', 'mapfilters', 'conf', 'legend', 'taxon'], function(layers, 
         var html = $( "<ul/>");
          for(var i=0; i<features.length; i++) {
             var li = $( "<li/>");
+            li.append($("<div/>", { html: "<b>" + features[i].properties.catalognumber + "</b>"} ));
+            var taxonName = features[i].properties.species;
+            if(!taxonName) taxonName = features[i].properties.genus;
+            if(!taxonName) taxonName = features[i].properties.family;
+            li.append($("<div/>", { html: taxonName} ));
             var link =  $( "<a/>", {
-                html: features[i].properties.species,
-                href: "#",
-                "class": "info-result"
+                html: i18n.t("-- activate taxon"),
+                href: "#"
             });
 
-            link = setLink(link, features[i].properties);
+            link = setTaxonLink(link, features[i].properties);
             link.appendTo(li);
+            li.append($("<div/>", { html: features[i].properties.institutioncode} ));
             li.appendTo(html);
         }
         return html;
      }
 
-    var setLink = function(el, feature) {
+    var setTaxonLink = function(el, feature) {
          var taxonId = feature.speciesid;
+         var level = 7;
+         if(!taxonId) {
+             taxonId = feature.genusid;
+             level = 6;
+         }
 		 el.data("id", taxonId);
 		 el.on("click", function(){
-			infoCallback(new taxon($(this).data("id"), "7"));
+			infoCallback(new taxon($(this).data("id"), level));
 		});
 
         return el;
@@ -121,7 +133,7 @@ define(['maplayers', 'mapfilters', 'conf', 'legend', 'taxon'], function(layers, 
         else content = $(drawFeatureInfo(features))[0];
 
         // Otherwise show the content in a popup, or something.
-        var popup = L.popup({ maxWidth: 800, maxHeight:500})
+        var popup = L.popup({ maxWidth: 800, maxHeight:600})
           .setLatLng(latlng)
           .setContent(content)
           .openOn(map);
@@ -170,6 +182,8 @@ define(['maplayers', 'mapfilters', 'conf', 'legend', 'taxon'], function(layers, 
 
 	return {
 	   setSql: function(sqlWhere) {
+	        //hack for GetFeatureInfo
+	        cql_filter = sqlWhere;
 			return wmsLayer.setParams({'cql_filter': sqlWhere});
        },
        getApi: function() {
