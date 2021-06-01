@@ -194,5 +194,9 @@
 	"Years": {
 		"es": "Años",
 		"ca": "Anys"
+	},
+	"Activate taxon": {
+		"es": "Activar taxón",
+		"ca": "Activar tàxon"
 	}
 }
