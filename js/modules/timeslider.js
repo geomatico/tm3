@@ -30,6 +30,7 @@ define(['i18n', 'slider'], function(i18n) {
         // Disable dragging when user's cursor enters the element
         element.addEventListener('pointerover', function () {
             map.dragging.disable();
+            L.DomEvent.disableClickPropagation(element);
         });
     
         // Re-enable dragging when user's cursor leaves the element
