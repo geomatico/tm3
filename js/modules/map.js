@@ -96,12 +96,12 @@ define(['i18n', 'maplayers', 'mapfilters', 'conf', 'legend', 'taxon'], function(
             var taxonName = features[i].properties.species;
             if(!taxonName || taxonName =="") taxonName = features[i].properties.genus;
             if(!taxonName || taxonName =="") taxonName = features[i].properties.family;
-            li.append($("<div/>", { html: taxonName} ));
+
             var link =  $( "<a/>", {
                 href: "#"
             });
 
-            link = setTaxonLink(link, features[i].properties);
+            link = setTaxonLink(link, features[i].properties, taxonName);
             link.appendTo(li);
             li.append($("<div/>", { html: features[i].properties.institutioncode} ));
             li.appendTo(html);
@@ -109,7 +109,7 @@ define(['i18n', 'maplayers', 'mapfilters', 'conf', 'legend', 'taxon'], function(
         return html;
      }
 
-    var setTaxonLink = function(el, feature) {
+    var setTaxonLink = function(el, feature, taxonName) {
          var taxonId = feature.speciesid;
          var level = 7;
          if(!taxonId) {
@@ -124,7 +124,8 @@ define(['i18n', 'maplayers', 'mapfilters', 'conf', 'legend', 'taxon'], function(
              return el;
          }
 		 el.data("id", taxonId);
-         el.html(i18n.t("-- activate taxon"));
+         el.html(taxonName);
+         el.prop('title', (i18n.t("Activate taxon")));
 		 el.on("click", function(){
 			infoCallback(new taxon($(this).data("id"), level));
 		});
@@ -133,14 +134,17 @@ define(['i18n', 'maplayers', 'mapfilters', 'conf', 'legend', 'taxon'], function(
     };
 
       var showGetFeatureInfo = function (err, latlng, content) {
-        //if (err) { console.log(err); return; }
-
-        var features = content.features;
-        if(features.length == 0) content = "No s'ha trobat informació en aquest punt";
-        else content = $(drawFeatureInfo(features))[0];
+        if (!content) {
+            alert ("Error: couldn't connect to " + conf.getWMSServer());
+            return;
+        } else {
+            var features = content.features;
+            if (features.length == 0) content = "No s'ha trobat informació en aquest punt";
+            else content = $(drawFeatureInfo(features))[0];
+        }
 
         // Otherwise show the content in a popup, or something.
-        var popup = L.popup({ maxWidth: 800, maxHeight:600})
+        L.popup({ maxWidth: 800, maxHeight:600})
           .setLatLng(latlng)
           .setContent(content)
           .openOn(map);
