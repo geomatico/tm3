@@ -24,6 +24,7 @@ a:hover{text-decoration: none !important}
 
 #map {
 	height: 100%;
+    cursor: pointer;
 }
 
 #breadcrumbTaxon {
