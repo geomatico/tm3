@@ -63,15 +63,23 @@ define(['i18n', 'maplayers', 'mapfilters', 'conf', 'legend', 'taxon'], function(
         var point = map.latLngToContainerPoint(latlng, map.getZoom()),
             size = map.getSize(),
 
+            // this crs is used to show layer added to map
+            crs = map.options.crs,
+
+            // these are the SouthWest and NorthEast points
+            // projected from LatLng into used crs
+            sw = crs.project(map.getBounds().getSouthWest()),
+            ne = crs.project(map.getBounds().getNorthEast()),
+
             params = {
               request: 'GetFeatureInfo',
               service: 'WMS',
-              srs: 'EPSG:4326',
+              srs: crs.code,
               styles: wmsLayer.wmsParams.styles,
               transparent: wmsLayer.wmsParams.transparent,
               version: wmsLayer.wmsParams.version,
               format: wmsLayer.wmsParams.format,
-              bbox: map.getBounds().toBBoxString(),
+              bbox: sw.x + ',' + sw.y + ',' + ne.x + ',' + ne.y,
               height: size.y,
               width: size.x,
               layers: wmsLayer.wmsParams.layers,
@@ -81,8 +89,8 @@ define(['i18n', 'maplayers', 'mapfilters', 'conf', 'legend', 'taxon'], function(
               cql_filter: cql_filter ? cql_filter : ''
             };
 
-        params[params.version === '1.3.0' ? 'i' : 'x'] = point.x;
-        params[params.version === '1.3.0' ? 'j' : 'y'] = point.y;
+        params[params.version === '1.3.0' ? 'i' : 'x'] = Math.round(point.x);
+        params[params.version === '1.3.0' ? 'j' : 'y'] = Math.round(point.y);
 
         var url = conf.getWMSServer() + L.Util.getParamString(params, conf.getWMSServer(), true);
         return url;
