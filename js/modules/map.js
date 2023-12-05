@@ -34,7 +34,7 @@ define(['i18n', 'maplayers', 'mapfilters', 'conf', 'legend', 'taxon'], function(
 
         var overlays = layers.getOverlayLayers();
         var base = layers.getBaseLayers();
-        base['Terrain'].addTo(map);
+        base['Ortophoto'].addTo(map);
         L.control.layers(base, overlays).addTo(map);
 
         wmsLayer.addTo(map);
